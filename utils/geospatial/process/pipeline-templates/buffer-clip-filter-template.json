@@ -1,0 +1,43 @@
+{
+    "pipeline": [
+        {
+            "type": "readers.las"
+        },
+        {
+            "type": "filters.crop"
+        },
+        {
+            "type": "filters.range",
+            "limits": "NumberOfReturns![0:0],ReturnNumber![0:0]"
+        },
+        {
+            "type": "filters.assign",
+            "assignment": "Classification[:]=1"
+        },
+        {
+            "type": "filters.elm"
+        },
+        {
+            "type": "filters.range",
+            "limits": "Classification![7:7]"
+        },
+        {
+            "type": "filters.outlier"
+        },
+        {
+            "type": "filters.range",
+            "limits": "Classification![7:7]"
+        },
+        {
+            "type": "filters.smrf",
+            "cell": 0.4,
+            "scalar": 0.0,
+            "slope": 0.1,
+            "threshold": 0.05,
+            "window": 18.0
+        },
+        {
+            "type": "writers.las"
+        }
+    ]
+}

@@ -1,0 +1,13 @@
+{
+    "pipeline": [
+        {
+            "type": "readers.las"
+        },
+        {
+            "type": "filters.crop"
+        },
+        {
+            "type": "writers.las"
+        }
+    ]
+}

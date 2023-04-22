@@ -1,0 +1,18 @@
+{
+    "pipeline": [
+        {
+            "type": "readers.las"
+        },
+        {
+            "type": "filters.range",
+            "limits": "Classification[2:2]"
+        },
+        {
+            "gdaldriver": "GTiff",
+            "output_type": "mean",
+            "resolution": 0.5,
+            "window_size": 16,
+            "type": "writers.gdal"
+        }
+    ]
+}

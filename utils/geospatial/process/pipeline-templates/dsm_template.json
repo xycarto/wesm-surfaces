@@ -1,0 +1,14 @@
+{
+    "pipeline": [
+        {
+            "type": "readers.las"
+        },
+        {
+            "gdaldriver": "GTiff",
+            "output_type": "mean",
+            "resolution": 0.5,
+            "window_size": 16,
+            "type": "writers.gdal"
+        }
+    ]
+}
