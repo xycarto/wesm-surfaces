@@ -5,20 +5,31 @@ IMAGE := $(BASEIMAGE):2023-04-22
 
 RUN ?= docker run --rm --net=host --user=$$(id -u):$$(id -g) -e DISPLAY=$$DISPLAY --env-file .creds -e RUN= -v$$(pwd):/work -w /work $(IMAGE)
 
-naip-grid:
-	$(RUN) python3 gridding/grid-clip-naip.py data/satellite/naip-3310
-
-make-grid:
-	$(RUN) python3 gridding/create-grid.py "EPSG:3310"
-
 list-index:
-	$(RUN) python3 process/list-index.py tahoe-2018-10n
+	$(RUN) python3 list-index.py
 
-index-workunit:
-	$(RUN) python3 index/index-laz.py data/laz/tahoe-2018-10n
+download-laz:
+	$(RUN) bash download-laz.sh
 
-workunit:
-	$(RUN) bash process/multi-core-laz.sh tahoe-2018-10n 
+# make bcm laz=path/to/input.laz
+bcm: 
+	$(RUN) python3 bcm-alt.py $(laz) 
+
+# make dsm laz=path/to/input.laz
+dsm:
+	$(RUN) python3 dsm.py $(laz)
+
+# make dem laz=path/to/input.laz
+dem:
+	$(RUN) python3 dem.py $(laz)
+
+# make chm laz=path/to/input.laz
+chm:
+	$(RUN) python3 chm.py $(laz)
+
+# make bf-clip laz=path/to/input.laz
+bf-clip:
+	$(RUN) python3 clip-bf.py $(laz)
 
 local-test: Dockerfile
 	docker run -it --rm --net=host --user=$$(id -u):$$(id -g) \
