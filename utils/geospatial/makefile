@@ -27,10 +27,6 @@ dem:
 chm:
 	$(RUN) python3 chm.py $(laz)
 
-# make bf-clip laz=path/to/input.laz
-bf-clip:
-	$(RUN) python3 clip-bf.py $(laz)
-
 local-test: Dockerfile
 	docker run -it --rm --net=host --user=$$(id -u):$$(id -g) \
 	-e DISPLAY=$$DISPLAY \
