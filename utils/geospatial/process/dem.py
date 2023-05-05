@@ -70,9 +70,10 @@ if __name__ == "__main__":
     IN_FILE = sys.argv[1]
     WORKUNIT =IN_FILE.split('/')[-2]
     BUCKET = os.environ.get("AWS_BUCKET")
-    LAZ_PATH = f"data/laz/{WORKUNIT}"
-    DEM_PATH = f"data/dem/{WORKUNIT}"
-    BCM_PATH = f"data/bcm/{WORKUNIT}"
+    DATA = "data"
+    LAZ_PATH = os.path.join(DATA, "laz", WORKUNIT)
+    DEM_PATH = os.path.join(DATA, "dem", WORKUNIT)
+    BCM_PATH = os.path.join(DATA, "bcm", WORKUNIT)
     PIPELINE_PATH = 'process/pipeline-templates/dem_template.json'
 
     os.makedirs(LAZ_PATH, exist_ok=True)
