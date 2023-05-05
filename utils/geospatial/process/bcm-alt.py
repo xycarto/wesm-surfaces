@@ -33,11 +33,6 @@ def main():
     print(f"Uploading... {filtered_laz}")   
     s3.upload_file(filtered_laz, DFBUCKET, filtered_laz)
 
-    # shutil.rmtree(CLIP_PATH)
-    # shutil.rmtree(BCM_PATH)    
-
-    # os.makedirs(LAZ_PATH, exist_ok=True)
-    # os.makedirs(BCM_PATH, exist_ok=True)
     
 def get_creds():
     s3 = boto3.client(

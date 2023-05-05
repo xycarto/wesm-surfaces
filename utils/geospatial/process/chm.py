@@ -19,9 +19,6 @@ def main():
     print(f"Uploading {chm_file}...")
     s3.upload_file(chm_file, DFBUCKET, chm_file)
         
-    # for o in [dsm_file, dem_file, chm_file]:
-    #     os.remove(o)
-    
 def get_creds():
     s3 = boto3.client(
         's3',

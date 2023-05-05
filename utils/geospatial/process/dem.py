@@ -37,9 +37,7 @@ def main():
     print(f"Uploading {dem_file}...")
     s3.upload_file(dem_file, DFBUCKET, dem_file)
 
-    # os.remove(dem_file)
-    # os.remove(IN_FILE)
-    
+   
 def get_creds():
     s3 = boto3.client(
         's3',
