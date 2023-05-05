@@ -100,8 +100,9 @@ if __name__ == "__main__":
     IN_FILE = sys.argv[1]
     WORKUNIT =IN_FILE.split('/')[-2]
     BUCKET = os.environ.get("AWS_BUCKET")
-    LAZ_PATH = f"data/laz/{WORKUNIT}"
-    BCM_PATH = f"data/bcm/{WORKUNIT}"        
+    DATA = "data"
+    LAZ_PATH = os.path.join(DATA, "laz", WORKUNIT)
+    BCM_PATH = os.path.join(DATA, "bcm", WORKUNIT)        
     CLIP_PATH = f"{LAZ_PATH}/{os.path.basename(IN_FILE).split('.')[0]}"
     BUFFER = 50
     PIPELINE_CROP = 'process/pipeline-templates/buffer-clip-filter-template-crop-only.json'
