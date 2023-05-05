@@ -17,7 +17,7 @@ def main():
     chm_file = process_chm(dsm_file, dem_file)
 
     print(f"Uploading {chm_file}...")
-    s3.upload_file(chm_file, DFBUCKET, chm_file)
+    s3.upload_file(chm_file, BUCKET, chm_file)
         
 def get_creds():
     s3 = boto3.client(
@@ -36,7 +36,7 @@ def get_files(s3):
     for f in [dsm_file, dem_file]:
         if not os.path.exists(f):
             print(f"Downloading: {f}...")
-            s3.download_file(DFBUCKET, f, f, ExtraArgs={'RequestPayer':'requester'})
+            s3.download_file(BUCKET, f, f, ExtraArgs={'RequestPayer':'requester'})
             
     return dsm_file, dem_file
 
@@ -61,7 +61,7 @@ def process_chm(dsm_file, dem_file):
 if __name__ == "__main__":
     IN_FILE = sys.argv[1]
     WORKUNIT =IN_FILE.split('/')[-2]
-    DFBUCKET = "synth-chm"
+    BUCKET = "xycarto"
     LAZ_PATH = f"data/laz/{WORKUNIT}"
     DEM_PATH = f"data/dem/{WORKUNIT}"
     DSM_PATH = f"data/dsm/{WORKUNIT}"

@@ -35,7 +35,7 @@ def main():
     )
 
     print(f"Uploading {dem_file}...")
-    s3.upload_file(dem_file, DFBUCKET, dem_file)
+    s3.upload_file(dem_file, BUCKET, dem_file)
 
    
 def get_creds():
@@ -51,7 +51,7 @@ def download_file(s3):
     bcm_laz = f"{BCM_PATH}/{os.path.basename(IN_FILE)}"
     if not os.path.exists(f'{bcm_laz}'):
         print("Downloading BCM...")
-        s3.download_file(DFBUCKET, bcm_laz, bcm_laz, ExtraArgs={'RequestPayer':'requester'})
+        s3.download_file(BUCKET, bcm_laz, bcm_laz, ExtraArgs={'RequestPayer':'requester'})
         
     return bcm_laz
 
@@ -76,7 +76,7 @@ def get_metadata(bcm_laz):
 if __name__ == "__main__":
     IN_FILE = sys.argv[1]
     WORKUNIT =IN_FILE.split('/')[-2]
-    DFBUCKET = "synth-chm"
+    BUCKET = "xycarto"
     LAZ_PATH = f"data/laz/{WORKUNIT}"
     DEM_PATH = f"data/dem/{WORKUNIT}"
     BCM_PATH = f"data/bcm/{WORKUNIT}"

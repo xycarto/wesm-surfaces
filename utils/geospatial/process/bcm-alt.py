@@ -31,7 +31,7 @@ def main():
     filtered_laz = filter_laz(bcm_laz, row)
         
     print(f"Uploading... {filtered_laz}")   
-    s3.upload_file(filtered_laz, DFBUCKET, filtered_laz)
+    s3.upload_file(filtered_laz, BUCKET, filtered_laz)
 
     
 def get_creds():
@@ -48,7 +48,7 @@ def get_index(s3):
     INDEX_PREFIX = f"index/laz/{WORKUNIT}.gpkg"
     INDEX_LOCAL = f'{LAZ_PATH}/{WORKUNIT}.gpkg'
     if not os.path.exists(f'{LAZ_PATH}/{WORKUNIT}.gpkg'):
-        s3.download_file(DFBUCKET, INDEX_PREFIX, INDEX_LOCAL, ExtraArgs={'RequestPayer':'requester'})
+        s3.download_file(BUCKET, INDEX_PREFIX, INDEX_LOCAL, ExtraArgs={'RequestPayer':'requester'})
     gp_index = gp.read_file(INDEX_LOCAL)
     
     return gp_index
@@ -56,7 +56,7 @@ def get_index(s3):
 def download_laz(s3, laz):
     if not os.path.exists(laz.prefix):
         print(f"Downloading: {laz.prefix}...")
-        s3.download_file(DFBUCKET, laz.prefix, laz.prefix, ExtraArgs={'RequestPayer':'requester'})
+        s3.download_file(BUCKET, laz.prefix, laz.prefix, ExtraArgs={'RequestPayer':'requester'})
         
 def clip_files(row, row_buff, s3, laz):
     # Clip Merged File
@@ -102,7 +102,7 @@ def filter_laz(bcm_laz, row):
 if __name__ == "__main__":
     IN_FILE = sys.argv[1]
     WORKUNIT =IN_FILE.split('/')[-2]
-    DFBUCKET = "synth-chm"
+    BUCKET = "xycarto"
     LAZ_PATH = f"data/laz/{WORKUNIT}"
     BCM_PATH = f"data/bcm/{WORKUNIT}"        
     CLIP_PATH = f"{LAZ_PATH}/{os.path.basename(IN_FILE).split('.')[0]}"
