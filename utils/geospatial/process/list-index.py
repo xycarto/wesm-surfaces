@@ -38,10 +38,12 @@ def get_creds():
 if __name__ == "__main__":
     WORKUNIT = sys.argv[1]
     BUCKET = os.environ.get("AWS_BUCKET")
-    LAZ_PATH = f"data/laz/{WORKUNIT}"
-    INDEX_PATH = "index/laz"
-    INDEX_PREFIX = f"{INDEX_PATH}/{WORKUNIT}.gpkg"
-    LIST_PATH = "lists"
+    DATA = "data"
+    LAZ_PATH = os.path.join(DATA, "laz", WORKUNIT)
+    INDEX_PATH = os.path.join(DATA, "index")
+    INDEX_PREFIX = os.path.join(INDEX_PATH, f"{WORKUNIT}.gpkg")
+    LIST_PATH = os.path.join(DATA, "lists")
+    LIST_PREFIX = os.path.join(LIST_PATH, f"{WORKUNIT}.txt")
 
     for dr in (LAZ_PATH, LIST_PATH, INDEX_PATH):
         os.makedirs(dr, exist_ok=True)
