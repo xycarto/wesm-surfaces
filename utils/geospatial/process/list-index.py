@@ -18,7 +18,7 @@ def main():
     s3 = get_creds()
     
     # Get Index file and load as Geopandas
-    s3.download_file(DFBUCKET, INDEX_PREFIX, INDEX_PREFIX, ExtraArgs={'RequestPayer':'requester'})
+    s3.download_file(BUCKET, INDEX_PREFIX, INDEX_PREFIX, ExtraArgs={'RequestPayer':'requester'})
     gp_index = gp.read_file(INDEX_PREFIX)
 
     with open(f"{LIST_PATH}/{WORKUNIT}.txt",'w') as grid_list:
@@ -37,7 +37,7 @@ def get_creds():
 
 if __name__ == "__main__":
     WORKUNIT = sys.argv[1]
-    DFBUCKET = "synth-chm"
+    BUCKET = "xycarto"
     LAZ_PATH = f"data/laz/{WORKUNIT}"
     INDEX_PATH = "index/laz"
     INDEX_PREFIX = f"{INDEX_PATH}/{WORKUNIT}.gpkg"
