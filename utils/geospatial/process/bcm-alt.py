@@ -102,7 +102,7 @@ def filter_laz(bcm_laz, row):
 if __name__ == "__main__":
     IN_FILE = sys.argv[1]
     WORKUNIT =IN_FILE.split('/')[-2]
-    BUCKET = "xycarto"
+    BUCKET = os.environ.get("AWS_BUCKET")
     LAZ_PATH = f"data/laz/{WORKUNIT}"
     BCM_PATH = f"data/bcm/{WORKUNIT}"        
     CLIP_PATH = f"{LAZ_PATH}/{os.path.basename(IN_FILE).split('.')[0]}"

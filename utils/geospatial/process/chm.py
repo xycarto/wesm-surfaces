@@ -61,7 +61,7 @@ def process_chm(dsm_file, dem_file):
 if __name__ == "__main__":
     IN_FILE = sys.argv[1]
     WORKUNIT =IN_FILE.split('/')[-2]
-    BUCKET = "xycarto"
+    BUCKET = os.environ.get("AWS_BUCKET")
     LAZ_PATH = f"data/laz/{WORKUNIT}"
     DEM_PATH = f"data/dem/{WORKUNIT}"
     DSM_PATH = f"data/dsm/{WORKUNIT}"

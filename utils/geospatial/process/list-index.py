@@ -37,7 +37,7 @@ def get_creds():
 
 if __name__ == "__main__":
     WORKUNIT = sys.argv[1]
-    BUCKET = "xycarto"
+    BUCKET = os.environ.get("AWS_BUCKET")
     LAZ_PATH = f"data/laz/{WORKUNIT}"
     INDEX_PATH = "index/laz"
     INDEX_PREFIX = f"{INDEX_PATH}/{WORKUNIT}.gpkg"

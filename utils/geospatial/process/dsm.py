@@ -73,7 +73,7 @@ def get_metadata(bcm_laz):
 if __name__ == "__main__":
     IN_FILE = sys.argv[1]
     WORKUNIT =IN_FILE.split('/')[-2]
-    BUCKET = "xycarto"
+    BUCKET = os.environ.get("AWS_BUCKET")
     LAZ_PATH = f"data/laz/{WORKUNIT}"
     DSM_PATH = f"data/dsm/{WORKUNIT}"
     BCM_PATH = f"data/bcm/{WORKUNIT}"
