@@ -22,7 +22,6 @@ def main():
 
     print("Creating DSM...")
     dsm_file = f"{DSM_PATH}/{os.path.basename(IN_FILE).split('.')[0]}.tif"
-    crs = f"epsg:{CRS.to_epsg(CRS.from_proj4(proj4))}"
     sub.call(
         f"pdal pipeline '{PIPELINE_PATH}' \
             --readers.las.filename='{bcm_laz}' \

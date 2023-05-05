@@ -18,13 +18,9 @@ def main():
     bcm_laz = download_file(s3)
         
     proj4, bounds = get_metadata(bcm_laz)
-    
-    print(proj4)
-    print(bounds)
 
     print("Creating DEM...")
     dem_file = f"{DEM_PATH}/{os.path.basename(IN_FILE).split('.')[0]}.tif"
-    crs = f"epsg:{CRS.to_epsg(CRS.from_proj4(proj4))}"
     sub.call(
         f"pdal pipeline '{PIPELINE_PATH}' \
             --readers.las.filename='{bcm_laz}' \
