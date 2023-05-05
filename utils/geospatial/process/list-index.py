@@ -9,7 +9,7 @@ import numpy as np
 from osgeo import gdal
 import shutil
 
-# python3 process/list-index.py tahoe-2018-10n
+# python3 process/list-index.py "CA_SantaClaraCounty_2020"
 
 # set AWS credentials
 

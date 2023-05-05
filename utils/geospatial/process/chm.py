@@ -7,7 +7,7 @@ from pyproj import CRS
 import sys
 import json
 
-# python3 process/chm.py data/laz/tahoe-2018-10n/laz_tahoe_tile_-6000_135000_denoised_ground_norm_classify_seamless.laz
+# python3 process/chm.py path/to/laz.laz
 
 
 def main():
