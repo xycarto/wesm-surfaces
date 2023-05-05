@@ -103,7 +103,7 @@ if __name__ == "__main__":
     DATA = "data"
     LAZ_PATH = os.path.join(DATA, "laz", WORKUNIT)
     BCM_PATH = os.path.join(DATA, "bcm", WORKUNIT)        
-    CLIP_PATH = f"{LAZ_PATH}/{os.path.basename(IN_FILE).split('.')[0]}"
+    CLIP_PATH = os.path.join(LAZ_PATH, f"{os.path.basename(IN_FILE).split('.')[0]}")
     BUFFER = 50
     PIPELINE_CROP = 'process/pipeline-templates/buffer-clip-filter-template-crop-only.json'
     PIPELINE_FILTER = 'process/pipeline-templates/buffer-clip-filter-template-filter-only.json'
