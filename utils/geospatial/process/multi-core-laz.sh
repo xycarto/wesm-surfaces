@@ -16,25 +16,22 @@ aws s3 cp --recursive s3://synth-chm/data/laz/${WORKUNIT} data/laz/${WORKUNIT}
 
 cat lists/${WORKUNIT}.txt | xargs -t -I % -P 25  python3 process/bcm-alt.py %
 
-wait
+# aws ec2 wait instance-status-ok --region "us-west-2" --instance-ids $(terraform output -raw instance_id) 
 
-# rm -r data/laz
+rm -r data/laz
 
 cat lists/${WORKUNIT}.txt | xargs -t -I % -P ${cores} python3 process/dsm.py %
 
 cat lists/${WORKUNIT}.txt | xargs -t -I % -P ${cores} python3 process/dem.py %
 
-wait
+# aws ec2 wait instance-status-ok --region "us-west-2" --instance-ids $(terraform output -raw instance_id) 
 
-# rm -r data/bcm
+rm -r data/bcm
 
 cat lists/${WORKUNIT}.txt | xargs -t -I % -P ${cores} python3 process/chm.py %
 
-wait
+# aws ec2 wait instance-status-ok --region "us-west-2" --instance-ids $(terraform output -raw instance_id) 
 
 python3 gridding/grid-intersect-workunit.py ${WORKUNIT}
 
 cat lists/${WORKUNIT}_grid.txt | xargs -t -I % -P ${cores} python3 gridding/grid-clip-laz.py ${WORKUNIT} % \
-|| exit \
-|| exit \
-|| sudo halt
