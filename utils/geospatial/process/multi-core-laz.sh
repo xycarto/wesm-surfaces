@@ -1,37 +1,21 @@
 #!/bin/bash
 
-# time bash process/multi-core-laz.sh tahoe-2018-10n 
+# time bash path/to/laz.laz 
 
-WORKUNIT=$1
-cores=$(nproc)
+set -ex ## fail if crash and set to stdout
+export RUN=
+export RUN_RTILER=
 
-echo ${cores}
+make list-index
 
-## REPLACE THIS WITH A LIST OUTSIDE
-python3 process/list-index.py ${WORKUNIT}
+make download-laz
 
-# # # # "c5a.8xlarge" Use 10 cores.
-# # # # "c5a.16xlarge" Use 25 cores.
-aws s3 cp --recursive s3://synth-chm/data/laz/${WORKUNIT} data/laz/${WORKUNIT}
+cat data/palm-north/list/palmerston-north-laz-index.txt | xargs -P 35 -t -I % make bcm laz=%
 
-cat lists/${WORKUNIT}.txt | xargs -t -I % -P 25  python3 process/bcm-alt.py %
+cat data/palm-north/list/palmerston-north-laz-index.txt | xargs -P 64 -t -I % make dsm laz=%
 
-# aws ec2 wait instance-status-ok --region "us-west-2" --instance-ids $(terraform output -raw instance_id) 
+cat data/palm-north/list/palmerston-north-laz-index.txt | xargs -P 64 -t -I % make dem laz=%
 
-rm -r data/laz
+cat data/palm-north/list/palmerston-north-laz-index.txt | xargs -P 64 -t -I % make chm laz=%
 
-cat lists/${WORKUNIT}.txt | xargs -t -I % -P ${cores} python3 process/dsm.py %
-
-cat lists/${WORKUNIT}.txt | xargs -t -I % -P ${cores} python3 process/dem.py %
-
-# aws ec2 wait instance-status-ok --region "us-west-2" --instance-ids $(terraform output -raw instance_id) 
-
-rm -r data/bcm
-
-cat lists/${WORKUNIT}.txt | xargs -t -I % -P ${cores} python3 process/chm.py %
-
-# aws ec2 wait instance-status-ok --region "us-west-2" --instance-ids $(terraform output -raw instance_id) 
-
-python3 gridding/grid-intersect-workunit.py ${WORKUNIT}
-
-cat lists/${WORKUNIT}_grid.txt | xargs -t -I % -P ${cores} python3 gridding/grid-clip-laz.py ${WORKUNIT} % \
+cat data/palm-north/list/palmerston-north-laz-index.txt | xargs -P 64 -t -I % make clip-bf laz=%
