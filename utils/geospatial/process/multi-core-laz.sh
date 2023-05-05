@@ -10,12 +10,12 @@ make list-index
 
 make download-laz
 
-cat data/palm-north/list/palmerston-north-laz-index.txt | xargs -P 35 -t -I % make bcm laz=%
+cat lists/tahoe-2018-10n.txt | xargs -P 35 -t -I % make bcm laz=%
 
-cat data/palm-north/list/palmerston-north-laz-index.txt | xargs -P 64 -t -I % make dsm laz=%
+cat lists/tahoe-2018-10n.txt | xargs -P 64 -t -I % make dsm laz=%
 
-cat data/palm-north/list/palmerston-north-laz-index.txt | xargs -P 64 -t -I % make dem laz=%
+cat lists/tahoe-2018-10n.txt | xargs -P 64 -t -I % make dem laz=%
 
-cat data/palm-north/list/palmerston-north-laz-index.txt | xargs -P 64 -t -I % make chm laz=%
+cat lists/tahoe-2018-10n.txt | xargs -P 64 -t -I % make chm laz=%
 
-cat data/palm-north/list/palmerston-north-laz-index.txt | xargs -P 64 -t -I % make clip-bf laz=%
+cat lists/tahoe-2018-10n.txt | xargs -P 64 -t -I % make clip-bf laz=%
