@@ -1,6 +1,6 @@
 -include .creds
 
-BASEIMAGE := dragonflyscience/wesm-surfaces
+BASEIMAGE := xycarto/wesm-surfaces
 IMAGE := $(BASEIMAGE):2023-04-22
 
 RUN ?= docker run --rm --net=host --user=$$(id -u):$$(id -g) -e DISPLAY=$$DISPLAY --env-file .creds -e RUN= -v$$(pwd):/work -w /work $(IMAGE)
