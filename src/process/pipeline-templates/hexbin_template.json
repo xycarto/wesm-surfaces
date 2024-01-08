@@ -1,0 +1,10 @@
+{
+    "pipeline": [
+        {
+            "type": "readers.las"
+        },
+        {
+            "type": "filters.hexbin"
+        }
+    ]
+}

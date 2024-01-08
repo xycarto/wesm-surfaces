@@ -4,9 +4,6 @@
             "type": "readers.las"
         },
         {
-            "type": "filters.hexbin"
-        },
-        {
             "type": "filters.range",
             "limits": "NumberOfReturns![0:0],ReturnNumber![0:0]"
         },
