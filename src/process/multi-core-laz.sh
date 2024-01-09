@@ -28,6 +28,6 @@ DATATYPE="tin"
 
 ## Make COG
 
-# find data/dsm/${STATE}/${WORKUNIT} -maxdepth 1 -name "*.tif" | xargs -P 12 -t -I % make reproject tif=% in_dir=dsm workunit=$WORKUNIT state=$STATE
+find data/tin/${STATE}/${WORKUNIT} -maxdepth 1 -name "*.tif" | xargs -P 12 -t -I % make reproject tif=% in_dir=tin workunit=$WORKUNIT state=$STATE
 
-make cog in_dir=dsm workunit=CA_NoCAL_Wildfires_B1_2018 state=California
+make cog in_dir=tin workunit=CA_NoCAL_Wildfires_B1_2018 state=California
