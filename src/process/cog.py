@@ -21,6 +21,7 @@ def main():
     ) 
 
     cog_file = os.path.join(COG_DIR, f"{IN_DIR}-cog.tif")
+    # Make Python process in future
     sub.call(
         f"gdal_translate {vrt} {cog_file} -of COG -co TILING_SCHEME=GoogleMapsCompatible -co COMPRESS=LZW -co BIGTIFF=YES",
         shell=True
