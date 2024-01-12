@@ -1,9 +1,29 @@
 -include .creds
 
-BASEIMAGE := xycarto/wesm-surfaces
-IMAGE := $(BASEIMAGE):2023-04-22
+DOCKER_PW := ${DOCKER_PW}
 
-RUN ?= docker run --rm --net=host --user=$$(id -u):$$(id -g) -e DISPLAY=$$DISPLAY --env-file .creds -e RUN= -v$$(pwd):/work -w /work $(IMAGE)
+BASEIMAGE := xycarto/wesm-surfaces
+IMAGE := $(BASEIMAGE):2024-01-12
+
+TFBASEIMAGE := xycarto/xycarto-terraform
+TFIMAGE := $(TFBASEIMAGE):2024-01-12
+
+RUN ?= docker run --rm --net=host \
+	--user=$$(id -u):$$(id -g) \
+	-e DISPLAY=$$DISPLAY \
+	--env-file .creds \
+	-e RUN= \
+	-v$$(pwd):/work \
+	-w /work $(IMAGE)
+
+TFRUN ?= docker run -it --rm  \
+	-u $$(id -u):$$(id -g) \
+	-e DISPLAY=$$DISPLAY \
+	--env-file .creds \
+	-e RUN= \
+	-v$$(pwd):/work \
+	--net=host \
+	-w /work $(TFIMAGE)
 
 list-index:
 	$(RUN) python3 src/list-index.py
@@ -62,7 +82,7 @@ cog:
 chm:
 	$(RUN) python3 chm.py $(laz)
 
-local-test: Dockerfile
+local-test: docker/Dockerfile
 	docker run -it --rm --net=host --user=$$(id -u):$$(id -g) \
 	-e DISPLAY=$$DISPLAY \
 	--env-file .creds \
@@ -70,15 +90,39 @@ local-test: Dockerfile
 	-w /work $(IMAGE) \
 	bash
 
-docker-local: Dockerfile
-	docker build --tag $(BASEIMAGE) - < $<  && \
+docker-local: docker/Dockerfile
+	docker build --tag $(BASEIMAGE) - < docker/Dockerfile && \
 	docker tag $(BASEIMAGE) $(IMAGE)
 
-docker: Dockerfile
-	docker build --tag $(BASEIMAGE) - < $<  && \
+docker: docker/Dockerfile
+	echo $(DOCKER_PW) | docker login --username xycarto --password-stdin
+	docker build --tag $(BASEIMAGE) - < docker/Dockerfile  && \
 	docker tag $(BASEIMAGE) $(IMAGE) && \
 	docker push $(IMAGE) && \
 	touch .push
 
 docker-pull:
+	echo $(DOCKER_PW) | docker login --username xycarto --password-stdin
 	docker pull $(IMAGE)
+
+##### DOCKER TERRAFORM #####
+
+tf-docker-local: docker/Dockerfile.terraform
+	docker build --tag $(TFBASEIMAGE) - < docker/Dockerfile.terraform && \
+	docker tag $(TFBASEIMAGE) $(TFIMAGE)
+
+tf-docker: docker/Dockerfile.terraform
+	echo $(DOCKER_PW) | docker login --username xycarto --password-stdin
+	docker build --tag $(TFBASEIMAGE) - < docker/Dockerfile.terraform && \
+	docker tag $(TFBASEIMAGE) $(TFIMAGE) && \
+	docker push $(TFIMAGE)
+
+tf-docker-pull:
+	echo $(DOCKER_PW) | docker login --username xycarto --password-stdin
+	docker pull $(TFIMAGE)
+
+###### TERRAFORM RUN ######
+
+# time make tf-build-surface workunit=CA_NoCAL_Wildfires_B1_2018 state=California
+tf-build-surface:
+	$(TFRUN) bash build-infra.sh $(workunit) $(state)

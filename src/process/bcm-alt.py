@@ -12,28 +12,32 @@ def main():
     s3 = get_creds()
     get_s3_file(s3, INDEX_FILE, WESM_BUCKET)
     
-    # Buffer Index
-    index_file = gp.read_file(INDEX_FILE)
-    index_row = index_file[index_file['file_name'] == os.path.basename(IN_FILE)]    
-    index_repro = index_file.to_crs(index_row.native_horiz_crs.values[0])
-    index_repro_row = index_repro[index_repro['file_name'] == os.path.basename(IN_FILE)]
-    row_buff = index_repro_row.geometry.buffer(BUFFER, join_style=2)
 
-    # Select adjacent tiles, clip, and make array
-    tiles_select = index_repro.loc[index_repro.intersects(row_buff.geometry.values[0])]
-    clipped_array = [clip_files(row_buff, s3, pc) for i, pc in tiles_select.iterrows()]
-     
-    # Merge point clouds
-    merged_pc = merge_pc(clipped_array)
+    bcm = os.path.join(BCM_DIR, os.path.basename(IN_FILE))
+    print(bcm)
+    # if not os.path.exists(bcm):
+    #     # Buffer Index
+    #     index_file = gp.read_file(INDEX_FILE)
+    #     index_row = index_file[index_file['file_name'] == os.path.basename(IN_FILE)]    
+    #     index_repro = index_file.to_crs(index_row.native_horiz_crs.values[0])
+    #     index_repro_row = index_repro[index_repro['file_name'] == os.path.basename(IN_FILE)]
+    #     row_buff = index_repro_row.geometry.buffer(BUFFER, join_style=2)
 
-    # Filter LAZ
-    bcm_file = filter_laz(merged_pc, index_row)
-
-    shutil.rmtree(CLIP_DIR)
-    os.remove(merged_pc)
+    #     # Select adjacent tiles, clip, and make array
+    #     tiles_select = index_repro.loc[index_repro.intersects(row_buff.geometry.values[0])]
+    #     clipped_array = [clip_files(row_buff, s3, pc) for i, pc in tiles_select.iterrows()]
         
-    # print(f"Uploading... {filtered_laz}")   
-    # s3.upload_file(filtered_laz, BUCKET, filtered_laz)
+    #     # Merge point clouds
+    #     merged_pc = merge_pc(clipped_array)
+
+    #     # Filter LAZ
+    #     bcm_file = filter_laz(merged_pc, index_row)
+
+    #     shutil.rmtree(CLIP_DIR)
+    #     os.remove(merged_pc)
+            
+    #     # print(f"Uploading... {filtered_laz}")   
+    #     # s3.upload_file(filtered_laz, BUCKET, filtered_laz)
 
 
 def clip_files(row_buff, s3, pc):
