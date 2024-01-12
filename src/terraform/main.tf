@@ -18,8 +18,8 @@ data "template_file" "user_data" {
 }
 
 resource "aws_instance" "app_server" {
-  ami                     = "ami-0fcf52bcf5db7b003"
-  instance_type           = "t2.xlarge"
+  ami                     = var.ami
+  instance_type           = var.instance_type
   user_data               = data.template_file.user_data.rendered
   security_groups         = ["wesm"]
   key_name                = var.key_name
@@ -27,7 +27,7 @@ resource "aws_instance" "app_server" {
 
   # root disk
   root_block_device {
-    volume_size           = "40"
+    volume_size           = "10"
     volume_type           = "gp2"
     encrypted             = true
     delete_on_termination = true
@@ -36,4 +36,38 @@ resource "aws_instance" "app_server" {
   tags = {
     Name = var.instance_name
   }
+}
+
+resource "null_resource" "run_surface" {
+
+    depends_on = [
+      aws_instance.app_server
+    ]
+
+    connection {
+      type        = "ssh"
+      user        = "ubuntu"
+      private_key = "${file("../.ssh/wesm.pem")}"
+      host        = aws_instance.app_server.public_dns
+    }
+
+    provisioner "local-exec" { 
+      command = "aws ec2 wait instance-status-ok --region us-west-2 --instance-ids ${aws_instance.app_server.id}" 
+      }
+
+    provisioner "file" {
+    source      = "../.creds"
+    destination = "/home/ubuntu/.creds"
+    }
+
+    provisioner "file" {
+    source      = "../build-surface.sh"
+    destination = "/home/ubuntu/build-surface.sh"
+    }   
+
+    provisioner "remote-exec" {
+    inline = [
+      "bash build-surface.sh ${var.WORKUNIT} ${var.STATE}",
+    ]
+    }
 }

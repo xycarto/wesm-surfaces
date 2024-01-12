@@ -9,7 +9,7 @@ from general import *
 
 def main():    
     s3 = get_creds()
-    get_s3_file(s3, INDEX_FILE, WESM_BUCKET)
+    get_s3_file(s3, INDEX_FILE, WESM_GRID_BUCKET)
 
     # list available rows
     index_file = gp.read_file(INDEX_FILE)
@@ -18,18 +18,21 @@ def main():
         print(f"Downloading {local_file}")
         if not os.path.exists(local_file):
             s3.download_file(USGS_BUCKET, row.usgs_loc, local_file, ExtraArgs={'RequestPayer':'requester'})
+        if i >= 5:
+            exit()
     
 if __name__ == "__main__":
 
     USGS_BUCKET="usgs-lidar"
-    WESM_BUCKET="wesm"
+    WESM_SURFACE_BUCKET="xyc-wesm-surfaces--usw2-az1--x-s3"
+    WESM_GRID_BUCKET="xyc-wesm-grids"
     CRS = "4269"
     WORKUNIT = sys.argv[1]
     STATE = sys.argv[2]
     DATA_DIR = "data"
-    PC_DIR = os.path.join(DATA_DIR, "point-clouds", STATE, WORKUNIT)
-    INDEX_DIR = os.path.join(DATA_DIR, "index-indv", STATE)
-    INDEX_FILE = os.path.join(INDEX_DIR, f"{WORKUNIT}_index_{CRS}.gpkg")
+    PC_DIR = f"{DATA_DIR}/point-clouds/{STATE}/{WORKUNIT}"
+    INDEX_DIR = f"{DATA_DIR}/index-indv/{STATE}"
+    INDEX_FILE = f"{INDEX_DIR}/{WORKUNIT}_index_{CRS}.gpkg"
 
     for d in [DATA_DIR, PC_DIR, INDEX_DIR]:
         os.makedirs(d, exist_ok=True)

@@ -9,9 +9,10 @@ git clone https://${TOKEN}@github.com/xycarto/wesm-surfaces.git
 
 cp -r .creds wesm-surfaces/src/
 
-cd wesm-surfaces/src && \
-    make docker-pull && \
-    echo $WORKUNIT && \
-    echo $STATE
+cd wesm-surfaces/src
+make docker-pull
+echo $WORKUNIT 
+echo $STATE
+make download-pc workunit=$WORKUNIT state=$STATE
 
 exit
