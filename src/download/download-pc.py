@@ -24,7 +24,7 @@ def main():
 if __name__ == "__main__":
 
     USGS_BUCKET="usgs-lidar"
-    WESM_SURFACE_BUCKET="xyc-wesm-surfaces--usw2-az1--x-s3"
+    WESM_SURFACE_BUCKET="xyc-wesm-surfaces"
     WESM_GRID_BUCKET="xyc-wesm-grids"
     CRS = "4269"
     WORKUNIT = sys.argv[1]

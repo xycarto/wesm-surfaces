@@ -31,12 +31,12 @@ def main():
 
         # Filter LAZ
         bcm_file = filter_laz(merged_pc, index_row)
-
-        shutil.rmtree(CLIP_DIR)
-        os.remove(merged_pc)
+        
             
         print(f"Uploading... {bcm_file}")   
         s3.upload_file(bcm_file, WESM_BUCKET, bcm_file)
+
+        shutil.rmtree(CLIP_DIR)
 
         os.remove(bcm_file)
 
@@ -87,7 +87,7 @@ if __name__ == "__main__":
     IN_FILE = sys.argv[1]
     WORKUNIT = sys.argv[2]
     STATE = sys.argv[3]
-    WESM_BUCKET = "xyc-wesm-surfaces--usw2-az1--x-s3"
+    WESM_BUCKET = "xyc-wesm-surfaces"
     DATA_DIR = "data"
     PC_DIR = f"{DATA_DIR}/point-clouds/{STATE}/{WORKUNIT}"
     BCM_DIR = f"{DATA_DIR}/bcm/{STATE}/{WORKUNIT}"       
@@ -99,7 +99,7 @@ if __name__ == "__main__":
     PIPELINE_FILTER = 'process/pipeline-templates/buffer-clip-filter-template-filter-only.json'
 
     
-    for d in [DATA_DIR, PC_DIR, BCM_DIR, CLIP_DIR]:
+    for d in [DATA_DIR, PC_DIR, BCM_DIR, CLIP_DIR, INDEX_DIR]:
         os.makedirs(d, exist_ok=True)
     
     main()
