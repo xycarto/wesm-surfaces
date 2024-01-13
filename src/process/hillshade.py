@@ -29,7 +29,7 @@ if __name__ == "__main__":
     DATA_DIR = "data"
     SURFACE_DIR = os.path.join(DATA_DIR, IN_DIR, STATE, WORKUNIT)
     HS_DIR = os.path.join(SURFACE_DIR, "hillshade")
-    WESM_BUCKET = "wesm"
+    WESM_SURFACE_BUCKET = "xyc-wesm-surfaces"
 
     for d in [DATA_DIR, SURFACE_DIR, HS_DIR]:
         os.makedirs(d, exist_ok=True)

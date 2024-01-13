@@ -14,11 +14,11 @@ def main():
     # list available rows
     index_file = gp.read_file(INDEX_FILE)
     for i, row in index_file.iterrows():
-        local_file = os.path.join(PC_DIR, row.file_name)
+        local_file = f"{BCM_DIR}/{row.file_name}"
         print(f"Downloading {local_file}")
         if not os.path.exists(local_file):
-            s3.download_file(USGS_BUCKET, row.usgs_loc, local_file, ExtraArgs={'RequestPayer':'requester'})
-        if i >= 8:
+            s3.download_file(WESM_SURFACE_BUCKET, local_file, local_file, ExtraArgs={'RequestPayer':'requester'})
+        if i >= 4:
             exit()
     
 if __name__ == "__main__":

@@ -32,7 +32,10 @@ list-index:
 download-pc:
 	$(RUN) python3 download/download-pc.py $(workunit) $(state)
 
-# make bcm pc=data/point-clouds/California/CA_NoCAL_Wildfires_B1_2018/USGS_LPC_CA_NoCAL_3DEP_Supp_Funding_2018_D18_w2021n2057.laz workunit=CA_NoCAL_Wildfires_B1_2018 state=California
+# make download-bcm workunit=CA_NoCAL_Wildfires_B1_2018 state=California
+download-bcm:
+	$(RUN) python3 download/download-bcm.py $(workunit) $(state)
+
 # make bcm pc=data/point-clouds/California/CA_NoCAL_Wildfires_B1_2018/USGS_LPC_CA_NoCAL_3DEP_Supp_Funding_2018_D18_w2023n2051.laz workunit=CA_NoCAL_Wildfires_B1_2018 state=California
 bcm: 
 	$(RUN) python3  -W ignore process/bcm-alt.py $(pc) $(workunit) $(state)
@@ -41,7 +44,6 @@ bcm:
 dsm:
 	$(RUN) python3 process/dsm.py $(pc) $(workunit) $(state)
 
-# make dem pc=data/bcm/California/CA_NoCAL_Wildfires_B1_2018/USGS_LPC_CA_NoCAL_3DEP_Supp_Funding_2018_D18_w2021n2057.laz workunit=CA_NoCAL_Wildfires_B1_2018 state=California
 # make dem pc=data/bcm/California/CA_NoCAL_Wildfires_B1_2018/USGS_LPC_CA_NoCAL_3DEP_Supp_Funding_2018_D18_w2023n2051.laz workunit=CA_NoCAL_Wildfires_B1_2018 state=California
 dem:
 	$(RUN) python3 process/dem.py $(pc) $(workunit) $(state)
@@ -50,13 +52,10 @@ dem:
 dem-gdal:
 	$(RUN) python3 process/dem-gdal.py $(pc) $(workunit) $(state)
 
-# make tin pc=data/bcm/California/CA_NoCAL_Wildfires_B1_2018/USGS_LPC_CA_NoCAL_3DEP_Supp_Funding_2018_D18_w2021n2057.laz workunit=CA_NoCAL_Wildfires_B1_2018 state=California
 # make tin pc=data/bcm/California/CA_NoCAL_Wildfires_B1_2018/USGS_LPC_CA_NoCAL_3DEP_Supp_Funding_2018_D18_w2023n2051.laz workunit=CA_NoCAL_Wildfires_B1_2018 state=California
 tin:
 	$(RUN) python3 process/tin.py $(pc) $(workunit) $(state)
 
-# make hexbin pc=data/bcm/California/CA_NoCAL_Wildfires_B1_2018/USGS_LPC_CA_NoCAL_3DEP_Supp_Funding_2018_D18_w2021n2057.laz workunit=CA_NoCAL_Wildfires_B1_2018 state=California
-# make hexbin pc=data/bcm/California/CA_NoCAL_Wildfires_B1_2018/USGS_LPC_CA_NoCAL_3DEP_Supp_Funding_2018_D18_w2023n2051.laz workunit=CA_NoCAL_Wildfires_B1_2018 state=California
 # make hexbin pc=data/bcm/California/CA_NoCAL_Wildfires_B1_2018/USGS_LPC_CA_NoCAL_3DEP_Supp_Funding_2018_D18_w2023n2054.laz workunit=CA_NoCAL_Wildfires_B1_2018 state=California
 
 hexbin:

@@ -19,6 +19,9 @@ def main():
     print("Creating TIN...")
     tin_file = f"{TIN_DIR}/{os.path.basename(IN_FILE).split('.')[0]}.tif"
     make_tin(PIPELINE_PATH, IN_FILE, metadata, tin_file)
+
+    print(f"Uploading {tin_file}...")
+    s3.upload_file(tin_file, WESM_BUCKET, tin_file)
     
 def make_tin(pipeline, in_pc, metadata, out_tif):
     sub.call(
@@ -29,18 +32,17 @@ def make_tin(pipeline, in_pc, metadata, out_tif):
             --writers.gdal.bounds={metadata.bounds}",
             shell=True,
     )
-    # print(f"Uploading {dsm_file}...")
-    # s3.upload_file(dsm_file, BUCKET, dsm_file)
+    
 
 
 if __name__ == "__main__":
     IN_FILE = sys.argv[1]
     WORKUNIT = sys.argv[2]
     STATE = sys.argv[3]
-    WESM_BUCKET = "wesm"
+    WESM_BUCKET = "xyc-wesm-surfaces"
     DATA_DIR = "data"
-    BCM_DIR = os.path.join(DATA_DIR, "bcm", STATE, WORKUNIT)  
-    TIN_DIR = os.path.join(DATA_DIR, "tin", STATE, WORKUNIT)
+    BCM_DIR = f"{DATA_DIR}/bcm/{STATE}/{WORKUNIT}"  
+    TIN_DIR = f"{DATA_DIR}/tin/{STATE}/{WORKUNIT}"
     PIPELINE_PATH = 'process/pipeline-templates/tin_template.json'
 
     for d in [DATA_DIR, BCM_DIR, TIN_DIR]:

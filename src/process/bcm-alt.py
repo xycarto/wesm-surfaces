@@ -45,20 +45,19 @@ def clip_files(row_buff, s3, pc):
     print(f"Clipping Input Point Cloud...")
     clip_in_file = os.path.join(PC_DIR, pc.file_name)
     clipped_laz = f"{CLIP_DIR}/{os.path.basename(clip_in_file).split('.')[0]}_tmp_crop.laz"
-    if not os.path.exists(clip_in_file):
-        pass
-    if clip_in_file != IN_FILE:
-        print(clip_in_file)
-        sub.call(
-            f"pdal pipeline '{PIPELINE_CROP}' \
-                --readers.las.filename='{clip_in_file}' \
-                --filters.crop.polygon='{row_buff.geometry.values[0]}' \
-                --writers.las.filename='{clipped_laz}'",
-            shell=True,
-        )
-        return clipped_laz
-    else:    
-        return IN_FILE
+    if os.path.exists(clip_in_file):
+        if clip_in_file != IN_FILE:
+            print(clip_in_file)
+            sub.call(
+                f"pdal pipeline '{PIPELINE_CROP}' \
+                    --readers.las.filename='{clip_in_file}' \
+                    --filters.crop.polygon='{row_buff.geometry.values[0]}' \
+                    --writers.las.filename='{clipped_laz}'",
+                shell=True,
+            )
+            return clipped_laz
+        else:    
+            return IN_FILE
 
 def merge_pc(clipped_array):       
     print("Merging...")
