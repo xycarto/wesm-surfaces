@@ -21,8 +21,8 @@ variable "instance_type" {
 }
 
 variable "volume_size" {
-    type = int
-    default = 10
+    type = string
+    default = "10"
 }
 
 variable "WORKUNIT" {
