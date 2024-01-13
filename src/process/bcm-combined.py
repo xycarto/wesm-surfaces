@@ -25,21 +25,16 @@ def main():
     # Select adjacent tiles, clip, and make array
     tiles_select = index_repro.loc[index_repro.intersects(row_buff.geometry.values[0])]
     clipped_array = [clip_files(row_buff, s3, pc) for i, pc in tiles_select.iterrows()]
-
-    # print(clipped_array)
     
     # Merge point clouds
     merged_pc = merge_pc(clipped_array)
 
-    # Filter LAZ
-    bcm_file = filter_laz(merged_pc, index_row)    
-        
-    print(f"Uploading... {bcm_file}")   
-    s3.upload_file(bcm_file, WESM_BUCKET, bcm_file)
+    print(f"Uploading... {merged_pc}")   
+    s3.upload_file(merged_pc, WESM_BUCKET, merged_pc)
 
     shutil.rmtree(CLIP_DIR)
 
-    os.remove(bcm_file)
+    os.remove(merged_pc)
 
 
 def clip_files(row_buff, s3, pc):
@@ -48,7 +43,7 @@ def clip_files(row_buff, s3, pc):
     clipped_laz = f"{CLIP_DIR}/{os.path.basename(clip_in_file).split('.')[0]}_tmp_crop.laz"
     if os.path.exists(clip_in_file) and clip_in_file != IN_FILE:
         sub.call(
-            f"pdal -v 0 pipeline '{PIPELINE_CROP}' \
+            f"pdal -v 0 pipeline '{PIPELINE_CROP_FILTER}' \
                 --readers.las.filename='{clip_in_file}' \
                 --filters.crop.polygon='{row_buff.geometry.values[0]}' \
                 --writers.las.filename='{clipped_laz}'",
@@ -60,28 +55,14 @@ def clip_files(row_buff, s3, pc):
 
 def merge_pc(clipped_array):       
     print("Merging...")
-    merged_pc = f"{CLIP_DIR}/{os.path.basename(IN_FILE).split('.')[0]}_merged.laz"
+    merged_pc = f"{BCM_DIR}/{os.path.basename(IN_FILE).split('.')[0]}.laz"
     sub.call(
         f"""pdal -v 0 merge {" ".join(clipped_array)} {merged_pc}""",
         shell=True,
     )
     return merged_pc
 
-def filter_laz(merged_pc, index_row):
-    print("Filtering...")   
-    bcm_file =  f"{BCM_DIR}/{os.path.basename(IN_FILE)}"
-    crs = f"EPSG:{index_row.native_horiz_crs.values[0]}"
-    sub.call(
-        f"pdal -v 0 pipeline '{PIPELINE_FILTER}' \
-            --readers.las.filename='{merged_pc}' \
-            --writers.las.filename='{bcm_file}' \
-            --writers.las.a_srs='{crs}'",
-        shell=True,
-    )
-    
-    # os.remove(bcm_laz)
-    return bcm_file
-   
+       
 if __name__ == "__main__":
 
     IN_FILE = sys.argv[1]
@@ -95,8 +76,7 @@ if __name__ == "__main__":
     INDEX_DIR = f"{DATA_DIR}/index-indv/{STATE}"
     INDEX_FILE = f"{INDEX_DIR}/{WORKUNIT}_index_4269.gpkg"
     BUFFER = 50
-    PIPELINE_CROP = 'process/pipeline-templates/buffer-clip-filter-template-crop-only.json'
-    PIPELINE_FILTER = 'process/pipeline-templates/buffer-clip-filter-template-filter-only.json'
+    PIPELINE_CROP_FILTER = 'process/pipeline-templates/buffer-clip-filter-template.json'
 
     
     for d in [DATA_DIR, PC_DIR, BCM_DIR, CLIP_DIR, INDEX_DIR]:

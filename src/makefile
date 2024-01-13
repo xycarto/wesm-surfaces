@@ -8,7 +8,7 @@ IMAGE := $(BASEIMAGE):2024-01-12
 TFBASEIMAGE := xycarto/xycarto-terraform
 TFIMAGE := $(TFBASEIMAGE):2024-01-12
 
-RUN ?= docker run --rm --net=host \
+RUN ?= docker run -i --rm --net=host \
 	--user=$$(id -u):$$(id -g) \
 	-e DISPLAY=$$DISPLAY \
 	--env-file .creds \
@@ -36,9 +36,9 @@ download-pc:
 download-bcm:
 	$(RUN) python3 download/download-bcm.py $(workunit) $(state)
 
-# make bcm pc=data/point-clouds/California/CA_NoCAL_Wildfires_B1_2018/USGS_LPC_CA_NoCAL_3DEP_Supp_Funding_2018_D18_w2023n2051.laz workunit=CA_NoCAL_Wildfires_B1_2018 state=California
+# make bcm pc=Projects/CA_NoCAL_3DEP_Supp_Funding_2018_D18/CA_NoCAL_Wildfires_B1_2018/LAZ/USGS_LPC_CA_NoCAL_3DEP_Supp_Funding_2018_D18_w2021n2061.laz workunit=CA_NoCAL_Wildfires_B1_2018 state=California
 bcm: 
-	$(RUN) python3  -W ignore process/bcm-alt.py $(pc) $(workunit) $(state)
+	$(RUN) python3  process/bcm-combined.py $(pc) $(workunit) $(state)
 
 # make dsm pc=data/bcm/California/CA_NoCAL_Wildfires_B1_2018/USGS_LPC_CA_NoCAL_3DEP_Supp_Funding_2018_D18_w2021n2057.laz workunit=CA_NoCAL_Wildfires_B1_2018 state=California
 dsm:
@@ -52,7 +52,7 @@ dem:
 dem-gdal:
 	$(RUN) python3 process/dem-gdal.py $(pc) $(workunit) $(state)
 
-# make tin pc=data/bcm/California/CA_NoCAL_Wildfires_B1_2018/USGS_LPC_CA_NoCAL_3DEP_Supp_Funding_2018_D18_w2023n2051.laz workunit=CA_NoCAL_Wildfires_B1_2018 state=California
+# make tin pc=data/bcm/California/CA_NoCAL_Wildfires_B1_2018/USGS_LPC_CA_NoCAL_3DEP_Supp_Funding_2018_D18_w2021n2061.laz workunit=CA_NoCAL_Wildfires_B1_2018 state=California
 tin:
 	$(RUN) python3 process/tin.py $(pc) $(workunit) $(state)
 

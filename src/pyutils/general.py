@@ -3,6 +3,7 @@ import os
 import subprocess as sub
 import json
 from osgeo import gdal
+import geopandas as gp
 
 def get_creds():
     s3 = boto3.client(
@@ -70,3 +71,22 @@ def build_vrt(vrt_dir, vrt):
         tifs,
         resolution='average'
     ) 
+
+def gdal_clip(basename, in_file, index, in_tif, out_tif):
+    index_file = gp.read_file(index)
+    index_row = index_file[index_file['file_name'] == os.path.basename(in_file)]    
+    index_repro = index_file.to_crs(index_row.native_horiz_crs.values[0])
+    index_repro_row = index_repro[index_repro['file_name'] == os.path.basename(in_file)]
+
+    tmp_gpkg = f"data/{basename}.gpkg"
+    gp.GeoDataFrame(index_repro_row.geometry).to_file(tmp_gpkg, driver="GPKG")  
+
+    gdal.Warp(
+        out_tif,
+        in_tif,
+        cutlineDSName = tmp_gpkg,
+        cropToCutline = True,
+        callback=gdal.TermProgress_nocb
+    )
+
+    return tmp_gpkg, out_tif
