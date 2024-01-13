@@ -126,3 +126,6 @@ tf-docker-pull:
 # time make tf-build-surface workunit=CA_NoCAL_Wildfires_B1_2018 state=California
 tf-build-surface:
 	$(TFRUN) bash build-infra.sh $(workunit) $(state)
+
+tf-build-bcm:
+	$(TFRUN) bash build-infra-bcm.sh $(workunit) $(state)
