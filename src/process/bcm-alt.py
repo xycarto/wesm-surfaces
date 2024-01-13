@@ -45,6 +45,8 @@ def clip_files(row_buff, s3, pc):
     print(f"Clipping Input Point Cloud...")
     clip_in_file = os.path.join(PC_DIR, pc.file_name)
     clipped_laz = f"{CLIP_DIR}/{os.path.basename(clip_in_file).split('.')[0]}_tmp_crop.laz"
+    if not os.path.exists(clip_in_file):
+        pass
     if clip_in_file != IN_FILE:
         print(clip_in_file)
         sub.call(
