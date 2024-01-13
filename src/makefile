@@ -122,6 +122,7 @@ tf-docker-pull:
 
 ###### TERRAFORM RUN ######
 
+# time make tf-build-bcm workunit=CA_NoCAL_Wildfires_B1_2018 state=California
 tf-build-bcm:
 	$(TFRUN) bash build-infra-bcm.sh $(workunit) $(state)
 
