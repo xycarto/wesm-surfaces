@@ -21,8 +21,8 @@ def main():
      
         
 
-    # print(f"Uploading {dsm_file}...")
-    # s3.upload_file(dsm_file, BUCKET, dsm_file)
+    print(f"Uploading {vrt}...")
+    s3.upload_file(vrt, WESM_SURFACE_BUCKET, vrt)
 
 
 if __name__ == "__main__":
@@ -30,8 +30,8 @@ if __name__ == "__main__":
     WORKUNIT = sys.argv[2]
     STATE = sys.argv[3]
     DATA_DIR = "data"
-    VRT_DIR = os.path.join(DATA_DIR, IN_DIR.split("/")[0], STATE, WORKUNIT)
-    WESM_BUCKET = "wesm"
+    VRT_DIR = f"{DATA_DIR}/{IN_DIR.split('/')[0]}/{STATE}/{WORKUNIT}"
+    WESM_SURFACE_BUCKET = "xyc-wesm-surfaces"
 
     for d in [DATA_DIR]:
         os.makedirs(d, exist_ok=True)

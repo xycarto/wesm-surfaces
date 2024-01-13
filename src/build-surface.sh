@@ -19,9 +19,8 @@ find data/bcm/${STATE}/${WORKUNIT} -name "*.laz" | xargs -P ${CORES} -t -I % mak
 
 find data/tin/${STATE}/${WORKUNIT} -maxdepth 1 -name "*.tif" | xargs -P ${CORES} -t -I % make hillshade tif=% in_dir=tin workunit=$WORKUNIT state=$STATE
 
-# make vrt in_dir=tin workunit=$WORKUNIT state=$STATE
+make vrt in_dir=tin workunit=$WORKUNIT state=$STATE
 
-# make vrt in_dir=tin/hillshade workunit=$WORKUNIT state=$STATE
-# find data/point-clouds/${STATE}/${WORKUNIT} -name "*.laz" | xargs -P $CORES -t -I % make bcm pc=% workunit=$WORKUNIT state=$STATE
+make vrt in_dir=tin/hillshade workunit=$WORKUNIT state=$STATE
 
 exit

@@ -11,14 +11,14 @@ from general import *
 def main():
     s3 = get_creds()    
 
-    out_hs = os.path.join(HS_DIR, os.path.basename(IN_FILE))  
+    out_hs = f"{HS_DIR}/{os.path.basename(IN_FILE)}"  
     sub.call(
         f"gdaldem hillshade {IN_FILE} {out_hs}",
         shell=True
     )
     
-    # print(f"Uploading {dsm_file}...")
-    # s3.upload_file(dsm_file, BUCKET, dsm_file)
+    print(f"Uploading {out_hs}...")
+    s3.upload_file(out_hs, WESM_SURFACE_BUCKET, out_hs)
 
 
 if __name__ == "__main__":
