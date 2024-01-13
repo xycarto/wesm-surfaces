@@ -18,7 +18,7 @@ def main():
         print(f"Downloading {local_file}")
         if not os.path.exists(local_file):
             s3.download_file(USGS_BUCKET, row.usgs_loc, local_file, ExtraArgs={'RequestPayer':'requester'})
-        if i >= 20:
+        if i >= 8:
             exit()
     
 if __name__ == "__main__":
