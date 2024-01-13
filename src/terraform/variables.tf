@@ -27,8 +27,15 @@ variable "volume_size" {
 
 variable "WORKUNIT" {
   type = string
+  default = "empty"
 }
 
 variable "STATE" {
   type = string
+  default = "empty"
+}
+
+variable "process_file" {
+  type = string
+  default = "empty"
 }
