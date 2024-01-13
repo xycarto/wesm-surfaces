@@ -17,7 +17,7 @@ make download-bcm workunit=$WORKUNIT state=$STATE
 ## Make TINS
 find data/bcm/${STATE}/${WORKUNIT} -name "*.laz" | xargs -P ${CORES} -t -I % make tin pc=% workunit=$WORKUNIT state=$STATE
 
-find data/tin/${STATE}/${WORKUNIT} -maxdepth 1 -name "*.tif" | xargs -P 12 -t -I % make hillshade tif=% in_dir=tin workunit=$WORKUNIT state=$STATE
+find data/tin/${STATE}/${WORKUNIT} -maxdepth 1 -name "*.tif" | xargs -P ${CORES} -t -I % make hillshade tif=% in_dir=tin workunit=$WORKUNIT state=$STATE
 
 # make vrt in_dir=tin workunit=$WORKUNIT state=$STATE
 

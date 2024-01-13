@@ -27,8 +27,8 @@ if __name__ == "__main__":
     WORKUNIT = sys.argv[3]
     STATE = sys.argv[4]
     DATA_DIR = "data"
-    SURFACE_DIR = os.path.join(DATA_DIR, IN_DIR, STATE, WORKUNIT)
-    HS_DIR = os.path.join(SURFACE_DIR, "hillshade")
+    SURFACE_DIR = f"{DATA_DIR}/{IN_DIR}/{STATE}/{WORKUNIT}"
+    HS_DIR = f"{SURFACE_DIR}/hillshade"
     WESM_SURFACE_BUCKET = "xyc-wesm-surfaces"
 
     for d in [DATA_DIR, SURFACE_DIR, HS_DIR]:

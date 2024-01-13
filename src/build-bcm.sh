@@ -16,3 +16,5 @@ make download-pc workunit=$WORKUNIT state=$STATE
 find data/point-clouds/${STATE}/${WORKUNIT} -name "*.laz" | xargs -P $CORES -t -I % make bcm pc=% workunit=$WORKUNIT state=$STATE
 
 exit
+
+find data/point-clouds/California/CA_NoCAL_Wildfires_B1_2018 -name "*.laz" | xargs -P 8 -t -I % make bcm pc=% workunit=CA_NoCAL_Wildfires_B1_2018 state=California

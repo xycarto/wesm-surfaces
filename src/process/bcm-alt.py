@@ -25,39 +25,39 @@ def main():
         # Select adjacent tiles, clip, and make array
         tiles_select = index_repro.loc[index_repro.intersects(row_buff.geometry.values[0])]
         clipped_array = [clip_files(row_buff, s3, pc) for i, pc in tiles_select.iterrows()]
+
+        # print(clipped_array)
         
         # Merge point clouds
         merged_pc = merge_pc(clipped_array)
 
-        # Filter LAZ
-        bcm_file = filter_laz(merged_pc, index_row)
+        # # Filter LAZ
+        # bcm_file = filter_laz(merged_pc, index_row)
         
             
-        print(f"Uploading... {bcm_file}")   
-        s3.upload_file(bcm_file, WESM_BUCKET, bcm_file)
+        # print(f"Uploading... {bcm_file}")   
+        # s3.upload_file(bcm_file, WESM_BUCKET, bcm_file)
 
-        shutil.rmtree(CLIP_DIR)
+        # shutil.rmtree(CLIP_DIR)
 
-        os.remove(bcm_file)
+        # os.remove(bcm_file)
 
 
 def clip_files(row_buff, s3, pc):
     print(f"Clipping Input Point Cloud...")
     clip_in_file = os.path.join(PC_DIR, pc.file_name)
     clipped_laz = f"{CLIP_DIR}/{os.path.basename(clip_in_file).split('.')[0]}_tmp_crop.laz"
-    if os.path.exists(clip_in_file):
-        if clip_in_file != IN_FILE:
-            print(clip_in_file)
-            sub.call(
-                f"pdal pipeline '{PIPELINE_CROP}' \
-                    --readers.las.filename='{clip_in_file}' \
-                    --filters.crop.polygon='{row_buff.geometry.values[0]}' \
-                    --writers.las.filename='{clipped_laz}'",
-                shell=True,
-            )
-            return clipped_laz
-        else:    
-            return IN_FILE
+    if os.path.exists(clip_in_file) and clip_in_file != IN_FILE:
+        sub.call(
+            f"pdal pipeline '{PIPELINE_CROP}' \
+                --readers.las.filename='{clip_in_file}' \
+                --filters.crop.polygon='{row_buff.geometry.values[0]}' \
+                --writers.las.filename='{clipped_laz}'",
+            shell=True,
+        )
+        return clipped_laz
+    else:    
+        return IN_FILE
 
 def merge_pc(clipped_array):       
     print("Merging...")
