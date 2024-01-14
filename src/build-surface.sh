@@ -24,9 +24,9 @@ make vrt in_dir=tin workunit=$WORKUNIT state=$STATE
 make vrt in_dir=tin/hillshade workunit=$WORKUNIT state=$STATE
 
 ### Make TIN COGS
-find data/tin/${STATE}/${WORKUNIT} -maxdepth 1 -name "*.tif" | xargs -P 12 -t -I % make reproject tif=% in_dir=tin workunit=$WORKUNIT state=$STATE
+find data/tin/${STATE}/${WORKUNIT} -maxdepth 1 -name "*.tif" | xargs -P ${CORES} -t -I % make reproject tif=% in_dir=tin workunit=$WORKUNIT state=$STATE
 
-find data/tin/${STATE}/${WORKUNIT}/hillshade -maxdepth 1 -name "*.tif" | xargs -P 12 -t -I % make reproject tif=% in_dir=tin/hillshade workunit=$WORKUNIT state=$STATE
+find data/tin/${STATE}/${WORKUNIT}/hillshade -maxdepth 1 -name "*.tif" | xargs -P ${CORES} -t -I % make reproject tif=% in_dir=tin/hillshade workunit=$WORKUNIT state=$STATE
 
 make cog in_dir=tin workunit=$WORKUNIT state=$STATE
 
@@ -42,9 +42,9 @@ make vrt in_dir=dsm workunit=$WORKUNIT state=$STATE
 make vrt in_dir=dsm/hillshade workunit=$WORKUNIT state=$STATE
 
 ### Make DSM COGS
-find data/dsm/${STATE}/${WORKUNIT} -maxdepth 1 -name "*.tif" | xargs -P 12 -t -I % make reproject tif=% in_dir=dsm workunit=$WORKUNIT state=$STATE
+find data/dsm/${STATE}/${WORKUNIT} -maxdepth 1 -name "*.tif" | xargs -P ${CORES} -t -I % make reproject tif=% in_dir=dsm workunit=$WORKUNIT state=$STATE
 
-find data/dsm/${STATE}/${WORKUNIT}/hillshade -maxdepth 1 -name "*.tif" | xargs -P 12 -t -I % make reproject tif=% in_dir=dsm/hillshade workunit=$WORKUNIT state=$STATE
+find data/dsm/${STATE}/${WORKUNIT}/hillshade -maxdepth 1 -name "*.tif" | xargs -P ${CORES} -t -I % make reproject tif=% in_dir=dsm/hillshade workunit=$WORKUNIT state=$STATE
 
 make cog in_dir=dsm workunit=$WORKUNIT state=$STATE
 
