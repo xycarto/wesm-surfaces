@@ -18,7 +18,7 @@ def main():
         print(f"Downloading {local_file}")
         if not os.path.exists(local_file):
             s3.download_file(WESM_SURFACE_BUCKET, local_file, local_file, ExtraArgs={'RequestPayer':'requester'})
-        if i >= 12:
+        if i >= 1500:
             exit()
     
 if __name__ == "__main__":
