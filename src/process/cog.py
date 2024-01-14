@@ -29,7 +29,7 @@ def main():
     )
 
     print(f"Uploading {cog_file}...")
-    s3.upload_file(cog_file, WESM_VIEWER_BUCKET, cog_file)
+    s3.upload_file(cog_file, WESM_VIEWER_BUCKET, cog_file, ExtraArgs={'ACL': 'public-read'})
 
 
 if __name__ == "__main__":
