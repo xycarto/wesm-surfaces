@@ -13,7 +13,7 @@ def main():
 
     out_hs = f"{HS_DIR}/{os.path.basename(IN_FILE)}"  
     sub.call(
-        f"gdaldem hillshade {IN_FILE} {out_hs}",
+        f"gdaldem hillshade -compute_edges {IN_FILE} {out_hs}",
         shell=True
     )
     
