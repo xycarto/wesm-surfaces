@@ -16,8 +16,11 @@ def main():
     for i, row in index_file.iterrows():
         local_file = f"{BCM_DIR}/{row.file_name}"
         print(f"Downloading {local_file}")
-        if not os.path.exists(local_file):
-            s3.download_file(WESM_SURFACE_BUCKET, local_file, local_file, ExtraArgs={'RequestPayer':'requester'})
+        try: 
+            if not os.path.exists(local_file):
+                s3.download_file(WESM_SURFACE_BUCKET, local_file, local_file, ExtraArgs={'RequestPayer':'requester'})
+        except:
+            print("File Not Found")
         if i >= 1500:
             exit()
     
