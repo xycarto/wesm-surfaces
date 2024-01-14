@@ -28,9 +28,9 @@ if __name__ == "__main__":
     WORKUNIT = sys.argv[3]
     STATE = sys.argv[4]
     DATA_DIR = "data"
-    COG_DIR = os.path.join(DATA_DIR, "cog", STATE, WORKUNIT)
-    REPRO_DIR = os.path.join(COG_DIR, "repro", IN_DIR)
-    WESM_BUCKET = "wesm"
+    COG_DIR = f"{DATA_DIR}/cog/{STATE}/{WORKUNIT}"
+    REPRO_DIR = f"{COG_DIR}/repro/{IN_DIR}"
+    WESM_BUCKET = "xyc-wesm-surfaces"
 
     for d in [DATA_DIR, COG_DIR, REPRO_DIR]:
         os.makedirs(d, exist_ok=True)

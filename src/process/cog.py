@@ -11,35 +11,25 @@ from general import *
 def main():
     s3 = get_creds()   
 
-    vrt = os.path.join(REPRO_DIR, f"{IN_DIR}-repro.vrt")
+    vrt = f"{REPRO_DIR}/{'-'.join(IN_DIR.split('/'))}-repro.vrt"
     tifs = [f"{os.path.join(REPRO_DIR, tif)}" for tif in os.listdir(REPRO_DIR) if not os.path.isdir(tif) and tif.endswith('.tif')]
-
+    
     gdal.BuildVRT(
         vrt,
         tifs,
         resolution='average'
     ) 
 
-    cog_file = os.path.join(COG_DIR, f"{IN_DIR}-cog.tif")
+    cog_file = f"{COG_DIR}/{'-'.join(IN_DIR.split('/'))}-cog.tif"
+
     # Make Python process in future
     sub.call(
-        f"gdal_translate {vrt} {cog_file} -of COG -co TILING_SCHEME=GoogleMapsCompatible -co COMPRESS=LZW -co BIGTIFF=YES",
+        f"gdal_translate {vrt} {cog_file} -of COG -co TILING_SCHEME=GoogleMapsCompatible -co COMPRESS=LZW -co BIGTIFF=YES -co NUM_THREADS=ALL_CPUS",
         shell=True
     )
 
-    # if os.path.basename(IN_DIR) == "hillshade":
-    #     vrt_dir = os.path.join(VRT_DIR, "hillshade")
-    #     in_dir = IN_DIR.split("/")[0]
-    #     tifs = [f"{os.path.join(vrt_dir, tif)}" for tif in os.listdir(vrt_dir) if not os.path.isdir(tif) and tif.endswith('.tif')]
-    #     # build_vrt(vrt_dir, vrt)
-    # else:
-    #     vrt = os.path.join(VRT_DIR, f"{IN_DIR}.vrt")
-    #     # build_vrt(VRT_DIR, vrt)
-     
-        
-
-    # print(f"Uploading {dsm_file}...")
-    # s3.upload_file(dsm_file, BUCKET, dsm_file)
+    print(f"Uploading {cog_file}...")
+    s3.upload_file(cog_file, WESM_VIEWER_BUCKET, cog_file)
 
 
 if __name__ == "__main__":
@@ -47,9 +37,10 @@ if __name__ == "__main__":
     WORKUNIT = sys.argv[2]
     STATE = sys.argv[3]
     DATA_DIR = "data"
-    COG_DIR = os.path.join(DATA_DIR, "cog", STATE, WORKUNIT)
-    REPRO_DIR = os.path.join(COG_DIR, "repro", IN_DIR)
-    WESM_BUCKET = "wesm"
+    COG_DIR = f"{DATA_DIR}/cog/{STATE}/{WORKUNIT}"
+    REPRO_DIR = f"{COG_DIR}/repro/{IN_DIR}"
+    WESM_BUCKET = "xyc-wesm-surfaces"
+    WESM_VIEWER_BUCKET = "xyc-wesm-viewer"
 
     for d in [DATA_DIR, COG_DIR, REPRO_DIR]:
         os.makedirs(d, exist_ok=True)
