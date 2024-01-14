@@ -9,7 +9,7 @@ PER=0.8
 CALC=$( echo "$NPROC*$PER" | bc )
 CORES=$(printf '%.0f' $CALC)
 
-git clone https://${TOKEN}@github.com/xycarto/wesm-surfaces.git
+git clone --branch run-full https://${TOKEN}@github.com/xycarto/wesm-surfaces.git
 
 cp -r .creds wesm-surfaces/src/
 
