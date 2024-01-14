@@ -6,7 +6,7 @@ WORKUNIT=$1
 STATE=$2
 CORES=$( nproc )
 
-git clone --branch fix-cog-edge https://${TOKEN}@github.com/xycarto/wesm-surfaces.git
+git clone https://${TOKEN}@github.com/xycarto/wesm-surfaces.git
 
 cp -r .creds wesm-surfaces/src/
 
