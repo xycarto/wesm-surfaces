@@ -18,7 +18,7 @@ def main():
         print(f"Downloading {local_file}")
         if not os.path.exists(local_file):
             s3.download_file(WESM_SURFACE_BUCKET, local_file, local_file, ExtraArgs={'RequestPayer':'requester'})
-        if i >= 1500:
+        if i >= 12:
             exit()
     
 if __name__ == "__main__":
@@ -36,7 +36,7 @@ if __name__ == "__main__":
     INDEX_DIR = f"{DATA_DIR}/index-indv/{STATE}"
     INDEX_FILE = f"{INDEX_DIR}/{WORKUNIT}_index_{CRS}.gpkg"
 
-    for d in [DATA_DIR, BCM_DIR, INDEX_DIR]:
+    for d in [DATA_DIR, BCM_DIR, TIN_DIR, DSM_DIR, INDEX_DIR]:
         os.makedirs(d, exist_ok=True)
     
     main()
