@@ -20,7 +20,6 @@ def main():
         build_vrt(VRT_DIR, vrt)
      
         
-
     print(f"Uploading {vrt}...")
     s3.upload_file(vrt, WESM_SURFACE_BUCKET, vrt)
 
