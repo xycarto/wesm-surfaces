@@ -25,11 +25,11 @@ def main():
 
     tmp_gpkg, out_tif = gdal_clip(BASENAME, IN_FILE, INDEX_FILE, tin_file_tmp, tin_file_clip)
     
+    print(f"Uploading {out_tif}...")
+    s3.upload_file(out_tif, WESM_BUCKET, out_tif)
+
     os.remove(tmp_gpkg)
     os.remove(tin_file_tmp)
-
-    # print(f"Uploading {tin_file}...")
-    # s3.upload_file(tin_file, WESM_BUCKET, tin_file)
     
 def make_tin(pipeline, in_pc, metadata, out_tif):
     sub.call(

@@ -9,7 +9,7 @@ cp -r terraform terraform-surfaces
 
 cd terraform-surfaces
 
-export TF_VAR_instance_type="c5.2xlarge"
+export TF_VAR_instance_type="c6a.8xlarge"
 export TF_VAR_volume_size="100"
 export TF_VAR_process_file="build-surface.sh"
 export TF_VAR_WORKUNIT=$WORKUNIT
