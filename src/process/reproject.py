@@ -15,7 +15,7 @@ def main():
     gdal.Warp(
         repro_file,
         IN_FILE,
-        dstSRS='EPSG:3857'
+        dstSRS='EPSG:3857',
     ) 
     
     # print(f"Uploading {dsm_file}...")

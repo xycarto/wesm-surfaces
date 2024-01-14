@@ -24,7 +24,15 @@ def main():
 
     # Make Python process in future
     sub.call(
-        f"gdal_translate {vrt} {cog_file} -of COG -co TILING_SCHEME=GoogleMapsCompatible -co COMPRESS=LZW -co BIGTIFF=YES -co NUM_THREADS=ALL_CPUS",
+        f"gdal_translate {vrt} {cog_file} \
+            -of COG \
+            -co TILING_SCHEME=GoogleMapsCompatible \
+            -co COMPRESS=DEFLATE \
+            -co BIGTIFF=YES \
+            -co NUM_THREADS=ALL_CPUS \
+            -co OVERVIEW_RESAMPLING=LANCZOS \
+            -co WARP_RESAMPLING=BILINEAR \
+            -co OVERVIEW_COMPRESS=DEFLATE    ",
         shell=True
     )
 
