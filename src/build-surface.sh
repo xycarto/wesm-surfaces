@@ -14,31 +14,34 @@ cd wesm-surfaces/src
 make docker-pull
 make download-bcm workunit=$WORKUNIT state=$STATE
 
-# # ## Make TINS
-# # find data/bcm/${STATE}/${WORKUNIT} -name "*.laz" | \
-# #     xargs -P ${CORES} -t -I % \
-# #     make tin pc=% workunit=$WORKUNIT state=$STATE
+## Make TINS
+find data/bcm/${STATE}/${WORKUNIT} -name "*.laz" | \
+    xargs -P ${CORES} -t -I % \
+    make tin pc=% workunit=$WORKUNIT state=$STATE
 
-# # find data/tin/${STATE}/${WORKUNIT} -maxdepth 1 -name "*.tif" | \
-# #     xargs -P ${CORES} -t -I % \
-# #     make hillshade tif=% in_dir=tin workunit=$WORKUNIT state=$STATE
+find data/tin/${STATE}/${WORKUNIT} -maxdepth 1 -name "*.tif" | \
+    xargs -P ${CORES} -t -I % \
+    make hillshade tif=% in_dir=tin workunit=$WORKUNIT state=$STATE
 
-# # make vrt in_dir=tin workunit=$WORKUNIT state=$STATE
+make vrt in_dir=tin workunit=$WORKUNIT state=$STATE
 
-# # make vrt in_dir=tin/hillshade workunit=$WORKUNIT state=$STATE
+make vrt in_dir=tin/hillshade workunit=$WORKUNIT state=$STATE
 
-# # ### Make TIN COGS
-# # find data/tin/${STATE}/${WORKUNIT} -maxdepth 1 -name "*.tif" | \
-# #     xargs -P ${CORES} -t -I % \
-# #     make reproject tif=% in_dir=tin workunit=$WORKUNIT state=$STATE
+### Make TIN COGS
+find data/tin/${STATE}/${WORKUNIT} -maxdepth 1 -name "*.tif" | \
+    xargs -P ${CORES} -t -I % \
+    make reproject tif=% in_dir=tin workunit=$WORKUNIT state=$STATE
 
-# # find data/tin/${STATE}/${WORKUNIT}/hillshade -maxdepth 1 -name "*.tif" | \
-# #     xargs -P ${CORES} -t -I % \
-# #     make reproject tif=% in_dir=tin/hillshade workunit=$WORKUNIT state=$STATE
+find data/tin/${STATE}/${WORKUNIT}/hillshade -maxdepth 1 -name "*.tif" | \
+    xargs -P ${CORES} -t -I % \
+    make reproject tif=% in_dir=tin/hillshade workunit=$WORKUNIT state=$STATE
 
-# # make cog in_dir=tin workunit=$WORKUNIT state=$STATE
+make cog in_dir=tin workunit=$WORKUNIT state=$STATE
 
-# # make cog in_dir=tin/hillshade workunit=$WORKUNIT state=$STATE
+make cog in_dir=tin/hillshade workunit=$WORKUNIT state=$STATE
+
+rm -rf data/tin
+rm -rf data/cog
 
 
 ## Make DSM
@@ -62,5 +65,8 @@ find data/dsm/${STATE}/${WORKUNIT}/hillshade -maxdepth 1 -name "*.tif" | \
 make cog in_dir=dsm workunit=$WORKUNIT state=$STATE
 
 make cog in_dir=dsm/hillshade workunit=$WORKUNIT state=$STATE
+
+rm -rf data/dsm
+rm -rf data/cog
 
 exit
