@@ -5,6 +5,10 @@
         },
         {
             "type": "filters.hexbin"
+        },
+        {
+            "type":"writers.ogr",
+            "ogrdriver": "GPKG"
         }
     ]
 }

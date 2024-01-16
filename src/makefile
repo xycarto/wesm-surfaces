@@ -61,6 +61,14 @@ tin:
 hexbin:
 	$(RUN) python3 process/hexbin.py $(pc) $(workunit) $(state)
 
+# time make hexbin-merge workunit=CA_NoCAL_Wildfires_B1_2018 state=California
+hexbin-merge:
+	$(RUN) bash process/merge-hexbin.sh $(workunit) $(state)
+
+# time make hexbin-vt workunit=CA_NoCAL_Wildfires_B1_2018 state=California
+hexbin-vt:
+	$(RUN) python3 process/make-vector-tiles-hexbin.py $(workunit) $(state)
+
 # make vrt in_dir=dsm workunit=CA_NoCAL_Wildfires_B1_2018 state=California
 vrt:
 	$(RUN) python3 process/vrt.py $(in_dir) $(workunit) $(state)

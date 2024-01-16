@@ -8,6 +8,11 @@ DATATYPE="tin"
 
 find data/point-clouds/${STATE}/${WORKUNIT} -name "*.laz" | xargs -P 6 -t -I % make bcm pc=% workunit=$WORKUNIT state=$STATE
 
+## Make Hexbin
+find data/bcm/California/CA_NoCAL_Wildfires_B1_2018 -name "*.laz" | xargs -P 12 -t -I % make hexbin pc=% workunit=CA_NoCAL_Wildfires_B1_2018 state=California
+
+ogrmerge.py -single -overwrite_ds -f GPKG -o data/hexbin/California/CA_NoCAL_Wildfires_B1_2018/hexbin-merged.gpkg data/hexbin/California/CA_NoCAL_Wildfires_B1_2018/*.gpkg
+
 ## Make TIN
 # find data/bcm/${STATE}/${WORKUNIT} -name "*.laz" | xargs -P 12 -t -I % make tin pc=% workunit=$WORKUNIT state=$STATE
 
