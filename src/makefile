@@ -85,6 +85,7 @@ hillshade:
 	$(RUN) python3 process/hillshade.py $(tif) $(in_dir) $(workunit) $(state)
 
 # make reproject tif=data/dsm/California/CA_NoCAL_Wildfires_B1_2018/USGS_LPC_CA_NoCAL_3DEP_Supp_Funding_2018_D18_w2023n2051.tif in_dir=dsm workunit=CA_NoCAL_Wildfires_B1_2018 state=California
+# make reproject tif=data/dsm/California/CA_NoCAL_Wildfires_B1_2018/USGS_LPC_CA_NoCAL_3DEP_Supp_Funding_2018_D18_w2023n2051.tif in_dir=solar workunit=CA_NoCAL_Wildfires_B1_2018 state=California
 reproject:
 	$(RUN) python3 process/reproject.py $(tif) $(in_dir) $(workunit) $(state)
 

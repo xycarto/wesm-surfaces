@@ -17,7 +17,6 @@ def main():
     gdal.BuildVRT(
         vrt,
         tifs,
-        resolution='average'
     ) 
 
     cog_file = f"{COG_DIR}/{'-'.join(IN_DIR.split('/'))}-cog.tif"
@@ -32,12 +31,12 @@ def main():
             -co NUM_THREADS=ALL_CPUS \
             -co OVERVIEW_RESAMPLING=LANCZOS \
             -co WARP_RESAMPLING=BILINEAR \
-            -co OVERVIEW_COMPRESS=DEFLATE    ",
+            -co OVERVIEW_COMPRESS=DEFLATE",
         shell=True
     )
 
-    print(f"Uploading {cog_file}...")
-    s3.upload_file(cog_file, WESM_VIEWER_BUCKET, cog_file, ExtraArgs={'ACL': 'public-read'})
+    # print(f"Uploading {cog_file}...")
+    # s3.upload_file(cog_file, WESM_VIEWER_BUCKET, cog_file, ExtraArgs={'ACL': 'public-read'})
 
 
 if __name__ == "__main__":
