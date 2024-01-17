@@ -17,7 +17,6 @@ def main():
     gdal.BuildVRT(
         vrt,
         tifs,
-        resolution='average'
     ) 
 
     cog_file = f"{COG_DIR}/{'-'.join(IN_DIR.split('/'))}-cog.tif"
@@ -32,7 +31,7 @@ def main():
             -co NUM_THREADS=ALL_CPUS \
             -co OVERVIEW_RESAMPLING=LANCZOS \
             -co WARP_RESAMPLING=BILINEAR \
-            -co OVERVIEW_COMPRESS=DEFLATE    ",
+            -co OVERVIEW_COMPRESS=DEFLATE",
         shell=True
     )
 

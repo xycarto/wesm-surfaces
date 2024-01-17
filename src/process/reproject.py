@@ -12,11 +12,20 @@ def main():
     s3 = get_creds()   
 
     repro_file = os.path.join(REPRO_DIR, os.path.basename(IN_FILE))
-    gdal.Warp(
-        repro_file,
-        IN_FILE,
-        dstSRS='EPSG:3857',
-    ) 
+    if IN_DIR == 'solar':
+        print("Making Solar COG...")
+        gdal.Warp(
+            repro_file,
+            IN_FILE,
+            outputType=gdal.GDT_UInt16,
+            dstSRS='EPSG:3857',
+        ) 
+    else:
+        gdal.Warp(
+            repro_file,
+            IN_FILE,
+            dstSRS='EPSG:3857',
+        ) 
     
     # print(f"Uploading {dsm_file}...")
     # s3.upload_file(dsm_file, BUCKET, dsm_file)
