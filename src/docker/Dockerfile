@@ -39,14 +39,10 @@ RUN cd /pdal && mkdir build && cd build && cmake -G Ninja .. && sed -i 's/CMAKE_
 RUN apt-get update && apt-get -y install python3-pip
 RUN pip3 install boto3 geopandas rasterio pyproj
 RUN pip3 install awscli
-
-# Install TMUX
-RUN apt-get update && apt-get install -y tmux && \
-    apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
-
 RUN pip3 install laspy
 
-
+# Install GRASS
+RUN apt-get update && apt-get -y install grass-core grass-dev
 
 
 

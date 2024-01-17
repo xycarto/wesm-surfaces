@@ -8,11 +8,14 @@ IMAGE := $(BASEIMAGE):2024-01-12
 TFBASEIMAGE := xycarto/xycarto-terraform
 TFIMAGE := $(TFBASEIMAGE):2024-01-12
 
+.PHONY:
+
 RUN ?= docker run -i --rm --net=host \
 	--user=$$(id -u):$$(id -g) \
 	-e DISPLAY=$$DISPLAY \
 	--env-file .creds \
 	-e RUN= \
+	-e HOME=/work \
 	-v$$(pwd):/work \
 	-w /work $(IMAGE)
 
@@ -85,10 +88,17 @@ reproject:
 cog:
 	$(RUN) python3 process/cog.py $(in_dir) $(workunit) $(state)
 
+
+## DERIVED PRODUCTS
+# make solar-average tif=data/dsm/California/CA_NoCAL_Wildfires_B1_2018/USGS_LPC_CA_NoCAL_3DEP_Supp_Funding_2018_D18_w2023n2051.tif workunit=CA_NoCAL_Wildfires_B1_2018 state=California
+solar-average:
+	$(RUN) python3 process/solar/solar-calc.py $(tif) $(workunit) $(state)
+
 # make chm laz=path/to/input.laz
 chm:
 	$(RUN) python3 chm.py $(laz)
 
+## Docker Stuff
 local-test: docker/Dockerfile
 	docker run -it --rm --net=host --user=$$(id -u):$$(id -g) \
 	-e DISPLAY=$$DISPLAY \
