@@ -17,7 +17,7 @@ make download-dsm workunit=$WORKUNIT state=$STATE
 ## Make SOLAR
 find data/dsm/${STATE}/${WORKUNIT} -name "*.tif" | \
     xargs -P ${CORES} -t -I % \
-    make solar-average pc=% workunit=$WORKUNIT state=$STATE
+    make solar-average tif=% workunit=$WORKUNIT state=$STATE
 
 make vrt in_dir=solar workunit=$WORKUNIT state=$STATE
 
