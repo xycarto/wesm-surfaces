@@ -4,25 +4,34 @@ source .creds
 
 WORKUNIT=$1
 STATE=$2
+TYPE=$3
+EC2=$4
+VOLUME_SIZE=$5
 
-cp -r terraform terraform-${WORKUNIT}
+cp -r terraform terraform-${WORKUNIT}-${TYPE}
 
-cd terraform-${WORKUNIT}
+cd terraform-${WORKUNIT}-${TYPE}
 
-export TF_VAR_instance_type="c5.2xlarge"
-export TF_VAR_volume_size="20"
-export TF_VAR_process_file="build-surface.sh"
+export TF_VAR_instance_type="${EC2}"
+export TF_VAR_volume_size="${VOLUME_SIZE}"
+export TF_VAR_process_file="build-${TYPE}.sh"
 export TF_VAR_WORKUNIT=$WORKUNIT
 export TF_VAR_STATE=$STATE
 
-terraform init 
+echo ${TF_VAR_instance_type}
+echo ${TF_VAR_volume_size}
+echo ${TF_VAR_process_file}
+echo ${TF_VAR_WORKUNIT}
+echo ${TF_VAR_STATE}
 
-terraform apply -auto-approve
+# terraform init 
 
-terraform validate
+# terraform apply -auto-approve
 
-terraform destroy -auto-approve
+# terraform validate
 
-cd ../
+# terraform destroy -auto-approve
 
-rm -rf terraform-${WORKUNIT}
+# cd ../
+
+rm -rf terraform-${WORKUNIT}-${TYPE}

@@ -156,3 +156,7 @@ tf-build-surface:
 # time make tf-build-solar workunit=CA_NoCAL_Wildfires_B1_2018 state=California
 tf-build-solar:
 	$(TFRUN) bash build-infra-solar.sh $(workunit) $(state)
+
+# time make tf-build workunit=CA_NoCAL_Wildfires_B1_2018 state=California type=surfaces ec2=t2.large volume_size=20
+tf-build:
+	$(TFRUN) bash build-infra.sh $(workunit) $(state) $(type) $(ec2) $(volume_size)
