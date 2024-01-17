@@ -10,7 +10,7 @@ cp -r terraform terraform-solar
 cd terraform-solar
 
 export TF_VAR_instance_type="c5.18xlarge"
-export TF_VAR_volume_size="300"
+export TF_VAR_volume_size="700"
 export TF_VAR_process_file="build-solar.sh"
 export TF_VAR_WORKUNIT=$WORKUNIT
 export TF_VAR_STATE=$STATE
