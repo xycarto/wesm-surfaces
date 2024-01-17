@@ -46,7 +46,7 @@ def main():
     
     shutil.rmtree(SOLAR_DIR_TMP)
         
-    # s3.upload_file(tif_avg, WESM_BUCKET, tif_avg)
+    s3.upload_file(tif_avg, WESM_BUCKET, tif_avg)
         
 if __name__ == "__main__":
     IN_FILE = sys.argv[1]

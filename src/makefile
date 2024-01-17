@@ -39,6 +39,10 @@ download-pc:
 download-bcm:
 	$(RUN) python3 download/download-bcm.py $(workunit) $(state)
 
+# make download-dsm workunit=CA_NoCAL_Wildfires_B1_2018 state=California
+download-dsm:
+	$(RUN) python3 download/download-dsm.py $(workunit) $(state)
+
 # make bcm pc=Projects/CA_NoCAL_3DEP_Supp_Funding_2018_D18/CA_NoCAL_Wildfires_B1_2018/LAZ/USGS_LPC_CA_NoCAL_3DEP_Supp_Funding_2018_D18_w2021n2061.laz workunit=CA_NoCAL_Wildfires_B1_2018 state=California
 bcm: 
 	$(RUN) python3  process/bcm-combined.py $(pc) $(workunit) $(state)
@@ -147,3 +151,7 @@ tf-build-bcm:
 # time make tf-build-surface workunit=CA_NoCAL_Wildfires_B1_2018 state=California
 tf-build-surface:
 	$(TFRUN) bash build-infra-surfaces.sh $(workunit) $(state)
+
+# time make tf-build-solar workunit=CA_NoCAL_Wildfires_B1_2018 state=California
+tf-build-solar:
+	$(TFRUN) bash build-infra-solar.sh $(workunit) $(state)
