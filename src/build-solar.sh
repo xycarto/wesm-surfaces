@@ -25,7 +25,7 @@ make vrt in_dir=solar workunit=$WORKUNIT state=$STATE
 ### Make SOALR COGS
 find data/solar/${STATE}/${WORKUNIT} -maxdepth 1 -name "*.tif" | \
     xargs -P ${CORES} -t -I % \
-    make reproject tif=% in_dir=dsm workunit=$WORKUNIT state=$STATE
+    make reproject tif=% in_dir=solar workunit=$WORKUNIT state=$STATE
 
 make cog in_dir=solar workunit=$WORKUNIT state=$STATE
 
