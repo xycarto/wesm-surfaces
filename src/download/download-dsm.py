@@ -21,8 +21,8 @@ def main():
                 s3.download_file(WESM_SURFACE_BUCKET, local_file, local_file, ExtraArgs={'RequestPayer':'requester'})
         except:
             print("File Not Found")
-        if i >= 100:
-            exit()
+        # if i >= 100:
+        #     exit()
     
 if __name__ == "__main__":
 
