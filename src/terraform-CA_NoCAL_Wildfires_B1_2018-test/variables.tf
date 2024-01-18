@@ -47,5 +47,10 @@ variable "process" {
 
 variable "test_type" {
   type = string
-  default = "test"
+  default = ""
+}
+
+variable "test" {
+  type = string
+  default = ""
 }
