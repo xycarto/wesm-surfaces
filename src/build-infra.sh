@@ -47,6 +47,7 @@ export TF_VAR_volume_size="${VOLUME_SIZE}"
 export TF_VAR_process_file="build-${PROCESS}.sh"
 export TF_VAR_workunit=$WORKUNIT
 export TF_VAR_state=$STATE
+export TF_VAR_test_type=$TYPE
 
 ## Process Location: Local or Remote
 if [[ $LOCATION == "local" ]]; then
