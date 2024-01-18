@@ -41,38 +41,33 @@ do
     esac
 done
 
-cp -r terraform terraform-${WORKUNIT}-${TYPE}
-
-cd terraform-${WORKUNIT}-${TYPE}
-
 ## Set TF VARS
 export TF_VAR_instance_type="${EC2}"
 export TF_VAR_volume_size="${VOLUME_SIZE}"
-if [[ $TYPE == "test" ]]; then
-        export TF_VAR_test="${TYPE}/"
-        export TF_VAR_process_file="build-${PROCESS}-${TYPE}.sh"
-    else
-    export TF_VAR_process_file="build-${PROCESS}.sh"
-fi
+export TF_VAR_process_file="build-${PROCESS}.sh"
 export TF_VAR_workunit=$WORKUNIT
 export TF_VAR_state=$STATE
 
-## Process Location
+## Process Location: Local or Remote
 if [[ $LOCATION == "local" ]]; then
     echo "Testing Locally..."
-    bash ../${TYPE}/builds/${TF_VAR_process_file} ${WORKUNIT} ${STATE} ${PROCESS} ${EC2} ${VOLUME_SIZE} ${TYPE}
+    cp builds/${TF_VAR_process_file} ${TF_VAR_process_file}
+    bash ${TF_VAR_process_file} ${WORKUNIT} ${STATE} ${PROCESS} ${EC2} ${VOLUME_SIZE} ${TYPE}
+    # rm ${TF_VAR_process_file}
 elif [[ $LOCATION == "remote" ]]; then
+    cp -r terraform terraform-${WORKUNIT}-${TYPE}
+    cd terraform-${WORKUNIT}-${TYPE}
     terraform init 
     terraform apply -auto-approve
     terraform validate
     terraform destroy -auto-approve
+    cd ../
+    rm -rf terraform-${WORKUNIT}-${TYPE}
 else
     echo "A location where to process, 'local' or 'remote', must be set"
 fi
 
-cd ../
 
-rm -rf terraform-${WORKUNIT}-${TYPE}
 
 echo "DONE!"
 

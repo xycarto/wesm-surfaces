@@ -61,7 +61,7 @@ resource "null_resource" "run_surface" {
     }
 
     provisioner "file" {
-    source      = "../${var.test}builds/${var.process_file}"
+    source      = "../builds/${var.process_file}"
     destination = "/home/ubuntu/${var.process_file}"
     }    
 
