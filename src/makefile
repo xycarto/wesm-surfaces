@@ -157,6 +157,13 @@ tf-build-surface:
 tf-build-solar:
 	$(TFRUN) bash build-infra-solar.sh $(workunit) $(state)
 
-# time make tf-build workunit=CA_NoCAL_Wildfires_B1_2018 state=California type=surfaces ec2=t2.large volume_size=20
+# time make tf-build workunit=CA_NoCAL_Wildfires_B1_2018 state=California process=surfaces ec2=t2.large volume_size=20 type=test
 tf-build:
-	$(TFRUN) bash build-infra.sh $(workunit) $(state) $(type) $(ec2) $(volume_size)
+	$(TFRUN) bash build-infra.sh -w $(workunit) -s $(state) -p $(process) -e $(ec2) -v $(volume_size) -t $(type)
+
+tf-build-help:
+	$(TFRUN) bash build-infra.sh -h
+
+# time make tf-build-test workunit=CA_NoCAL_Wildfires_B1_2018 state=California process=infra ec2=t2.micro volume_size=20 type=test
+tf-build-test:
+	$(TFRUN) bash build-infra.sh -w $(workunit) -s $(state) -p $(process) -e $(ec2) -v $(volume_size) -t $(type)

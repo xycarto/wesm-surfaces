@@ -25,12 +25,12 @@ variable "volume_size" {
     default = "10"
 }
 
-variable "WORKUNIT" {
+variable "workunit" {
   type = string
   default = "empty"
 }
 
-variable "STATE" {
+variable "state" {
   type = string
   default = "empty"
 }
@@ -38,4 +38,19 @@ variable "STATE" {
 variable "process_file" {
   type = string
   default = "empty"
+}
+
+variable "process" {
+  type = string
+  default = "empty"
+}
+
+variable "test_type" {
+  type = string
+  default = ""
+}
+
+variable "test" {
+  type = string
+  default = ""
 }
