@@ -2,8 +2,6 @@
 
 #!/bin/bash
 
-source .creds
-
 WORKUNIT=$1
 STATE=$2
 NPROC=$( nproc )

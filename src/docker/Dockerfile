@@ -44,5 +44,5 @@ RUN pip3 install laspy
 # Install GRASS
 RUN apt-get update && apt-get -y install grass-core grass-dev
 
-
+RUN apt-get update && apt-get -y install bc
 
