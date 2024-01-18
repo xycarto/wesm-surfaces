@@ -21,6 +21,8 @@ RUN pip3 install awscli
 
 RUN apt-get update && apt-get --no-install-recommends -y install openssh-server
 
+RUN apt-get install bc
+
 RUN useradd -rm -d /home/ubuntu -s /bin/bash -g root -G sudo -u 1000 test 
 
 RUN  echo 'test:test' | chpasswd

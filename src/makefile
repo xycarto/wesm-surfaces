@@ -35,9 +35,9 @@ list-index:
 download-pc:
 	$(RUN) python3 download/download-pc.py $(workunit) $(state)
 
-# make download-bcm workunit=CA_NoCAL_Wildfires_B1_2018 state=California
+# make download-bcm workunit=CA_NoCAL_Wildfires_B1_2018 state=California type=test
 download-bcm:
-	$(RUN) python3 download/download-bcm.py $(workunit) $(state)
+	$(RUN) python3 download/download-bcm.py $(workunit) $(state) $(type)
 
 # make download-dsm workunit=CA_NoCAL_Wildfires_B1_2018 state=California
 download-dsm:
@@ -157,6 +157,9 @@ tf-build-surface:
 tf-build-solar:
 	$(TFRUN) bash build-infra-solar.sh $(workunit) $(state)
 
+
+## REFACTOR TESTING
+
 # time make tf-build workunit=CA_NoCAL_Wildfires_B1_2018 state=California process=surfaces ec2=t2.large volume_size=20 type=test
 tf-build:
 	$(TFRUN) bash build-infra.sh -w $(workunit) -s $(state) -p $(process) -e $(ec2) -v $(volume_size) -t $(type)
@@ -164,6 +167,6 @@ tf-build:
 tf-build-help:
 	$(TFRUN) bash build-infra.sh -h
 
-# time make tf-build-test workunit=CA_NoCAL_Wildfires_B1_2018 state=California process=infra ec2=t2.micro volume_size=20 type=test
+# time make tf-build-test workunit=CA_NoCAL_Wildfires_B1_2018 state=California process=infra ec2=t2.micro volume_size=20 location=local
 tf-build-test:
-	$(TFRUN) bash build-infra.sh -w $(workunit) -s $(state) -p $(process) -e $(ec2) -v $(volume_size) -t $(type)
+	$(TFRUN) bash build-infra.sh -w $(workunit) -s $(state) -p $(process) -e $(ec2) -v $(volume_size) -t test -l $(location)
