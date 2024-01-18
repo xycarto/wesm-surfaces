@@ -2,6 +2,8 @@
 
 source ../.creds
 
+WORKUNIT=$1
+STATE=$2
 PROCESS=$3  
 TYPE=$6
 CORES=$( nproc )
