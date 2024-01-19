@@ -14,11 +14,11 @@ def main():
     # list available rows
     index_file = gp.read_file(INDEX_FILE)
     for i, row in index_file.iterrows():
-        bucket, local_file = set_paths(row)
+        bucket, in_file, local_file = set_paths(row)
         print(f"Downloading {local_file}")
         try: 
             if not os.path.exists(local_file):
-                s3.download_file(bucket, local_file, local_file, ExtraArgs={'RequestPayer':'requester'})
+                s3.download_file(bucket, in_file, local_file, ExtraArgs={'RequestPayer':'requester'})
         except:
             print("File Not Found")
         if TYPE == "test":
@@ -28,17 +28,20 @@ def main():
 def set_paths(row):
     if PROCESS == "bcm":
         bucket = USGS_BUCKET
-        local_file = os.path.join(PC_DIR, row.file_name)
+        in_file = row.usgs_loc
+        local_file= os.path.join(PC_DIR, row.file_name)
     elif PROCESS == "surfaces":
         bucket = WESM_SURFACE_BUCKET
-        local_file = f"{BCM_DIR}/{row.file_name}"
+        in_file = f"{BCM_DIR}/{row.file_name}"
+        local_file = in_file
     elif PROCESS == "solar":
         bucket = WESM_SURFACE_BUCKET
-        local_file = f"{DSM_DIR}/{os.path.basename(row.file_name).split('.')[0]}.tif"
+        in_file = f"{DSM_DIR}/{os.path.basename(row.file_name).split('.')[0]}.tif"
+        local_file = in_file
     else:
         print("Unknown input...")
     
-    return bucket, local_file
+    return bucket, in_file, local_file
 
 if __name__ == "__main__":
 

@@ -30,7 +30,7 @@ def main():
     merged_pc = merge_pc(clipped_array)
 
     print(f"Uploading... {merged_pc}")   
-    s3.upload_file(merged_pc, WESM_BUCKET, merged_pc)
+    #s3.upload_file(merged_pc, WESM_BUCKET, merged_pc)
 
     shutil.rmtree(CLIP_DIR)
 
@@ -68,6 +68,11 @@ if __name__ == "__main__":
     IN_FILE = sys.argv[1]
     WORKUNIT = sys.argv[2]
     STATE = sys.argv[3]
+    TYPE = sys.argv[4]
+    if TYPE == "test":
+        DATA_DIR = "test-data"    
+    else:
+        DATA_DIR = "data"
     WESM_BUCKET = "xyc-wesm-surfaces"
     DATA_DIR = "data"
     PC_DIR = f"{DATA_DIR}/point-clouds/{STATE}/{WORKUNIT}"

@@ -10,7 +10,7 @@ LOCATION=$7
 CORES=$( nproc )
 PER=0.8
 CALC=$( echo "$NPROC*$PER" | bc )
-CORES=$(printf '%.0f' $CALC)
+cores=$(printf '%.0f' $CALC)
 
 
 if [[ $LOCATION = "remote" ]]; then
@@ -24,7 +24,7 @@ elif [[ $LOCATION = "local" ]]; then
     make download-files workunit=$WORKUNIT state=$STATE process=$PROCESS type=$TYPE location=$LOCATION
 fi
 
-# find data/point-clouds/${STATE}/${WORKUNIT} -name "*.laz" | xargs -P $CORES -t -I % make bcm pc=% workunit=$WORKUNIT state=$STATE
+# find data/point-clouds/${STATE}/${WORKUNIT} -name "*.laz" | xargs -P $cores -t -I % make bcm pc=% workunit=$WORKUNIT state=$STATE
 
 exit
 

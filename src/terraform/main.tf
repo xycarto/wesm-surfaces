@@ -61,13 +61,13 @@ resource "null_resource" "run_surface" {
     }
 
     provisioner "file" {
-    source      = "../builds/${var.process_file}"
-    destination = "/home/ubuntu/${var.process_file}"
+    source      = "../builds/build.sh"
+    destination = "/home/ubuntu/build.sh}"
     }    
 
     provisioner "remote-exec" {
     inline = [
-      "bash ${var.process_file} ${var.workunit} ${var.state} ${var.process} ${var.instance_type} ${var.volume_size} ${var.test_type} ${var.location}",
+      "bash build.sh ${var.workunit} ${var.state} ${var.process} ${var.instance_type} ${var.volume_size} ${var.test_type} ${var.location}",
     ]
     }
 }

@@ -49,7 +49,7 @@ download-dsm:
 
 # make bcm pc=Projects/CA_NoCAL_3DEP_Supp_Funding_2018_D18/CA_NoCAL_Wildfires_B1_2018/LAZ/USGS_LPC_CA_NoCAL_3DEP_Supp_Funding_2018_D18_w2021n2061.laz workunit=CA_NoCAL_Wildfires_B1_2018 state=California
 bcm: 
-	$(RUN) python3  process/bcm-combined.py $(pc) $(workunit) $(state)
+	$(RUN) python3  process/bcm-combined.py $(pc) $(workunit) $(state) $(type)
 
 # make dsm pc=data/bcm/California/CA_NoCAL_Wildfires_B1_2018/USGS_LPC_CA_NoCAL_3DEP_Supp_Funding_2018_D18_w2021n2057.laz workunit=CA_NoCAL_Wildfires_B1_2018 state=California
 dsm:
