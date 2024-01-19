@@ -4,18 +4,19 @@ WORKUNIT=$1
 STATE=$2
 PROCESS=$3  
 TYPE=$6
+LOCATION=$7
 CORES=$( nproc )
 
 
-if [[ $TYPE = "remote" ]]; then
+if [[ $LOCATION = "remote" ]]; then
     source .creds
     git clone --branch refactor https://${TOKEN}@github.com/xycarto/wesm-surfaces.git
     cp -r .creds wesm-surfaces/src/
     cd wesm-surfaces/src
     make docker-pull
-elif [[ $TYPE = "test" ]]; then
+elif [[ $LOCATION = "local" ]]; then
     source ../.creds
-    make download-files workunit=$WORKUNIT state=$STATE process=$PROCESS type=$TYPE
+    make download-files workunit=$WORKUNIT state=$STATE process=$PROCESS type=$TYPE location=$LOCATION
 fi
 
 

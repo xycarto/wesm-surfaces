@@ -67,7 +67,7 @@ resource "null_resource" "run_surface" {
 
     provisioner "remote-exec" {
     inline = [
-      "bash ${var.process_file} ${var.workunit} ${var.state} ${var.process} ${var.instance_type} ${var.volume_size} ${var.test_type}",
+      "bash ${var.process_file} ${var.workunit} ${var.state} ${var.process} ${var.instance_type} ${var.volume_size} ${var.test_type} ${var.location}",
     ]
     }
 }

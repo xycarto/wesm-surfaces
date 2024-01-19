@@ -49,3 +49,8 @@ variable "test_type" {
   type = string
   default = "test"
 }
+
+variable "location" {
+  type = string
+  default = "local"
+}

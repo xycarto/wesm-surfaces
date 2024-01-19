@@ -6,6 +6,7 @@ WORKUNIT=$1
 STATE=$2
 PROCESS=$3  
 TYPE=$6
+LOCATION=$7
 CORES=$( nproc )
 
 if [[ $TYPE != "test" ]]; then
@@ -16,7 +17,7 @@ if [[ $TYPE != "test" ]]; then
     make docker-pull
 fi
 
-make download-files workunit=$WORKUNIT state=$STATE process=$PROCESS type=$TYPE
+make download-files workunit=$WORKUNIT state=$STATE process=$PROCESS type=$TYPE location=$LOCATION
 
 # ## Make TINS
 # find data/bcm/${STATE}/${WORKUNIT} -name "*.laz" | \

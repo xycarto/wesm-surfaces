@@ -48,12 +48,12 @@ export TF_VAR_process_file="build-${PROCESS}.sh"
 export TF_VAR_workunit=$WORKUNIT
 export TF_VAR_state=$STATE
 export TF_VAR_test_type=$TYPE
+export TF_VAR_location=$LOCATION
 
 ## Process Location: Local or Remote
 if [[ $LOCATION == "local" ]]; then
     echo "Testing Locally..."
-    cp builds/${TF_VAR_process_file} ${TF_VAR_process_file}
-    bash ${TF_VAR_process_file} ${WORKUNIT} ${STATE} ${PROCESS} ${EC2} ${VOLUME_SIZE} ${TYPE}
+    bash builds/${TF_VAR_process_file} ${WORKUNIT} ${STATE} ${PROCESS} ${EC2} ${VOLUME_SIZE} ${TYPE} ${LOCATION}
     # rm ${TF_VAR_process_file}
 elif [[ $LOCATION == "remote" ]]; then
     cp -r terraform terraform-${WORKUNIT}-${TYPE}
