@@ -46,15 +46,19 @@ def main():
     
     shutil.rmtree(SOLAR_DIR_TMP)
         
-    s3.upload_file(tif_avg, WESM_BUCKET, tif_avg)
+    # s3.upload_file(tif_avg, WESM_BUCKET, tif_avg)
         
 if __name__ == "__main__":
     IN_FILE = sys.argv[1]
     WORKUNIT = sys.argv[2]
     STATE = sys.argv[3]
+    TYPE = sys.argv[4]
+    if TYPE == "test":
+        DATA_DIR = "test-data"    
+    else:
+        DATA_DIR = "data"
     BASENAME = os.path.basename(IN_FILE).split('.')[0]
-    WESM_BUCKET = "xyc-wesm-surfaces"
-    DATA_DIR = "data"
+    WESM_BUCKET = "xyc-wesm-surfaces"    
     DSM_DIR = f"{DATA_DIR}/dsm/{STATE}/{WORKUNIT}"
     SOLAR_DIR = f"{DATA_DIR}/solar/{STATE}/{WORKUNIT}"
     SOLAR_DIR_TMP = f"{DATA_DIR}/solar/{STATE}/{WORKUNIT}/{os.path.basename(IN_FILE).split('.')[0]}"

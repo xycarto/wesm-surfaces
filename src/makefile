@@ -82,7 +82,7 @@ hexbin-vt:
 
 # make vrt in_dir=dsm workunit=CA_NoCAL_Wildfires_B1_2018 state=California
 vrt:
-	$(RUN) python3 process/vrt.py $(in_dir) $(workunit) $(state)
+	$(RUN) python3 process/vrt.py $(in_dir) $(workunit) $(state) $(type)
 
 # make hillshade tif=data/dsm/California/CA_NoCAL_Wildfires_B1_2018/USGS_LPC_CA_NoCAL_3DEP_Supp_Funding_2018_D18_w2023n2051.tif in_dir=dsm workunit=CA_NoCAL_Wildfires_B1_2018 state=California
 hillshade:
@@ -99,9 +99,9 @@ cog:
 
 
 ## DERIVED PRODUCTS
-# make solar-average tif=data/dsm/California/CA_NoCAL_Wildfires_B1_2018/USGS_LPC_CA_NoCAL_3DEP_Supp_Funding_2018_D18_w2023n2051.tif workunit=CA_NoCAL_Wildfires_B1_2018 state=California
+# make solar-average tif=data/dsm/California/CA_NoCAL_Wildfires_B1_2018/USGS_LPC_CA_NoCAL_3DEP_Supp_Funding_2018_D18_w2023n2051.tif workunit=CA_NoCAL_Wildfires_B1_2018 state=California type=test
 solar-average:
-	$(RUN) python3 process/solar/solar-calc.py $(tif) $(workunit) $(state)
+	$(RUN) python3 process/solar/solar-calc.py $(tif) $(workunit) $(state) $(type)
 
 # make chm laz=path/to/input.laz
 chm:
@@ -164,14 +164,14 @@ tf-build-solar:
 
 ## REFACTOR TESTING
 
-# time make tf-build workunit=CA_NoCAL_Wildfires_B1_2018 state=California process=surfaces ec2=t2.large volume_size=20 type=test location=local
+# time make tf-build workunit=CA_NoCAL_Wildfires_B1_2018 state=California process=surfaces ec2=t2.large volume_size=20 type=test 
 tf-build:
 	$(TFRUN) bash build-infra.sh -w $(workunit) -s $(state) -p $(process) -e $(ec2) -v $(volume_size) -t $(type) -l remote
 
 tf-build-help:
 	$(TFRUN) bash build-infra.sh -h
 
-# time make test-local workunit=CA_NoCAL_Wildfires_B1_2018 state=California process=solar ec2=t2.large volume_size=20 type=test location=local
+# time make test-local workunit=CA_NoCAL_Wildfires_B1_2018 state=California process=solar ec2=t2.large volume_size=20 type=test 
 test-local:
 	$(RUN) bash build-infra.sh -w $(workunit) -s $(state) -p $(process) -e $(ec2) -v $(volume_size) -t $(type) -l local
 

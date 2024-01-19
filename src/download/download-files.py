@@ -50,7 +50,10 @@ if __name__ == "__main__":
     STATE = sys.argv[2]
     PROCESS = sys.argv[3]
     TYPE = sys.argv[4]
-    DATA_DIR = "data"    
+    if TYPE == "test":
+        DATA_DIR = "test-data"    
+    else:
+        DATA_DIR = "data"
     PC_DIR = f"{DATA_DIR}/point-clouds/{STATE}/{WORKUNIT}"
     BCM_DIR = f"{DATA_DIR}/bcm/{STATE}/{WORKUNIT}"
     TIN_DIR = f"{DATA_DIR}/tin/{STATE}/{WORKUNIT}"

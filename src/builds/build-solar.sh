@@ -7,12 +7,17 @@ TYPE=$6
 LOCATION=$7
 
 makeSolar () {
+    if [[ $TYPE == "test" ]]; then 
+        find_dir=test-data/dsm/${STATE}/${WORKUNIT} 
+    else 
+        find_dir=data/dsm/${STATE}/${WORKUNIT}
+    fi
     CORES=$(nproc)
-    find data/dsm/${STATE}/${WORKUNIT} -name "*.tif" | \
+    find ${find_dir} -name "*.tif" | \
     xargs -P ${CORES} -t -I % \
-    make solar-average tif=% workunit=$WORKUNIT state=$STATE
+    make solar-average tif=% workunit=$WORKUNIT state=$STATE type=$TYPE
 
-    make vrt in_dir=solar workunit=$WORKUNIT state=$STATE
+    make vrt in_dir=solar workunit=$WORKUNIT state=$STATE type=$TYPE
 }
 
 ## Make SOLAR
@@ -24,9 +29,9 @@ if [[ $LOCATION = "remote" ]]; then
     make docker-pull
     make download-files workunit=$WORKUNIT state=$STATE process=$PROCESS type=$TYPE location=$LOCATION
 elif [[ $LOCATION = "local" ]]; then
-    source ../.creds
+    source .creds
     make download-files workunit=$WORKUNIT state=$STATE process=$PROCESS type=$TYPE location=$LOCATION
-    # makeSolar 
+    makeSolar 
 
 fi
 

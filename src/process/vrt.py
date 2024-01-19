@@ -21,14 +21,18 @@ def main():
      
         
     print(f"Uploading {vrt}...")
-    s3.upload_file(vrt, WESM_SURFACE_BUCKET, vrt)
+    # s3.upload_file(vrt, WESM_SURFACE_BUCKET, vrt)
 
 
 if __name__ == "__main__":
     IN_DIR = sys.argv[1]
     WORKUNIT = sys.argv[2]
     STATE = sys.argv[3]
-    DATA_DIR = "data"
+    TYPE = sys.argv[4]
+    if TYPE == "test":
+        DATA_DIR = "test-data"    
+    else:
+        DATA_DIR = "data"
     VRT_DIR = f"{DATA_DIR}/{IN_DIR.split('/')[0]}/{STATE}/{WORKUNIT}"
     WESM_SURFACE_BUCKET = "xyc-wesm-surfaces"
 
