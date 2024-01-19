@@ -14,6 +14,7 @@ if [[ $LOCATION = "remote" ]]; then
     cp -r .creds wesm-surfaces/src/
     cd wesm-surfaces/src
     make docker-pull
+    make download-files workunit=$WORKUNIT state=$STATE process=$PROCESS type=$TYPE location=$LOCATION
 elif [[ $LOCATION = "local" ]]; then
     source ../.creds
     make download-files workunit=$WORKUNIT state=$STATE process=$PROCESS type=$TYPE location=$LOCATION
