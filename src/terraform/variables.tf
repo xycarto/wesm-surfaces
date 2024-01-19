@@ -52,5 +52,5 @@ variable "test_type" {
 
 variable "location" {
   type = string
-  default = "local"
+  default = "remote"
 }

@@ -31,9 +31,9 @@ TFRUN ?= docker run -it --rm  \
 list-index:
 	$(RUN) python3 src/list-index.py
 
-# make download-files workunit=CA_NoCAL_Wildfires_B1_2018 state=California type=test
+# make download-files workunit=CA_NoCAL_Wildfires_B1_2018 state=California type=test location=local
 download-files:
-	$(RUN) python3 download/download-files.py $(workunit) $(state) $(process) $(type)
+	$(RUN) python3 download/download-files.py $(workunit) $(state) $(process) $(type) $(location)
 
 # make download-pc workunit=CA_NoCAL_Wildfires_B1_2018 state=California
 download-pc:
