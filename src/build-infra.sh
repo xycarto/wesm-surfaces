@@ -45,6 +45,7 @@ done
 export TF_VAR_instance_type="${EC2}"
 export TF_VAR_volume_size="${VOLUME_SIZE}"
 export TF_VAR_process_file="build-${PROCESS}.sh"
+export TF_VAR_process=$PROCESS
 export TF_VAR_workunit=$WORKUNIT
 export TF_VAR_state=$STATE
 export TF_VAR_test_type=$TYPE
