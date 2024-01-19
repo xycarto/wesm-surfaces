@@ -5,9 +5,17 @@ STATE=$2
 PROCESS=$3  
 TYPE=$6
 LOCATION=$7
-CORES=$( nproc )
 
+makeSolar () {
+    CORES=$(nproc)
+    find data/dsm/${STATE}/${WORKUNIT} -name "*.tif" | \
+    xargs -P ${CORES} -t -I % \
+    make solar-average tif=% workunit=$WORKUNIT state=$STATE
 
+    make vrt in_dir=solar workunit=$WORKUNIT state=$STATE
+}
+
+## Make SOLAR
 if [[ $LOCATION = "remote" ]]; then
     source .creds
     git clone --branch refactor https://${TOKEN}@github.com/xycarto/wesm-surfaces.git
@@ -18,6 +26,8 @@ if [[ $LOCATION = "remote" ]]; then
 elif [[ $LOCATION = "local" ]]; then
     source ../.creds
     make download-files workunit=$WORKUNIT state=$STATE process=$PROCESS type=$TYPE location=$LOCATION
+    # makeSolar 
+
 fi
 
 
