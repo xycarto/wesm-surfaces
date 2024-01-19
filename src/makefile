@@ -53,7 +53,7 @@ bcm:
 
 # make dsm pc=data/bcm/California/CA_NoCAL_Wildfires_B1_2018/USGS_LPC_CA_NoCAL_3DEP_Supp_Funding_2018_D18_w2021n2057.laz workunit=CA_NoCAL_Wildfires_B1_2018 state=California
 dsm:
-	$(RUN) python3 process/dsm.py $(pc) $(workunit) $(state)
+	$(RUN) python3 process/dsm.py $(pc) $(workunit) $(state) $(type)
 
 # make dem pc=data/bcm/California/CA_NoCAL_Wildfires_B1_2018/USGS_LPC_CA_NoCAL_3DEP_Supp_Funding_2018_D18_w2023n2051.laz workunit=CA_NoCAL_Wildfires_B1_2018 state=California
 dem:
@@ -65,7 +65,7 @@ dem-gdal:
 
 # make tin pc=data/bcm/California/CA_NoCAL_Wildfires_B1_2018/USGS_LPC_CA_NoCAL_3DEP_Supp_Funding_2018_D18_w2021n2061.laz workunit=CA_NoCAL_Wildfires_B1_2018 state=California
 tin:
-	$(RUN) python3 process/tin.py $(pc) $(workunit) $(state)
+	$(RUN) python3 process/tin.py $(pc) $(workunit) $(state) $(type)
 
 # make hexbin pc=data/bcm/California/CA_NoCAL_Wildfires_B1_2018/USGS_LPC_CA_NoCAL_3DEP_Supp_Funding_2018_D18_w2023n2054.laz workunit=CA_NoCAL_Wildfires_B1_2018 state=California
 

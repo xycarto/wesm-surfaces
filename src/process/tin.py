@@ -17,19 +17,19 @@ def main():
     get_s3_file(s3, INDEX_FILE, WESM_BUCKET)
 
     metadata = get_pc_metadata(IN_FILE)    
-    
+
     print("Creating TIN...")
     tin_file_tmp = f"{TIN_DIR}/{BASENAME}-tmp.tif"
     tin_file_clip = f"{TIN_DIR}/{BASENAME}.tif"
     make_tin(PIPELINE_PATH, IN_FILE, metadata, tin_file_tmp)
 
-    tmp_gpkg, out_tif = gdal_clip(BASENAME, IN_FILE, INDEX_FILE, tin_file_tmp, tin_file_clip)
+    tmp_gpkg, out_tif = gdal_clip(DATA_DIR, BASENAME, IN_FILE, INDEX_FILE, tin_file_tmp, tin_file_clip)
     
-    print(f"Uploading {out_tif}...")
-    s3.upload_file(out_tif, WESM_BUCKET, out_tif)
+    # print(f"Uploading {out_tif}...")
+    # # s3.upload_file(out_tif, WESM_BUCKET, out_tif)
 
-    os.remove(tmp_gpkg)
-    os.remove(tin_file_tmp)
+    # os.remove(tmp_gpkg)
+    # os.remove(tin_file_tmp)
     
 def make_tin(pipeline, in_pc, metadata, out_tif):
     sub.call(
@@ -47,9 +47,13 @@ if __name__ == "__main__":
     IN_FILE = sys.argv[1]
     WORKUNIT = sys.argv[2]
     STATE = sys.argv[3]
+    TYPE = sys.argv[4]
+    if TYPE == "test":
+        DATA_DIR = "test-data"    
+    else:
+        DATA_DIR = "data"
     BASENAME = os.path.basename(IN_FILE).split('.')[0]
     WESM_BUCKET = "xyc-wesm-surfaces"
-    DATA_DIR = "data"
     BCM_DIR = f"{DATA_DIR}/bcm/{STATE}/{WORKUNIT}"  
     TIN_DIR = f"{DATA_DIR}/tin/{STATE}/{WORKUNIT}"
     PIPELINE_PATH = 'process/pipeline-templates/tin_template.json'

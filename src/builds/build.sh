@@ -29,6 +29,20 @@ make-surfaces () {
         find_dir=data/bcm/${STATE}/${WORKUNIT}
     fi
     CORES=$(nproc)
+
+    ## Make TINs
+    find ${find_dir} -name "*.laz" | \
+        xargs -P ${CORES} -t -I % \
+        make tin pc=% workunit=$WORKUNIT state=$STATE type=$TYPE
+
+    make vrt in_dir=tin workunit=$WORKUNIT state=$STATE type=$TYPE
+
+    ## Make DSM
+    find ${find_dir} -name "*.laz" | \
+        xargs -P ${CORES} -t -I % \
+        make dsm pc=% workunit=$WORKUNIT state=$STATE type=$TYPE
+
+    make vrt in_dir=dsm workunit=$WORKUNIT state=$STATE type=$TYPE
 }
 
 make-solar () {
@@ -45,7 +59,8 @@ make-solar () {
     make vrt in_dir=solar workunit=$WORKUNIT state=$STATE type=$TYPE
 }
 
-## Make SOLAR
+## Run Processes
+processName="make-${PROCESS}" 
 if [[ $LOCATION = "remote" ]]; then
     source .creds
     git clone --branch refactor https://${TOKEN}@github.com/xycarto/wesm-surfaces.git
@@ -56,7 +71,6 @@ if [[ $LOCATION = "remote" ]]; then
 elif [[ $LOCATION = "local" ]]; then
     source .creds
     make download-files workunit=$WORKUNIT state=$STATE process=$PROCESS type=$TYPE location=$LOCATION
-    processName="make-${PROCESS}" 
     $processName
 
 fi
