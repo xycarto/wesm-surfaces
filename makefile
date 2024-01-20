@@ -1,4 +1,5 @@
 -include .creds
+-include configs/process-config.env
 
 DOCKER_PW := ${DOCKER_PW}
 
@@ -14,6 +15,7 @@ RUN ?= docker run -i --rm --net=host \
 	--user=$$(id -u):$$(id -g) \
 	-e DISPLAY=$$DISPLAY \
 	--env-file .creds \
+	--env-file configs/process-config.env \
 	-e RUN= \
 	-e HOME=/work \
 	-v$$(pwd):/work \

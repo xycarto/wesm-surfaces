@@ -1,7 +1,7 @@
 #!/bin/bash
 
 source .creds
-source configs/process-config.sh
+source configs/process-config.env
 
 PROCESS=$1
 

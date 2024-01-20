@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source configs/process-config.sh
+source configs/process-config.env
 
 export PROCESS=$1
 
