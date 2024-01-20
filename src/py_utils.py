@@ -19,6 +19,10 @@ def get_s3_file(s3, file, bucket):
     if not os.path.exists(file):
         s3.download_file(bucket, file, file, ExtraArgs={'RequestPayer':'requester'})
 
+def get_grid_index(s3, grid_bucket, grid_index, surface_index):
+    if not os.path.exists(surface_index):
+        s3.download_file(grid_bucket, grid_index, surface_index, ExtraArgs={'RequestPayer':'requester'})
+
 class get_pc_metadata:
     def __init__(self, pc):
         print("Getting Metadata...")
