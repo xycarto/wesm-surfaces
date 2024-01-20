@@ -1,6 +1,8 @@
 # testing data
 data
 **/data
+test-data
+**/test-data
 qgis/*
 *.lock
 *.h5

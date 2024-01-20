@@ -1,0 +1,46 @@
+times
+
+### BCM: 1400 laz / 12 cores
+real	639m4.206s
+user	7m5.680s
+sys	126m41.056s
+
+### BCM: EC2 c5.18xlarge 1500 files (72 cores)
+3.06/hr
+Download time: ~7min
+real	63m7.947s
+user	0m0.592s
+sys	0m0.540s
+
+### Surfaces with COG: EC2 c5.18xlarge 1500 files (72 cores)
+real	63m11.448s
+user	0m2.127s
+sys	0m2.670s
+
+### BCM Full: EC2 c5.18xlarge (72 cores)
+real	454m53.127s
+user	0m2.603s
+sys	0m2.793s
+
+### Surfaces with COG: EC2 c5.18xlarge (72 cores)
+real	314m19.687s
+user	0m8.641s
+sys	0m11.497s
+
+real	224m14.807s
+user	0m5.371s
+sys	0m6.729s
+
+
+COG production, with reprojection:
+~1.5hours
+
+## Gridding: c5.4Xlarge
+California, valid only:
+~about 2 hours. 
+
+## Solar: EC2 c5.18xlarge (72 cores)
+real	150m54.115s
+user	0m21.547s
+sys	0m38.678s
+

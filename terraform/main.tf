@@ -28,7 +28,7 @@ resource "aws_instance" "app_server" {
   # root disk
   root_block_device {
     volume_size           = var.volume_size
-    volume_type           = "gp2"
+    volume_type           = "gp3"
     encrypted             = true
     delete_on_termination = true
   }
@@ -60,14 +60,28 @@ resource "null_resource" "run_surface" {
     destination = "/home/ubuntu/.creds"
     }
 
+    provisioner "remote-exec" {
+    inline = [
+      "mkdir -p /home/ubuntu/configs",
+    ]
+    }
+
     provisioner "file" {
-    source      = "../${var.process_file}"
-    destination = "/home/ubuntu/${var.process_file}"
+    source      = "../configs/process-config.env"
+    destination = "/home/ubuntu/configs/process-config.env"
+    }
+
+    provisioner "file" {
+    source      = "../build.sh"
+    destination = "/home/ubuntu/build.sh"
     }    
 
     provisioner "remote-exec" {
     inline = [
-      "bash ${var.process_file} ${var.WORKUNIT} ${var.STATE}",
+      "echo $PWD",
+      "ls -a",
+      "ls -a configs",
+      "bash build.sh ${var.process}",
     ]
     }
 }
