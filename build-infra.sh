@@ -18,15 +18,15 @@ export TF_VAR_location=$LOCATION
 if [[ $LOCATION == "local" ]]; then
     echo "Testing Locally..."
     bash build.sh ${PROCESS}
-# elif [[ $LOCATION == "remote" ]]; then
-#     cp -r terraform terraform-${WORKUNIT}-${TYPE}
-#     cd terraform-${WORKUNIT}-${TYPE}
-#     terraform init 
-#     terraform apply -auto-approve
-#     terraform validate
-#     terraform destroy -auto-approve
-#     cd ../
-#     rm -rf terraform-${WORKUNIT}-${TYPE}
+elif [[ $LOCATION == "remote" ]]; then
+    cp -r terraform terraform-${WORKUNIT}-${TYPE}
+    cd terraform-${WORKUNIT}-${TYPE}
+    terraform init 
+    terraform apply -auto-approve
+    terraform validate
+    terraform destroy -auto-approve
+    cd ../
+    rm -rf terraform-${WORKUNIT}-${TYPE}
 else
     echo "A location where to process, 'local' or 'remote', must be set"
 fi

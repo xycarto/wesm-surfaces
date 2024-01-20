@@ -29,7 +29,7 @@ TFRUN ?= docker run -it --rm  \
 	-w /work $(TFIMAGE)
 
 
-PHONY: test-process
+PHONY: test-process tf-test-process
 
 ##### BUILDS
 # time make tf-build workunit=CA_NoCAL_Wildfires_B1_2018 state=California process=surfaces ec2=t2.large volume_size=20 type=test 
@@ -40,6 +40,9 @@ tf-build-help:
 	$(TFRUN) bash build-infra.sh -h
 
 # time make test process=bcm
+tf-test-process:
+	$(TFRUN) bash build-infra.sh $(process)
+
 test-process:
 	$(RUN) bash build-infra.sh $(process)
 
