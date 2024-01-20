@@ -65,8 +65,8 @@ set-data-dir
 processName="make-${PROCESS}" 
 if [[ $LOCATION = "remote" ]]; then
     git clone --branch refactor https://${TOKEN}@github.com/xycarto/wesm-surfaces.git
-    cp -r .creds wesm-surfaces/src/
-    cd wesm-surfaces/src
+    cp -r .creds wesm-surfaces
+    cd wesm-surfaces
     make docker-pull
     make download-files 
 elif [[ $LOCATION = "local" ]]; then
