@@ -67,7 +67,8 @@ if [[ $LOCATION = "remote" ]]; then
     git clone --branch refactor https://${TOKEN}@github.com/xycarto/wesm-surfaces.git
     cp -r .creds wesm-surfaces
     cd wesm-surfaces
-    export PROCESS=$1
+    cat PROCESS=$1 >> configs/process-config.env
+    cat DATA_DIR=$DATA_DIR >> configs/process-config.env
     set-data-dir
     echo $PROCESS
     make test-dirs

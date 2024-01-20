@@ -10,6 +10,7 @@ def main():
     print(STATE)
     print(TYPE)
     print(PC_DIR)
+    print(PROCESS)
 
 if __name__ == "__main__":
 
