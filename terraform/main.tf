@@ -28,7 +28,7 @@ resource "aws_instance" "app_server" {
   # root disk
   root_block_device {
     volume_size           = var.volume_size
-    volume_type           = "gp2"
+    volume_type           = "gp3"
     encrypted             = true
     delete_on_termination = true
   }
