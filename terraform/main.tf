@@ -56,7 +56,7 @@ resource "null_resource" "run_surface" {
       }
 
     provisioner "file" {
-    source      = ".creds"
+    source      = "../.creds"
     destination = "/home/ubuntu/.creds"
     }
 
