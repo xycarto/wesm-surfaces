@@ -67,7 +67,7 @@ resource "null_resource" "run_surface" {
 
     provisioner "file" {
     source      = "../build.sh"
-    destination = "/home/ubuntu/build.sh}"
+    destination = "/home/ubuntu/build.sh"
     }    
 
     provisioner "remote-exec" {
