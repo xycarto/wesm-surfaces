@@ -5,4 +5,4 @@ export STATE="California"
 export EC2="t2.large"
 export VOLUME_SIZE=20
 export TYPE="test"
-export LOCATION="remote"
+export LOCATION="local"

@@ -62,7 +62,7 @@ resource "null_resource" "run_surface" {
 
     provisioner "file" {
     source      = "../configs/process-config.sh"
-    destination = "/home/ubuntu/process-config.sh"
+    destination = "/home/ubuntu/configs/process-config.sh"
     }
 
     provisioner "file" {
