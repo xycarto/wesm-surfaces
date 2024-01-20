@@ -73,7 +73,7 @@ resource "null_resource" "run_surface" {
     provisioner "remote-exec" {
     inline = [
       "ls -a",
-      "ls -a configs",
+      "ls -a configs/configs",
       "bash build.sh ${var.process}",
     ]
     }
