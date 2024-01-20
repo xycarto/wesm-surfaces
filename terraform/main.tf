@@ -72,6 +72,7 @@ resource "null_resource" "run_surface" {
 
     provisioner "remote-exec" {
     inline = [
+      "ls -a",
       "bash build.sh",
     ]
     }
