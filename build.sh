@@ -68,6 +68,10 @@ if [[ $LOCATION = "remote" ]]; then
     cp -r .creds wesm-surfaces
     cd wesm-surfaces
     make docker-pull
+    source configs/process-config.sh
+    export PROCESS=$1
+    echo $PROCESS
+    echo $WORKUNIT
     make download-files 
 elif [[ $LOCATION = "local" ]]; then
     make download-files 
