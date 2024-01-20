@@ -9,6 +9,7 @@ def main():
     print(WORKUNIT)
     print(STATE)
     print(TYPE)
+    print(PC_DIR)
 
 if __name__ == "__main__":
 

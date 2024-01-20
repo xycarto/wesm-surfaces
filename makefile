@@ -46,6 +46,9 @@ tf-test-process:
 test-process:
 	$(RUN) bash build-infra.sh $(process)
 
+test-dirs:
+	$(RUN) python3 src/test-dirs.py
+
 ### PROCESS
 download-files:
 	$(RUN) python3 src/download-files.py

@@ -67,14 +67,11 @@ if [[ $LOCATION = "remote" ]]; then
     git clone --branch refactor https://${TOKEN}@github.com/xycarto/wesm-surfaces.git
     cp -r .creds wesm-surfaces
     cd wesm-surfaces
-    echo $TYPE
-    set-data-dir
-    echo $DATA_DIR
     # make docker-pull
     source configs/process-config.sh
-    export PROCESS=$1
     echo $PROCESS
     echo $WORKUNIT
+    make test-dirs
     # make download-files 
 elif [[ $LOCATION = "local" ]]; then
     make download-files 
