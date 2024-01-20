@@ -60,6 +60,12 @@ resource "null_resource" "run_surface" {
     destination = "/home/ubuntu/.creds"
     }
 
+    provisioner "remote-exec" {
+    inline = [
+      "mkdir -p config",
+    ]
+    }
+
     provisioner "file" {
     source      = "../configs/process-config.sh"
     destination = "/home/ubuntu/configs/process-config.sh"
@@ -73,7 +79,7 @@ resource "null_resource" "run_surface" {
     provisioner "remote-exec" {
     inline = [
       "ls -a",
-      "ls -a configs/configs",
+      "ls -a configs",
       "bash build.sh ${var.process}",
     ]
     }

@@ -18,4 +18,3 @@ packages:
 
 runcmd:
   - [ pip3, install, awscli, --upgrade ]
-  - [ mkdir, -p, configs ]
