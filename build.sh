@@ -67,12 +67,10 @@ if [[ $LOCATION = "remote" ]]; then
     git clone --branch refactor https://${TOKEN}@github.com/xycarto/wesm-surfaces.git
     cp -r .creds wesm-surfaces
     cd wesm-surfaces
-    echo PROCESS=$1 >> configs/process-config.env
-    echo DATA_DIR=$DATA_DIR >> configs/process-config.env
-    set-data-dir
-    echo $PROCESS
-    make test-dirs
+    echo -e "PROCESS=$1\n" >> configs/process-config.env
+    echo -e "DATA_DIR=$DATA_DIR\n" >> configs/process-config.env
     make download-files 
+    $processName
 elif [[ $LOCATION = "local" ]]; then
     make download-files 
     $processName
