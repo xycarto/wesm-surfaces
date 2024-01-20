@@ -68,7 +68,6 @@ if [[ $LOCATION = "remote" ]]; then
     cp -r .creds wesm-surfaces
     cd wesm-surfaces
     # make docker-pull
-    source configs/process-config.sh
     echo $PROCESS
     echo $WORKUNIT
     make test-dirs
