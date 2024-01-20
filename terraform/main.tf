@@ -62,7 +62,7 @@ resource "null_resource" "run_surface" {
 
     provisioner "remote-exec" {
     inline = [
-      "mkdir -p config",
+      "mkdir -p /home/ubuntu/configs",
     ]
     }
 
