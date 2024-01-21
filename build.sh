@@ -5,17 +5,12 @@ source configs/process-config.env
 export PROCESS=$1
 
 make-bcm () {
-    if [[ $TYPE == "test" ]]; then 
-        find_dir=test-data/point-clouds/${STATE}/${WORKUNIT} 
-    else 
-        find_dir=data/point-clouds/${STATE}/${WORKUNIT}
-    fi
     CORES=$( nproc )
     PER=0.8
     CALC=$( echo "$NPROC*$PER" | bc )
     cores=$(printf '%.0f' $CALC)
 
-    find ${find_dir} -name "*.laz" | \
+    find $DATA_DIR/point-clouds/${STATE}/${WORKUNIT} -name "*.laz" | \
     xargs -P ${cores} -t -I % \
     make bcm pc=% 
 }
@@ -26,7 +21,7 @@ make-dsm () {
         xargs -P ${CORES} -t -I % \
         make dsm pc=%
 
-    make vrt in_dir=dsm workunit=$WORKUNIT state=$STATE type=$TYPE
+    make vrt in_dir=dsm 
 }
 
 make-tin () {
@@ -35,21 +30,16 @@ make-tin () {
         xargs -P ${CORES} -t -I % \
         make tin pc=%
 
-    make vrt in_dir=dsm workunit=$WORKUNIT state=$STATE type=$TYPE
+    make vrt in_dir=dsm 
 }
 
 make-solar () {
-    if [[ $TYPE == "test" ]]; then 
-        find_dir=test-data/dsm/${STATE}/${WORKUNIT} 
-    else 
-        find_dir=data/dsm/${STATE}/${WORKUNIT}
-    fi
     CORES=$(nproc)
-    find ${find_dir} -name "*.tif" | \
+    find $DATA_DIR/dsm/${STATE}/${WORKUNIT} -name "*.tif" | \
     xargs -P ${CORES} -t -I % \
-    make solar-average tif=% workunit=$WORKUNIT state=$STATE type=$TYPE
+    make solar-average tif=% 
 
-    make vrt in_dir=solar workunit=$WORKUNIT state=$STATE type=$TYPE
+    make vrt in_dir=solar 
 }
 
 set-data-dir () {
@@ -64,7 +54,7 @@ set-data-dir () {
 set-data-dir
 processName="make-${PROCESS}" 
 if [[ $LOCATION = "remote" ]]; then
-    git clone --branch refactor https://${TOKEN}@github.com/xycarto/wesm-surfaces.git
+    git clone --branch $GIT https://${TOKEN}@github.com/xycarto/wesm-surfaces.git
     cp -r .creds wesm-surfaces
     cd wesm-surfaces
     echo -e "PROCESS=$1\n" >> configs/process-config.env

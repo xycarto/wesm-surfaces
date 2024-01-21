@@ -31,7 +31,7 @@ TFRUN ?= docker run -it --rm  \
 	-w /work $(TFIMAGE)
 
 
-PHONY: test-process tf-test-process test-dirs
+PHONY: test-process tf-test-process test-dirs solar
 
 ##### BUILDS
 # time make tf-build workunit=CA_NoCAL_Wildfires_B1_2018 state=California process=surfaces ec2=t2.large volume_size=20 type=test 
@@ -68,7 +68,7 @@ vrt:
 	$(RUN) python3 src/vrt.py 
 
 hillshade:
-	$(RUN) python3 process/hillshade.py $(tif) $(in_dir) $(workunit) $(state)
+	$(RUN) python3 src/hillshade.py $(tif) 
 
 reproject:
 	$(RUN) python3 process/reproject.py $(tif) $(in_dir) $(workunit) $(state)
@@ -79,7 +79,7 @@ cog:
 
 ## DERIVED PRODUCTS
 solar-average:
-	$(RUN) python3 process/solar/solar-calc.py $(tif) $(workunit) $(state) $(type)
+	$(RUN) python3 src/solar/solar-calc.py $(tif) $(workunit) $(state) $(type)
 
 ##### DOCKER MAIN
 local-test: docker/Dockerfile

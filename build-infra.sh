@@ -19,14 +19,15 @@ if [[ $LOCATION == "local" ]]; then
     echo "Testing Locally..."
     bash build.sh ${PROCESS}
 elif [[ $LOCATION == "remote" ]]; then
-    cp -r terraform terraform-${WORKUNIT}-${TYPE}
-    cd terraform-${WORKUNIT}-${TYPE}
-    terraform init 
+    tf_dir=terraform-${WORKUNIT}-${TYPE}-${PROCESS}
+    cp -r terraform $tf_dir
+    cd $tf_dir
+    terraform init
     terraform apply -auto-approve
     terraform validate
     terraform destroy -auto-approve
     cd ../
-    rm -rf terraform-${WORKUNIT}-${TYPE}
+    rm -rf $tf_dir
 else
     echo "A location where to process, 'local' or 'remote', must be set"
 fi

@@ -3,9 +3,8 @@ import os
 import boto3
 import sys
 import subprocess as sub
-from osgeo import gdal
-sys.path.append('pyutils')
-from general import *
+from py_utils import *
+from globals import *
 
 
 def main():
@@ -18,18 +17,13 @@ def main():
     )
     
     print(f"Uploading {out_hs}...")
-    s3.upload_file(out_hs, WESM_SURFACE_BUCKET, out_hs)
+    # s3.upload_file(out_hs, WESM_SURFACE_BUCKET, out_hs)
 
 
 if __name__ == "__main__":
     IN_FILE = sys.argv[1]
-    IN_DIR = sys.argv[2]
-    WORKUNIT = sys.argv[3]
-    STATE = sys.argv[4]
-    DATA_DIR = "data"
-    SURFACE_DIR = f"{DATA_DIR}/{IN_DIR}/{STATE}/{WORKUNIT}"
+    SURFACE_DIR = f"{DATA_DIR}/{PROCESS}/{STATE}/{WORKUNIT}"
     HS_DIR = f"{SURFACE_DIR}/hillshade"
-    WESM_SURFACE_BUCKET = "xyc-wesm-surfaces"
 
     for d in [DATA_DIR, SURFACE_DIR, HS_DIR]:
         os.makedirs(d, exist_ok=True)
