@@ -78,7 +78,7 @@ hillshade:
 	$(RUN) python3 src/hillshade.py $(tif) 
 
 cog:
-	$(RUN) python3 src/cog.py $(in_dir) 
+	$(RUN) python3 src/cog.py
 
 ##### DOCKER MAIN
 local-test: docker/Dockerfile

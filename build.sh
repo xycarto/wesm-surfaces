@@ -11,8 +11,8 @@ make-bcm () {
     cores=$(printf '%.0f' $CALC)
 
     find $DATA_DIR/point-clouds/${STATE}/${WORKUNIT} -maxdepth 1 -name "*.laz" | \
-    xargs -P ${cores} -t -I % \
-    make bcm pc=% 
+        xargs -P ${cores} -t -I % \
+        make bcm pc=% 
 }
 
 make-dsm () {
@@ -36,8 +36,8 @@ make-tin () {
 make-solar () {
     CORES=$(nproc)
     find $DATA_DIR/dsm/${STATE}/${WORKUNIT} -maxdepth 1 -name "*.tif" | \
-    xargs -P ${CORES} -t -I % \
-    make solar-average tif=% 
+        xargs -P ${CORES} -t -I % \
+        make solar-average tif=% 
 
     make vrt  
 }
@@ -45,17 +45,22 @@ make-solar () {
 make-hillshade () {
     CORES=$(nproc)
     find $DATA_DIR/${PROCESS}/${STATE}/${WORKUNIT} -maxdepth 1 -name "*.tif" | \
-    xargs -P ${CORES} -t -I % \
-    make hillshade tif=% 
+        xargs -P ${CORES} -t -I % \
+        make hillshade tif=% 
     make vrt 
 }
 
 make-cog () {
     CORES=$(nproc)
-    find $DATA_DIR/${PROCESS}/${STATE}/${WORKUNIT} -maxdepth 1 -name "*.tif" | \
-    xargs -P ${CORES} -t -I % \
-    make cog tif=% 
-    make vrt 
+    if [ $HS == "true" ] && [ $PROCESS != "solar" ]; then
+        data_dir=$DATA_DIR/${PROCESS}/${STATE}/${WORKUNIT}/hillshade
+    else
+        data_dir=$DATA_DIR/${PROCESS}/${STATE}/${WORKUNIT}
+    fi
+    find $data_dir -maxdepth 1 -name "*.tif" | \
+        xargs -P ${CORES} -t -I % \
+        make reproject tif=%
+    make cog
 }
 
 set-data-dir () {
@@ -84,6 +89,14 @@ if [[ $LOCATION = "remote" ]]; then
 elif [[ $LOCATION = "local" ]]; then
     if [[ $COG == "true" ]]; then
         make download-files
+        make-cog
+    elif [[ $COG == "false" ]]; then
+        make download-files 
+        if [[ $HS == "true" ]]; then
+            make-hillshade
+        else
+            $processName
+        fi
     fi
 
     # make download-files 

@@ -4,26 +4,25 @@ import boto3
 import sys
 import subprocess as sub
 from osgeo import gdal
-sys.path.append('pyutils')
-from general import *
+from py_utils import *
+from globals import *
 
 
 def main():
     s3 = get_creds()   
 
-    vrt = f"{REPRO_DIR}/{'-'.join(IN_DIR.split('/'))}-repro.vrt"
     tifs = [f"{os.path.join(REPRO_DIR, tif)}" for tif in os.listdir(REPRO_DIR) if not os.path.isdir(tif) and tif.endswith('.tif')]
     
     gdal.BuildVRT(
-        vrt,
+        VRT,
         tifs,
     ) 
 
-    cog_file = f"{COG_DIR}/{'-'.join(IN_DIR.split('/'))}-cog.tif"
+    
 
     # Make Python process in future
     sub.call(
-        f"gdal_translate {vrt} {cog_file} \
+        f"gdal_translate {VRT} {COG_FILE} \
             -of COG \
             -co TILING_SCHEME=GoogleMapsCompatible \
             -co COMPRESS=DEFLATE \
@@ -35,19 +34,19 @@ def main():
         shell=True
     )
 
-    print(f"Uploading {cog_file}...")
-    s3.upload_file(cog_file, WESM_VIEWER_BUCKET, cog_file, ExtraArgs={'ACL': 'public-read'})
+    print(f"Uploading {COG_FILE}...")
+    s3.upload_file(COG_FILE, WESM_SURFACE_BUCKET, COG_FILE, ) # ExtraArgs={'ACL': 'public-read'}
 
 
 if __name__ == "__main__":
-    IN_DIR = sys.argv[1]
-    WORKUNIT = sys.argv[2]
-    STATE = sys.argv[3]
-    DATA_DIR = "data"
-    COG_DIR = f"{DATA_DIR}/cog/{STATE}/{WORKUNIT}"
-    REPRO_DIR = f"{COG_DIR}/repro/{IN_DIR}"
-    WESM_BUCKET = "xyc-wesm-surfaces"
-    WESM_VIEWER_BUCKET = "xyc-wesm-viewer"
+    if HS == "true" and PROCESS != "solar":
+        REPRO_DIR = f"{COG_DIR}/repro/{PROCESS}/hillshade"
+        VRT = f"{REPRO_DIR}/{PROCESS}-hillshade-repro.vrt"
+        COG_FILE = f"{COG_DIR}/{PROCESS}-hillshade-cog.tif"
+    else:
+        REPRO_DIR = f"{COG_DIR}/repro/{PROCESS}"
+        VRT = f"{REPRO_DIR}/{PROCESS}-repro.vrt"
+        COG_FILE = f"{COG_DIR}/{PROCESS}-cog.tif"
 
     for d in [DATA_DIR, COG_DIR, REPRO_DIR]:
         os.makedirs(d, exist_ok=True)

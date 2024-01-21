@@ -33,7 +33,7 @@ def main():
 
 if __name__ == "__main__":
     IN_FILE = sys.argv[1]
-    if HS == "true":
+    if HS == "true" and PROCESS != "solar":
         REPRO_DIR = f"{COG_DIR}/repro/{PROCESS}/hillshade"
     else:
         REPRO_DIR = f"{COG_DIR}/repro/{PROCESS}"
