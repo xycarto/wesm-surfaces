@@ -81,10 +81,16 @@ if [[ $LOCATION = "remote" ]]; then
     echo -e "PROCESS=$1\n" >> configs/process-config.env
     echo -e "DATA_DIR=$DATA_DIR\n" >> configs/process-config.env
     make download-files 
-    if [[ $HS == "true" ]]; then
-        make-hillshade
-    else
-        $processName
+    if [[ $COG == "true" ]]; then
+        make download-files
+        make-cog
+    elif [[ $COG == "false" ]]; then
+        make download-files 
+        if [[ $HS == "true" ]]; then
+            make-hillshade
+        else
+            $processName
+        fi
     fi
 elif [[ $LOCATION = "local" ]]; then
     if [[ $COG == "true" ]]; then
