@@ -47,7 +47,6 @@ make-hillshade () {
     find $DATA_DIR/${PROCESS}/${STATE}/${WORKUNIT} -maxdepth 1 -name "*.tif" | \
     xargs -P ${CORES} -t -I % \
     make hillshade tif=% 
-
     make vrt 
 }
 

@@ -12,18 +12,14 @@ def main():
     s3 = get_creds()    
 
     out_hs = f"{HS_DIR}/{os.path.basename(IN_FILE)}"  
-    # gdal.DEMProcessing(
-    #     out_hs,
-    #     IN_FILE,
-    #     'hillshade',
-    #     computeEdges=True
-    # )
-
-    sub.call(
-        f"gdaldem hillshade -compute_edges {IN_FILE} {out_hs}",
-        shell=True
+    gdal.DEMProcessing(
+        out_hs,
+        IN_FILE,
+        'hillshade',
+        computeEdges=True,
+        callback=gdal.TermProgress_nocb,
     )
-    
+
     print(f"Uploading {out_hs}...")
     s3.upload_file(out_hs, WESM_SURFACE_BUCKET, out_hs)
 
