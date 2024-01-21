@@ -35,7 +35,12 @@ def set_paths(row):
         local_file= os.path.join(PC_DIR, row.file_name)
     elif PROCESS == "dsm" or PROCESS == "tin":
         bucket = WESM_SURFACE_BUCKET
-        in_file = f"{BCM_DIR}/{row.file_name}"
+        if HS == "true" and PROCESS == "dsm":
+            in_file = f"{DSM_DIR}/{row.file_name}"
+        elif HS == "true" and PROCESS == "tin":
+            in_file = f"{TIN_DIR}/{row.file_name}"
+        else:
+            in_file = f"{BCM_DIR}/{row.file_name}"
         local_file = in_file
     elif PROCESS == "solar":
         bucket = WESM_SURFACE_BUCKET

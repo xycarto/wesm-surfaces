@@ -75,6 +75,7 @@ if [[ $LOCATION = "remote" ]]; then
     # else
     #     $processName
     # fi
+    
 elif [[ $LOCATION = "local" ]]; then
     make download-files 
     if [[ $HS == "true" ]]; then
