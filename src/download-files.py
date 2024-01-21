@@ -55,8 +55,7 @@ def set_paths(row):
             in_file = f"{TIN_DIR}/hillshade/{basename}.tif"
         else:
             in_file = f"{DATA_DIR}/{PROCESS}/{STATE}/{WORKUNIT}/{basename}.tif"        
-        local_file = in_file
-        
+        local_file = in_file        
     else:
         print("Unknown input...")
     

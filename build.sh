@@ -80,7 +80,7 @@ if [[ $LOCATION = "remote" ]]; then
     cd wesm-surfaces
     echo -e "PROCESS=$1\n" >> configs/process-config.env
     echo -e "DATA_DIR=$DATA_DIR\n" >> configs/process-config.env
-    make download-files 
+    echo $COG
     if [[ $COG == "true" ]]; then
         make download-files
         make-cog
