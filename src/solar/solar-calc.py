@@ -4,8 +4,9 @@ import geopandas as gp
 import subprocess as sub
 from osgeo import gdal
 import sys
-sys.path.append('pyutils')
-from general import *
+sys.path.append('src')
+from py_utils import *
+from globals import *
 import rasterio as rio
 import shutil
 
@@ -14,19 +15,19 @@ def main():
     
     s3 = get_creds()
     
-    get_s3_file(s3, IN_FILE, WESM_BUCKET)  
+    get_s3_file(s3, IN_FILE, WESM_SURFACE_BUCKET)  
 
     rio_in_file = rio.open(IN_FILE)
     crs = rio_in_file.crs
     bounds = rio_in_file.bounds
-
-    print(bounds)
          
     for day in DAYS:     
         print(day)    
-        sub.call(f"bash process/solar/grass-build.sh {IN_FILE} {day} {crs} {SOLAR_DIR_TMP}", shell=True) 
+        sub.call(f"bash src/solar/grass-build.sh {IN_FILE} {day} {crs} {SOLAR_DIR_TMP}", shell=True) 
 
     tmp_tif_list = [f"{SOLAR_DIR_TMP}/{tif}" for tif in os.listdir(SOLAR_DIR_TMP)]
+
+    print(tmp_tif_list)
         
     print("Creating Average...")
     tif_avg = f"{SOLAR_DIR}/{os.path.basename(IN_FILE)}"
@@ -46,22 +47,11 @@ def main():
     
     shutil.rmtree(SOLAR_DIR_TMP)
         
-    # s3.upload_file(tif_avg, WESM_BUCKET, tif_avg)
+    s3.upload_file(tif_avg, WESM_SURFACE_BUCKET, tif_avg)
         
 if __name__ == "__main__":
-    IN_FILE = sys.argv[1]
-    WORKUNIT = sys.argv[2]
-    STATE = sys.argv[3]
-    TYPE = sys.argv[4]
-    if TYPE == "test":
-        DATA_DIR = "test-data"    
-    else:
-        DATA_DIR = "data"
-    BASENAME = os.path.basename(IN_FILE).split('.')[0]
-    WESM_BUCKET = "xyc-wesm-surfaces"    
-    DSM_DIR = f"{DATA_DIR}/dsm/{STATE}/{WORKUNIT}"
-    SOLAR_DIR = f"{DATA_DIR}/solar/{STATE}/{WORKUNIT}"
-    SOLAR_DIR_TMP = f"{DATA_DIR}/solar/{STATE}/{WORKUNIT}/{os.path.basename(IN_FILE).split('.')[0]}"
+    IN_FILE = sys.argv[1]    
+    SOLAR_DIR_TMP = f"{DATA_DIR}/solar/{STATE}/{WORKUNIT}/{os.path.basename(IN_FILE).split('.')[0]}"   
 
     DAYS = [80, 173, 266, 355]
     # DAYS = [80]

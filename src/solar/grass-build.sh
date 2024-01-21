@@ -19,6 +19,6 @@ else
     grass -c $EPSG -e ${GRASS_DIR}/GRASS_ENV
 fi
 
-grass ${GRASS_DIR}/GRASS_ENV/PERMANENT --exec bash process/solar/solar-calc.sh $DSM $DAY $SOLAR_DIR
+grass ${GRASS_DIR}/GRASS_ENV/PERMANENT --exec bash src/solar/solar-calc.sh $DSM $DAY $SOLAR_DIR
 
 rm -rf $GRASS_DIR

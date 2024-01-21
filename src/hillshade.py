@@ -4,34 +4,31 @@ import boto3
 import sys
 import subprocess as sub
 from osgeo import gdal
-sys.path.append('pyutils')
-from general import *
+from py_utils import *
+from globals import *
 
 
 def main():
     s3 = get_creds()    
 
     out_hs = f"{HS_DIR}/{os.path.basename(IN_FILE)}"  
-    sub.call(
-        f"gdaldem hillshade -compute_edges {IN_FILE} {out_hs}",
-        shell=True
+    gdal.DEMProcessing(
+        out_hs,
+        IN_FILE,
+        'hillshade',
+        computeEdges=True,
+        callback=gdal.TermProgress_nocb,
     )
-    
+
     print(f"Uploading {out_hs}...")
     s3.upload_file(out_hs, WESM_SURFACE_BUCKET, out_hs)
 
 
 if __name__ == "__main__":
     IN_FILE = sys.argv[1]
-    IN_DIR = sys.argv[2]
-    WORKUNIT = sys.argv[3]
-    STATE = sys.argv[4]
-    DATA_DIR = "data"
-    SURFACE_DIR = f"{DATA_DIR}/{IN_DIR}/{STATE}/{WORKUNIT}"
-    HS_DIR = f"{SURFACE_DIR}/hillshade"
-    WESM_SURFACE_BUCKET = "xyc-wesm-surfaces"
+    HS_DIR = f"{DATA_DIR}/{PROCESS}/{STATE}/{WORKUNIT}/hillshade"
 
-    for d in [DATA_DIR, SURFACE_DIR, HS_DIR]:
+    for d in [DATA_DIR, HS_DIR]:
         os.makedirs(d, exist_ok=True)
 
     main()

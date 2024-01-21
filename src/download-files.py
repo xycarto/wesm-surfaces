@@ -29,17 +29,23 @@ def main():
                 exit()
 
 def set_paths(row):
+    basename = os.path.basename(row.file_name).split('.')[0]
     if PROCESS == "bcm":
         bucket = USGS_BUCKET
         in_file = row.usgs_loc
         local_file= os.path.join(PC_DIR, row.file_name)
     elif PROCESS == "dsm" or PROCESS == "tin":
         bucket = WESM_SURFACE_BUCKET
-        in_file = f"{BCM_DIR}/{row.file_name}"
+        if HS == "true" and PROCESS == "dsm":
+            in_file = f"{DSM_DIR}/{basename}.tif"
+        elif HS == "true" and PROCESS == "tin":
+            in_file = f"{TIN_DIR}/{basename}.tif"
+        else:
+            in_file = f"{BCM_DIR}/{row.file_name}"
         local_file = in_file
     elif PROCESS == "solar":
         bucket = WESM_SURFACE_BUCKET
-        in_file = f"{DSM_DIR}/{os.path.basename(row.file_name).split('.')[0]}.tif"
+        in_file = f"{DSM_DIR}/{basename}.tif"
         local_file = in_file
     else:
         print("Unknown input...")
