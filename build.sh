@@ -50,6 +50,14 @@ make-hillshade () {
     make vrt 
 }
 
+make-cog () {
+    CORES=$(nproc)
+    find $DATA_DIR/${PROCESS}/${STATE}/${WORKUNIT} -maxdepth 1 -name "*.tif" | \
+    xargs -P ${CORES} -t -I % \
+    make cog tif=% 
+    make vrt 
+}
+
 set-data-dir () {
     if [[ $TYPE == "test" ]]; then
         export DATA_DIR="test-data"

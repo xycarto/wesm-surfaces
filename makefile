@@ -68,17 +68,17 @@ vrt:
 	$(RUN) python3 src/vrt.py 
 
 reproject:
-	$(RUN) python3 process/reproject.py $(tif) $(in_dir) $(workunit) $(state)
+	$(RUN) python3 src/reproject.py $(tif) 
 
 ## DERIVED PRODUCTS
 solar-average:
-	$(RUN) python3 src/solar/solar-calc.py $(tif) $(workunit) $(state) $(type)
+	$(RUN) python3 src/solar/solar-calc.py $(tif)
 
 hillshade:
 	$(RUN) python3 src/hillshade.py $(tif) 
 
 cog:
-	$(RUN) python3 src/cog.py $(in_dir) $(workunit) $(state)
+	$(RUN) python3 src/cog.py $(in_dir) 
 
 ##### DOCKER MAIN
 local-test: docker/Dockerfile
