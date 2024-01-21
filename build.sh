@@ -81,14 +81,17 @@ if [[ $LOCATION = "remote" ]]; then
     else
         $processName
     fi
-
 elif [[ $LOCATION = "local" ]]; then
-    make download-files 
-    if [[ $HS == "true" ]]; then
-        make-hillshade
-    else
-        $processName
+    if [[ $COG == "true" ]]; then
+        make download-files
     fi
+
+    # make download-files 
+    # if [[ $HS == "true" ]]; then
+    #     make-hillshade
+    # else
+    #     $processName
+    # fi
 fi
 
 

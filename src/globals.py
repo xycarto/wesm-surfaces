@@ -8,6 +8,7 @@ TYPE = os.environ.get("TYPE")
 PROCESS = os.environ.get("PROCESS")
 TEST_NUM = int(os.environ.get("TEST_NUM"))
 HS = os.environ.get("HS")
+COG = os.environ.get("COG")
 
 ## CONSTANTS
 USGS_BUCKET = "usgs-lidar"
