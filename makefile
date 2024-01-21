@@ -67,19 +67,18 @@ tin:
 vrt:
 	$(RUN) python3 src/vrt.py 
 
-hillshade:
-	$(RUN) python3 src/hillshade.py $(tif) 
-
 reproject:
 	$(RUN) python3 process/reproject.py $(tif) $(in_dir) $(workunit) $(state)
-
-cog:
-	$(RUN) python3 process/cog.py $(in_dir) $(workunit) $(state)
-
 
 ## DERIVED PRODUCTS
 solar-average:
 	$(RUN) python3 src/solar/solar-calc.py $(tif) $(workunit) $(state) $(type)
+
+hillshade:
+	$(RUN) python3 src/hillshade.py $(tif) 
+
+cog:
+	$(RUN) python3 src/cog.py $(in_dir) $(workunit) $(state)
 
 ##### DOCKER MAIN
 local-test: docker/Dockerfile

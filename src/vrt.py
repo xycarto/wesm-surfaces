@@ -8,17 +8,14 @@ from globals import *
 def main():
     s3 = get_creds()    
     
-    # if os.path.basename(IN_DIR) == "hillshade":
-    #     vrt_dir = os.path.join(VRT_DIR, "hillshade")
-    #     in_dir = IN_DIR.split("/")[0]
-    #     vrt = os.path.join(vrt_dir, f"{in_dir}-hillshade.vrt")
-    #     build_vrt(vrt_dir, vrt)
-    # else:
-    #     vrt = os.path.join(VRT_DIR, f"{IN_DIR}.vrt")
-    #     build_vrt(VRT_DIR, vrt)
+    if HS == "true":
+        vrt_dir = f"{VRT_DIR}/hillshade"
+        vrt = f"{vrt_dir}/{PROCESS}-hs.vrt"
+    else:
+        vrt_dir = VRT_DIR
+        vrt = f"{VRT_DIR}/{PROCESS}.vrt"
 
-    vrt = os.path.join(VRT_DIR, f"{PROCESS}.vrt")
-    build_vrt(VRT_DIR, vrt)
+    build_vrt(vrt_dir, vrt)
              
     print(f"Uploading {vrt}...")
     s3.upload_file(vrt, WESM_SURFACE_BUCKET, vrt)

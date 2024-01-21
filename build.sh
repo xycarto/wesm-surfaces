@@ -10,36 +10,45 @@ make-bcm () {
     CALC=$( echo "$NPROC*$PER" | bc )
     cores=$(printf '%.0f' $CALC)
 
-    find $DATA_DIR/point-clouds/${STATE}/${WORKUNIT} -name "*.laz" | \
+    find $DATA_DIR/point-clouds/${STATE}/${WORKUNIT} -maxdepth 1 -name "*.laz" | \
     xargs -P ${cores} -t -I % \
     make bcm pc=% 
 }
 
 make-dsm () {
     CORES=$(nproc)
-    find $DATA_DIR/bcm/${STATE}/${WORKUNIT}  -name "*.laz" | \
+    find $DATA_DIR/bcm/${STATE}/${WORKUNIT}  -maxdepth 1 -name "*.laz" | \
         xargs -P ${CORES} -t -I % \
         make dsm pc=%
 
-    make vrt in_dir=dsm 
+    make vrt 
 }
 
 make-tin () {
     CORES=$(nproc)
-    find $DATA_DIR/bcm/${STATE}/${WORKUNIT}  -name "*.laz" | \
+    find $DATA_DIR/bcm/${STATE}/${WORKUNIT}  -maxdepth 1 -name "*.laz" | \
         xargs -P ${CORES} -t -I % \
         make tin pc=%
 
-    make vrt in_dir=dsm 
+    make vrt 
 }
 
 make-solar () {
     CORES=$(nproc)
-    find $DATA_DIR/dsm/${STATE}/${WORKUNIT} -name "*.tif" | \
+    find $DATA_DIR/dsm/${STATE}/${WORKUNIT} -maxdepth 1 -name "*.tif" | \
     xargs -P ${CORES} -t -I % \
     make solar-average tif=% 
 
-    make vrt in_dir=solar 
+    make vrt  
+}
+
+make-hillshade () {
+    CORES=$(nproc)
+    find $DATA_DIR/${PROCESS}/${STATE}/${WORKUNIT} -maxdepth 1 -name "*.tif" | \
+    xargs -P ${CORES} -t -I % \
+    make hillshade tif=% 
+
+    make vrt 
 }
 
 set-data-dir () {
@@ -63,8 +72,11 @@ if [[ $LOCATION = "remote" ]]; then
     $processName
 elif [[ $LOCATION = "local" ]]; then
     make download-files 
-    $processName
-
+    if [[ $HS == "true" ]]; then
+        make-hillshade
+    else
+        $processName
+    fi
 fi
 
 

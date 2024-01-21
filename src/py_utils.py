@@ -68,8 +68,7 @@ def make_surface(pipeline, in_pc, wkt, out_tif, bounds):
 
 def build_vrt(vrt_dir, vrt):
     print("Making VRT...")
-    tifs = [f"{os.path.join(vrt_dir, tif)}" for tif in os.listdir(vrt_dir) if not os.path.isdir(tif) and tif.endswith('.tif')]
-
+    tifs = [f"{vrt_dir}/{tif}" for tif in os.listdir(vrt_dir) if not os.path.isdir(tif) and tif.endswith('.tif')]
     gdal.BuildVRT(
         vrt,
         tifs,

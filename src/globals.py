@@ -1,13 +1,13 @@
 import os 
 
+## Environment vars from: configs/process-config.env
 DATA_DIR = os.environ.get("DATA_DIR")
 WORKUNIT = os.environ.get("WORKUNIT") 
 STATE = os.environ.get("STATE")
 TYPE = os.environ.get("TYPE")
 PROCESS = os.environ.get("PROCESS")
-
-# Number for Testing
-TEST_NUM = 10
+TEST_NUM = int(os.environ.get("TEST_NUM"))
+HS = os.environ.get("HS")
 
 ## CONSTANTS
 USGS_BUCKET = "usgs-lidar"
