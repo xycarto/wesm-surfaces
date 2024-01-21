@@ -18,20 +18,21 @@ def main():
         tifs,
     ) 
 
-    
+    creation_options = [
+    "COMPRESS=DEFLATE",
+    "BIGTIFF=YES",
+    "NUM_THREADS=ALL_CPUS",
+    "OVERVIEW_RESAMPLING=LANCZOS",
+    "WARP_RESAMPLING=BILINEAR",
+    "OVERVIEW_COMPRESS=DEFLATE",
+    ]
 
-    # Make Python process in future
-    sub.call(
-        f"gdal_translate {VRT} {COG_FILE} \
-            -of COG \
-            -co TILING_SCHEME=GoogleMapsCompatible \
-            -co COMPRESS=DEFLATE \
-            -co BIGTIFF=YES \
-            -co NUM_THREADS=ALL_CPUS \
-            -co OVERVIEW_RESAMPLING=LANCZOS \
-            -co WARP_RESAMPLING=BILINEAR \
-            -co OVERVIEW_COMPRESS=DEFLATE",
-        shell=True
+    gdal.Translate(    
+        COG_FILE,
+        VRT,
+        format = "COG",
+        callback=gdal.TermProgress_nocb,
+        creationOptions = creation_options
     )
 
     print(f"Uploading {COG_FILE}...")

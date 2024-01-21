@@ -98,32 +98,9 @@ elif [[ $LOCATION = "local" ]]; then
             $processName
         fi
     fi
-
-    # make download-files 
-    # if [[ $HS == "true" ]]; then
-    #     make-hillshade
-    # else
-    #     $processName
-    # fi
 fi
 
 
-
-
-# ## Make SOLAR
-# find data/dsm/${STATE}/${WORKUNIT} -name "*.tif" | \
-#     xargs -P ${CORES} -t -I % \
-#     make solar-average tif=% workunit=$WORKUNIT state=$STATE
-
-# make vrt in_dir=solar workunit=$WORKUNIT state=$STATE
-
-
-# ### Make SOALR COGS
-# find data/solar/${STATE}/${WORKUNIT} -maxdepth 1 -name "*.tif" | \
-#     xargs -P ${CORES} -t -I % \
-#     make reproject tif=% in_dir=solar workunit=$WORKUNIT state=$STATE
-
-# make cog in_dir=solar workunit=$WORKUNIT state=$STATE
 
 exit
 
