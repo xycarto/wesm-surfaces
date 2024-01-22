@@ -18,7 +18,7 @@ def main():
     # Parse Index
     for i, row in index_file.iterrows():
         bucket, in_file, local_file = set_paths(row)
-        print(f"Downloading {local_file}")
+        print(f"Downloading {local_file} from bucket: {bucket}")
         try: 
             if not os.path.exists(local_file):
                 s3.download_file(bucket, in_file, local_file, ExtraArgs={'RequestPayer':'requester'})
