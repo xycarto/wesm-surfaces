@@ -50,8 +50,10 @@ def set_paths(row):
     elif COG == "true":
         bucket = WESM_SURFACE_BUCKET
         if HS == "true" and PROCESS == "dsm":
+            os.makedirs(f"{DSM_DIR}/hillshade", exist_ok=True)
             in_file = f"{DSM_DIR}/hillshade/{basename}.tif"
         elif HS == "true" and PROCESS == "tin":
+            os.makedirs(f"{TIN_DIR}/hillshade", exist_ok=True)
             in_file = f"{TIN_DIR}/hillshade/{basename}.tif"
         else:
             in_file = f"{DATA_DIR}/{PROCESS}/{STATE}/{WORKUNIT}/{basename}.tif"        
