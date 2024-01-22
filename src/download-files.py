@@ -18,7 +18,7 @@ def main():
     # Parse Index
     for i, row in index_file.iterrows():
         bucket, in_file, local_file = set_paths(row)
-        print(f"Downloading {local_file}")
+        print(f"Downloading {local_file} from bucket: {bucket}")
         try: 
             if not os.path.exists(local_file):
                 s3.download_file(bucket, in_file, local_file, ExtraArgs={'RequestPayer':'requester'})
@@ -34,7 +34,7 @@ def set_paths(row):
         bucket = USGS_BUCKET
         in_file = row.usgs_loc
         local_file= os.path.join(PC_DIR, row.file_name)
-    elif PROCESS == "dsm" or PROCESS == "tin":
+    elif (PROCESS == "dsm" or PROCESS == "tin") and COG == "false":
         bucket = WESM_SURFACE_BUCKET
         if HS == "true" and PROCESS == "dsm":
             in_file = f"{DSM_DIR}/{basename}.tif"
@@ -43,10 +43,21 @@ def set_paths(row):
         else:
             in_file = f"{BCM_DIR}/{row.file_name}"
         local_file = in_file
-    elif PROCESS == "solar":
+    elif PROCESS == "solar" and COG == 'false':
         bucket = WESM_SURFACE_BUCKET
         in_file = f"{DSM_DIR}/{basename}.tif"
         local_file = in_file
+    elif COG == "true":
+        bucket = WESM_SURFACE_BUCKET
+        if HS == "true" and PROCESS == "dsm":
+            os.makedirs(f"{DSM_DIR}/hillshade", exist_ok=True)
+            in_file = f"{DSM_DIR}/hillshade/{basename}.tif"
+        elif HS == "true" and PROCESS == "tin":
+            os.makedirs(f"{TIN_DIR}/hillshade", exist_ok=True)
+            in_file = f"{TIN_DIR}/hillshade/{basename}.tif"
+        else:
+            in_file = f"{DATA_DIR}/{PROCESS}/{STATE}/{WORKUNIT}/{basename}.tif"        
+        local_file = in_file        
     else:
         print("Unknown input...")
     

@@ -8,6 +8,7 @@ TYPE = os.environ.get("TYPE")
 PROCESS = os.environ.get("PROCESS")
 TEST_NUM = int(os.environ.get("TEST_NUM"))
 HS = os.environ.get("HS")
+COG = os.environ.get("COG")
 
 ## CONSTANTS
 USGS_BUCKET = "usgs-lidar"
@@ -23,6 +24,7 @@ BCM_DIR = f"{DATA_DIR}/bcm/{STATE}/{WORKUNIT}"
 TIN_DIR = f"{DATA_DIR}/tin/{STATE}/{WORKUNIT}"         
 DSM_DIR = f"{DATA_DIR}/dsm/{STATE}/{WORKUNIT}"   
 SOLAR_DIR = f"{DATA_DIR}/solar/{STATE}/{WORKUNIT}"
+COG_DIR = f"{DATA_DIR}/cog/{STATE}/{WORKUNIT}"
 INDEX_DIR = f"{DATA_DIR}/index-indv/{STATE}"
 GRID_INDEX_DIR = f"data/index-indv/{STATE}"
 INDEX_FILE = f"{INDEX_DIR}/{WORKUNIT}_index_4269.gpkg"
