@@ -34,13 +34,6 @@ TFRUN ?= docker run -it --rm  \
 PHONY: test-process tf-test-process test-dirs solar
 
 ##### BUILDS
-# time make tf-build workunit=CA_NoCAL_Wildfires_B1_2018 state=California process=surfaces ec2=t2.large volume_size=20 type=test 
-tf-build:
-	$(TFRUN) bash build-infra.sh -w $(workunit) -s $(state) -p $(process) -e $(ec2) -v $(volume_size) -t $(type) -l remote
-
-tf-build-help:
-	$(TFRUN) bash build-infra.sh -h
-
 # time make test process=bcm
 tf-test-process:
 	$(TFRUN) bash build-infra.sh $(process)
@@ -126,6 +119,13 @@ tf-docker-pull:
 
 
 ############# UNUSED
+# # time make tf-build workunit=CA_NoCAL_Wildfires_B1_2018 state=California process=surfaces ec2=t2.large volume_size=20 type=test 
+# tf-build:
+# 	$(TFRUN) bash build-infra.sh -w $(workunit) -s $(state) -p $(process) -e $(ec2) -v $(volume_size) -t $(type) -l remote
+
+# tf-build-help:
+# 	$(TFRUN) bash build-infra.sh -h
+
 # # time make tf-build-test workunit=CA_NoCAL_Wildfires_B1_2018 state=California process=infra ec2=t2.micro volume_size=20 
 # tf-build-test:
 # 	$(TFRUN) bash build-infra.sh -w $(workunit) -s $(state) -p $(process) -e $(ec2) -v $(volume_size) -t test -l remote
