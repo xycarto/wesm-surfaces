@@ -1,0 +1,21 @@
+{
+    "pipeline": [
+        {
+            "type": "readers.las"
+        },
+        {
+            "type": "filters.range",
+            "limits": "Classification[2:2]"
+        },
+        {
+            "type": "filters.delaunay"
+        },
+        {
+            "type": "filters.faceraster"
+        },
+        {
+
+            "type": "writers.raster"
+        }
+    ]
+}

@@ -4,6 +4,7 @@ import subprocess as sub
 import json
 from osgeo import gdal
 import geopandas as gp
+from globals import *
 
 def get_creds():
     s3 = boto3.client(
@@ -33,13 +34,16 @@ class get_pc_metadata:
         
         pc_json = json.loads(pc_metadata)
         
-        minx = pc_json['summary']['bounds']['minx']
-        miny = pc_json['summary']['bounds']['miny']
-        maxx = pc_json['summary']['bounds']['maxx']
-        maxy = pc_json['summary']['bounds']['maxy']
+        self.minx = pc_json['summary']['bounds']['minx']
+        self.miny = pc_json['summary']['bounds']['miny']
+        self.maxx = pc_json['summary']['bounds']['maxx']
+        self.maxy = pc_json['summary']['bounds']['maxy']
         self.proj4 = pc_json['summary']['srs']['proj4']
         self.wkt = pc_json['summary']['srs']['wkt']
-        self.bounds = f"'([{minx}, {maxx}],[{miny}, {maxy}])'"
+        self.bounds = f"'([{self.minx}, {self.maxx}],[{self.miny}, {self.maxy}])'"
+
+        self.width = int(abs(abs(self.maxx) - abs(self.minx)) / RESOLUTION)
+        self.height = int(abs(abs(self.maxy) - abs(self.miny)) / RESOLUTION)
         
 def get_bound_info(pc):
     pc_metadata = sub.check_output(
@@ -63,6 +67,20 @@ def make_surface(pipeline, in_pc, wkt, out_tif, bounds):
             --readers.las.spatialreference='{wkt}' \
             --writers.gdal.filename='{out_tif}' \
             --writers.gdal.bounds={bounds}",
+        shell=True,
+    )
+
+def make_tin(pipeline, in_pc, wkt, out_tif, metadata):
+    sub.call(
+        f"pdal pipeline '{pipeline}' \
+            --readers.las.filename='{in_pc}' \
+            --readers.las.spatialreference='{wkt}' \
+            --filters.faceraster.resolution='{RESOLUTION}' \
+            --filters.faceraster.origin_x='{metadata.minx}' \
+            --filters.faceraster.origin_y='{metadata.miny}' \
+            --filters.faceraster.width='{metadata.width}' \
+            --filters.faceraster.height='{metadata.height}' \
+            --writers.raster.filename='{out_tif}'",
         shell=True,
     )
 

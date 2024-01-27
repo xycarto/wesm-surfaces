@@ -17,18 +17,23 @@ def main():
 
     metadata = get_pc_metadata(IN_FILE)    
 
-    print("Creating TIN...")
-    
-    make_surface(PIPELINE_TIN, IN_FILE, metadata.wkt, tin_file_tmp, metadata.bounds)
+    print("Creating TIN...")    
+    make_tin(PIPELINE_TIN, IN_FILE, metadata.wkt, tin_file_tmp, metadata)
 
     tmp_gpkg, out_tif = gdal_clip(DATA_DIR, BASENAME, IN_FILE, INDEX_FILE, tin_file_tmp, tin_file_clip)
     
-    print(f"Uploading {out_tif}...")
-    s3.upload_file(out_tif, WESM_SURFACE_BUCKET, out_tif)
+    # print(f"Uploading {out_tif}...")
+    # s3.upload_file(out_tif, WESM_SURFACE_BUCKET, out_tif)
 
     os.remove(tmp_gpkg)
     os.remove(tin_file_tmp)
-    
+
+def get_width_height(metadata):
+    width = abs(metadata.maxx) - abs(metadata.minx)
+    height = abs(metadata.maxy) - abs(metadata.miny)
+
+    return abs(width), abs(height)
+
 if __name__ == "__main__":
 
     IN_FILE = sys.argv[1]

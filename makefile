@@ -49,7 +49,7 @@ download-files:
 	$(RUN) python3 src/download-files.py
 
 bcm: 
-	$(RUN) python3  src/bcm-combined.py $(pc)
+	$(RUN) python3  src/bcm-no-buff.py $(pc)
 
 dsm:
 	$(RUN) python3 src/dsm.py $(pc)
@@ -78,6 +78,7 @@ local-test: docker/Dockerfile
 	docker run -it --rm --net=host --user=$$(id -u):$$(id -g) \
 	-e DISPLAY=$$DISPLAY \
 	--env-file .creds \
+	--env-file configs/process-config.env \
 	-e RUN= -v$$(pwd):/work \
 	-w /work $(IMAGE) \
 	bash
