@@ -17,7 +17,7 @@ WESM_GRID_BUCKET = "xyc-wesm-grids"
 WESM_VIEWER_BUCKET = "xyc-wesm-viewer"
 BCM_BUFFER = 50
 CRS = "4269"
-RESOLUTION = 5
+RESOLUTION = 1
 
 ## DIRS and Files
 PC_DIR = f"{DATA_DIR}/point-clouds/{STATE}/{WORKUNIT}"

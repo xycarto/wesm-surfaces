@@ -73,6 +73,10 @@ hillshade:
 cog:
 	$(RUN) python3 src/cog.py
 
+## TEST EXTENTS
+test-extent:
+	$(RUN) python3 src/test/test-extents.py $(pc)
+
 ##### DOCKER MAIN
 local-test: docker/Dockerfile
 	docker run -it --rm --net=host --user=$$(id -u):$$(id -g) \
