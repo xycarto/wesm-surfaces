@@ -8,10 +8,6 @@ import shutil
 from py_utils import *
 from globals import *
 
-# Example Single file: make bcm pc=Projects/CA_NoCAL_3DEP_Supp_Funding_2018_D18/CA_NoCAL_Wildfires_B1_2018/LAZ/USGS_LPC_CA_NoCAL_3DEP_Supp_Funding_2018_D18_w2021n2061.laz workunit=CA_NoCAL_Wildfires_B1_2018 state=California
-
-# Example Multi File: time make test-local workunit=CA_NoCAL_Wildfires_B1_2018 state=California process=bcm ec2=t2.large volume_size=20 type=test 
-
 def main():
     s3 = get_creds()
     get_grid_index(s3, WESM_GRID_BUCKET, GRID_INDEX_FILE, INDEX_FILE)
@@ -30,8 +26,8 @@ def main():
     # Merge point clouds
     merged_pc = merge_pc(clipped_array)
 
-    print(f"Uploading... {merged_pc}")   
-    s3.upload_file(merged_pc, WESM_SURFACE_BUCKET, merged_pc)
+    # print(f"Uploading... {merged_pc}")   
+    # s3.upload_file(merged_pc, WESM_SURFACE_BUCKET, merged_pc)
 
     shutil.rmtree(CLIP_DIR)
 
