@@ -17,6 +17,7 @@ WESM_GRID_BUCKET = "xyc-wesm-grids"
 WESM_VIEWER_BUCKET = "xyc-wesm-viewer"
 BCM_BUFFER = 50
 CRS = "4269"
+RESOLUTION = 1
 
 ## DIRS and Files
 PC_DIR = f"{DATA_DIR}/point-clouds/{STATE}/{WORKUNIT}"
@@ -32,6 +33,7 @@ GRID_INDEX_FILE = f"{GRID_INDEX_DIR}/{WORKUNIT}_index_4269.gpkg"
 
 ## PDAL Pipelines
 PIPELINE_CROP_FILTER = 'src/pipeline-templates/buffer-clip-filter-template.json'
+PIPELINE_FILTER = 'src/pipeline-templates/buffer-clip-filter-template-filter-only.json'
 PIPELINE_DSM = 'src/pipeline-templates/dsm_template.json'
-PIPELINE_TIN = 'src/pipeline-templates/tin_template.json'
+PIPELINE_TIN = 'src/pipeline-templates/tin-template.json'
 
