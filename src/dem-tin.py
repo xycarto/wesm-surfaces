@@ -14,7 +14,7 @@ def main():
     metadata = get_pc_metadata(IN_FILE)    
 
     print("Creating TIN...")    
-    make_tin(PIPELINE_DEM, IN_FILE, tin_file, metadata)
+    make_dem_tin(PIPELINE_DEM, IN_FILE, tin_file, metadata)
 
     
 if __name__ == "__main__":
