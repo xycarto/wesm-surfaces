@@ -13,24 +13,24 @@ import shutil
 
 def main():
     
+    in_file = f"{DIR_PATH}/{BASENAME}"
+
     s3 = get_creds()
     
-    get_s3_file(s3, IN_FILE, WESM_SURFACE_BUCKET)  
+    get_s3_file(s3, in_file, WESM_SURFACE_BUCKET)  
 
-    rio_in_file = rio.open(IN_FILE)
+    rio_in_file = rio.open(in_file)
     crs = rio_in_file.crs
     bounds = rio_in_file.bounds
          
     for day in DAYS:     
         print(day)    
-        sub.call(f"bash src/solar/grass-build.sh {IN_FILE} {day} {crs} {SOLAR_DIR_TMP}", shell=True) 
+        sub.call(f"bash src/solar/grass-build.sh {in_file} {day} {crs} {SOLAR_DIR_TMP}", shell=True) 
 
     tmp_tif_list = [f"{SOLAR_DIR_TMP}/{tif}" for tif in os.listdir(SOLAR_DIR_TMP)]
-
-    print(tmp_tif_list)
         
     print("Creating Average...")
-    tif_avg = f"{SOLAR_DIR}/{os.path.basename(IN_FILE)}"
+    tif_avg = f"{SOLAR_DIR}/{BASENAME}"
     sub.call(
         f"gdal_calc.py \
         --overwrite \
@@ -47,10 +47,10 @@ def main():
     
     shutil.rmtree(SOLAR_DIR_TMP)
         
-    s3.upload_file(tif_avg, WESM_SURFACE_BUCKET, tif_avg)
-        
 if __name__ == "__main__":
     IN_FILE = sys.argv[1]    
+    BASENAME = f"{os.path.basename(IN_FILE).split('.')[0]}.tif"
+    DIR_PATH = os.path.dirname(IN_FILE)
     SOLAR_DIR_TMP = f"{DATA_DIR}/solar/{STATE}/{WORKUNIT}/{os.path.basename(IN_FILE).split('.')[0]}"   
 
     DAYS = [80, 173, 266, 355]
