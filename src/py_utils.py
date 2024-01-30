@@ -76,13 +76,17 @@ def get_bound_info(pc):
     
     return minx, miny, maxx, maxy
 
-def make_dsm(pipeline, in_pc, wkt, out_tif, bounds):
+def make_dsm(pipeline, in_pc, out_tif, metadata):
     sub.call(
         f"pdal pipeline '{pipeline}' \
             --readers.las.filename='{in_pc}' \
-            --readers.las.spatialreference='{wkt}' \
-            --writers.gdal.filename='{out_tif}' \
-            --writers.gdal.bounds={bounds}",
+            --readers.las.spatialreference='{metadata.wkt}'  \
+            --filters.faceraster.resolution='{RESOLUTION}' \
+            --filters.faceraster.origin_x='{metadata.minx}' \
+            --filters.faceraster.origin_y='{metadata.miny}' \
+            --filters.faceraster.width='{metadata.width}' \
+            --filters.faceraster.height='{metadata.height}' \
+            --writers.raster.filename='{out_tif}'",
         shell=True,
     )
 

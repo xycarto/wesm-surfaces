@@ -17,10 +17,10 @@ make_env $WORKUNIT $STATE
 
 make list-files testnum=$TEST_NUM
 
-make download-files
+# make download-files
 
-cat data/lists/${WORKUNIT}.txt | xargs -P $bcm_cores -t -I % make bcm pc=data/point-clouds/${STATE}/${WORKUNIT}/%
+# cat data/lists/${WORKUNIT}.txt | xargs -P $bcm_cores -t -I % make bcm pc=data/point-clouds/${STATE}/${WORKUNIT}/%
 
 cat data/lists/${WORKUNIT}.txt | xargs -P $CORES -t -I % make dsm pc=data/bcm/${STATE}/${WORKUNIT}/%
 
-cat data/lists/${WORKUNIT}.txt | xargs -P $CORES -t -I % make tin pc=data/bcm/${STATE}/${WORKUNIT}/%
+# cat data/lists/${WORKUNIT}.txt | xargs -P $CORES -t -I % make tin pc=data/bcm/${STATE}/${WORKUNIT}/%
