@@ -13,7 +13,7 @@ def main():
     metadata = get_pc_metadata(IN_FILE)    
 
     print("Making DSM...")
-    make_dsm(PIPELINE_DSM, IN_FILE, metadata.wkt, dsm_file, metadata.bounds)
+    make_dsm(PIPELINE_DSM, IN_FILE, dsm_file, metadata)
      
     
 if __name__ == "__main__":

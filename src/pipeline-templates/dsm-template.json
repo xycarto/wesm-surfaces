@@ -4,11 +4,14 @@
             "type": "readers.las"
         },
         {
-            "gdaldriver": "GTiff",
-            "output_type": "mean",
-            "resolution": 1.0,
-            "window_size": 16,
-            "type": "writers.gdal"
+            "type": "filters.delaunay"
+        },
+        {
+            "type": "filters.faceraster"
+        },
+        {
+
+            "type": "writers.raster"
         }
     ]
 }
