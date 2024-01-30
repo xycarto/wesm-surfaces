@@ -10,8 +10,8 @@ TEST_NUM=$3
 
 CORES=$( nproc )
 PER=0.8
-CALC=$( echo "$NPROC*$PER" | bc )
-bcm_cores=$(printf '%.0f' $CALC)
+CALC=$(echo "var=$CORES;var*=$PER;var" | bc)
+bcm_cores=$( printf '%.0f' $CALC )
 
 make_env $WORKUNIT $STATE
 
@@ -23,6 +23,6 @@ make list-files testnum=$TEST_NUM
 
 # cat data/lists/${WORKUNIT}.txt | xargs -P $CORES -t -I % make dsm pc=data/bcm/${STATE}/${WORKUNIT}/%
 
-# cat data/lists/${WORKUNIT}.txt | xargs -P $CORES -t -I % make dem pc=data/bcm/${STATE}/${WORKUNIT}/%
+cat data/lists/${WORKUNIT}.txt | xargs -P $CORES -t -I % make dem pc=data/bcm/${STATE}/${WORKUNIT}/%
 
-cat data/lists/${WORKUNIT}.txt | xargs -P $CORES -t -I % make chm pc=data/bcm/${STATE}/${WORKUNIT}/%
+# cat data/lists/${WORKUNIT}.txt | xargs -P $CORES -t -I % make chm pc=data/bcm/${STATE}/${WORKUNIT}/%
