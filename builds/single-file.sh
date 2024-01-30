@@ -17,5 +17,5 @@ make_env $WORKUNIT $STATE
 
 ## PROCESSES
 make bcm pc=$pc
-make tin pc=$pc
+make dem pc=$pc
 make dsm pc=$pc
