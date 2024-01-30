@@ -28,6 +28,12 @@ make list-files testnum=$TEST_NUM
 # cat data/lists/${WORKUNIT}.txt | xargs -P $CORES -t -I % make chm pc=data/bcm/${STATE}/${WORKUNIT}/%
 
 ## Derived Products
-cat data/lists/${WORKUNIT}.txt | xargs -P $CORES -t -I % make slope tif=data/dem/${STATE}/${WORKUNIT}/%
+### Make Slopes
+for d in "dem" "dsm" "chm"; do
+    cat data/lists/${WORKUNIT}.txt | xargs -P $CORES -t -I % make slope tif=data/${d}/${STATE}/${WORKUNIT}/%
+done
 
-cat data/lists/${WORKUNIT}.txt | xargs -P $CORES -t -I % make slope tif=data/dsm/${STATE}/${WORKUNIT}/%
+### Make Hillshades
+for d in "dem" "dsm" "chm"; do
+    cat data/lists/${WORKUNIT}.txt | xargs -P $CORES -t -I % make hillshade tif=data/${d}/${STATE}/${WORKUNIT}/%
+done

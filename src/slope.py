@@ -11,6 +11,8 @@ from globals import *
 def main():
     s3 = get_creds()    
 
+    get_s3_file(s3, f"{DIR_PATH}/{BASENAME}", WESM_SURFACE_BUCKET)
+
     out_hs = f"{SLOPE_DIR}/{BASENAME}"  
     gdal.DEMProcessing(
         out_hs,
