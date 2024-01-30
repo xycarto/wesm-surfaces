@@ -29,3 +29,5 @@ make list-files testnum=$TEST_NUM
 
 ## Derived Products
 cat data/lists/${WORKUNIT}.txt | xargs -P $CORES -t -I % make slope tif=data/dem/${STATE}/${WORKUNIT}/%
+
+cat data/lists/${WORKUNIT}.txt | xargs -P $CORES -t -I % make slope tif=data/dsm/${STATE}/${WORKUNIT}/%
