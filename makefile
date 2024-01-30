@@ -33,6 +33,9 @@ chm:
 
 
 ## DERIVED PRODUCTS
+slope:
+	$(RUN) python3 src/slope.py $(tif)
+
 solar-average:
 	$(RUN) python3 src/solar/solar-calc.py $(tif)
 

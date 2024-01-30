@@ -76,7 +76,7 @@ def get_bound_info(pc):
     
     return minx, miny, maxx, maxy
 
-def make_dsm(pipeline, in_pc, out_tif, metadata):
+def make_dsm_tin(pipeline, in_pc, out_tif, metadata):
     sub.call(
         f"pdal pipeline '{pipeline}' \
             --readers.las.filename='{in_pc}' \
@@ -90,7 +90,7 @@ def make_dsm(pipeline, in_pc, out_tif, metadata):
         shell=True,
     )
 
-def make_tin(pipeline, in_pc, out_tif, metadata):
+def make_dem_tin(pipeline, in_pc, out_tif, metadata):
     sub.call(
         f"pdal pipeline '{pipeline}' \
             --readers.las.filename='{in_pc}' \
