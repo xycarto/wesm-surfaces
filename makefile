@@ -23,10 +23,10 @@ bcm:
 	$(RUN) python3  src/bcm-no-buff.py $(pc)
 
 dsm: 
-	$(RUN) python3 src/dsm.py $(pc)
+	$(RUN) python3 src/dsm-tin.py $(pc)
 
-tin: 
-	$(RUN) python3 src/tin.py $(pc)
+dem: 
+	$(RUN) python3 src/dem-tin.py $(pc)
 
 
 ## DERIVED PRODUCTS

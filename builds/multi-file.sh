@@ -23,4 +23,4 @@ make list-files testnum=$TEST_NUM
 
 cat data/lists/${WORKUNIT}.txt | xargs -P $CORES -t -I % make dsm pc=data/bcm/${STATE}/${WORKUNIT}/%
 
-# cat data/lists/${WORKUNIT}.txt | xargs -P $CORES -t -I % make tin pc=data/bcm/${STATE}/${WORKUNIT}/%
+# cat data/lists/${WORKUNIT}.txt | xargs -P $CORES -t -I % make dem pc=data/bcm/${STATE}/${WORKUNIT}/%

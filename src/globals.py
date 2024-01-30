@@ -22,7 +22,7 @@ RESOLUTION = 1
 ## DIRS and Files
 PC_DIR = f"{DATA_DIR}/point-clouds/{STATE}/{WORKUNIT}"
 BCM_DIR = f"{DATA_DIR}/bcm/{STATE}/{WORKUNIT}"    
-TIN_DIR = f"{DATA_DIR}/tin/{STATE}/{WORKUNIT}"         
+DEM_DIR = f"{DATA_DIR}/dem/{STATE}/{WORKUNIT}"         
 DSM_DIR = f"{DATA_DIR}/dsm/{STATE}/{WORKUNIT}"   
 SOLAR_DIR = f"{DATA_DIR}/solar/{STATE}/{WORKUNIT}"
 COG_DIR = f"{DATA_DIR}/cog/{STATE}/{WORKUNIT}"
@@ -36,6 +36,6 @@ LIST_FILE = f"{LIST_PATH}/{WORKUNIT}.txt"
 ## PDAL Pipelines
 PIPELINE_CROP_FILTER = 'src/pipeline-templates/bcm-template.json'
 PIPELINE_FILTER = 'src/pipeline-templates/bcm-template-filter-only.json'
-PIPELINE_DSM = 'src/pipeline-templates/dsm-template.json'
-PIPELINE_TIN = 'src/pipeline-templates/tin-template.json'
+PIPELINE_DSM = 'src/pipeline-templates/dsm-tin-template.json'
+PIPELINE_DEM = 'src/pipeline-templates/dem-tin-template.json'
 

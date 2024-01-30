@@ -1,0 +1,17 @@
+{
+    "pipeline": [
+        {
+            "type": "readers.las"
+        },
+        {
+            "type": "filters.delaunay"
+        },
+        {
+            "type": "filters.faceraster"
+        },
+        {
+
+            "type": "writers.raster"
+        }
+    ]
+}

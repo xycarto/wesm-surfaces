@@ -6,6 +6,8 @@ import subprocess as sub
 from pyproj import CRS
 import sys
 import json
+from py_utils import *
+from globals import *
 
 # python3 process/chm.py path/to/laz.laz
 
@@ -19,14 +21,7 @@ def main():
     print(f"Uploading {chm_file}...")
     s3.upload_file(chm_file, BUCKET, chm_file)
         
-def get_creds():
-    s3 = boto3.client(
-        's3',
-        aws_access_key_id=os.environ.get("AWS_ACCESS_KEY_ID"),
-        aws_secret_access_key=os.environ.get("AWS_SECRET_ACCESS_KEY"),
-    )
-    
-    return s3
+
 
 def get_files(s3):
     # Get Data for Download, download, process
