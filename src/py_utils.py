@@ -16,6 +16,10 @@ def get_creds():
 
     return s3
 
+def get_usgs_file(s3, usgs_file, in_file, bucket):
+    if not os.path.exists(in_file):
+        s3.download_file(bucket, usgs_file, in_file, ExtraArgs={'RequestPayer':'requester'})
+
 def get_s3_file(s3, file, bucket):
     if not os.path.exists(file):
         s3.download_file(bucket, file, file, ExtraArgs={'RequestPayer':'requester'})
@@ -44,7 +48,19 @@ class get_pc_metadata:
 
         self.width = int(abs(abs(self.maxx) - abs(self.minx)) / RESOLUTION)
         self.height = int(abs(abs(self.maxy) - abs(self.miny)) / RESOLUTION)
-        
+
+def filter_laz(in_file, index_row):
+    print("Filtering...")   
+    bcm_file =  f"{BCM_DIR}/{os.path.basename(in_file)}"
+    crs = f"EPSG:{index_row.native_horiz_crs.values[0]}"
+    sub.call(
+        f"pdal -v 0 --nostream pipeline '{PIPELINE_FILTER}' \
+            --readers.las.filename='{in_file}' \
+            --writers.las.filename='{bcm_file}' \
+            --writers.las.a_srs='{crs}'",
+        shell=True,
+    )
+
 def get_bound_info(pc):
     pc_metadata = sub.check_output(
         f"pdal info --summary '{pc}'",
@@ -60,7 +76,7 @@ def get_bound_info(pc):
     
     return minx, miny, maxx, maxy
 
-def make_surface(pipeline, in_pc, wkt, out_tif, bounds):
+def make_dsm(pipeline, in_pc, wkt, out_tif, bounds):
     sub.call(
         f"pdal pipeline '{pipeline}' \
             --readers.las.filename='{in_pc}' \

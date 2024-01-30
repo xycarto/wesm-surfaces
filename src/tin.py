@@ -1,8 +1,5 @@
 #!/usr/bin/env python
 import os
-import geopandas as gp
-import subprocess as sub
-from pyproj import CRS
 import sys
 from py_utils import *
 from globals import *
@@ -12,7 +9,6 @@ def main():
     s3 = get_creds()    
     get_s3_file(s3, IN_FILE, WESM_SURFACE_BUCKET)
 
-    # tin_file_tmp = f"{TIN_DIR}/{BASENAME}-tmp.tif"
     tin_file = f"{TIN_DIR}/{BASENAME}.tif"
 
     metadata = get_pc_metadata(IN_FILE)    
@@ -20,20 +16,7 @@ def main():
     print("Creating TIN...")    
     make_tin(PIPELINE_TIN, IN_FILE, metadata.wkt, tin_file, metadata)
 
-    # tmp_gpkg, out_tif = gdal_clip(DATA_DIR, BASENAME, IN_FILE, INDEX_FILE, tin_file_tmp, tin_file_clip)
     
-    # print(f"Uploading {out_tif}...")
-    # s3.upload_file(out_tif, WESM_SURFACE_BUCKET, out_tif)
-
-    # os.remove(tmp_gpkg)
-    # os.remove(tin_file_tmp)
-
-def get_width_height(metadata):
-    width = abs(metadata.maxx) - abs(metadata.minx)
-    height = abs(metadata.maxy) - abs(metadata.miny)
-
-    return abs(width), abs(height)
-
 if __name__ == "__main__":
 
     IN_FILE = sys.argv[1]
