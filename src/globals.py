@@ -30,6 +30,8 @@ INDEX_DIR = f"{DATA_DIR}/index-indv/{STATE}"
 GRID_INDEX_DIR = f"data/index-indv/{STATE}"
 INDEX_FILE = f"{INDEX_DIR}/{WORKUNIT}_index_4269.gpkg"
 GRID_INDEX_FILE = f"{GRID_INDEX_DIR}/{WORKUNIT}_index_4269.gpkg"
+LIST_PATH = f"{DATA_DIR}/lists"
+LIST_FILE = f"{LIST_PATH}/{WORKUNIT}.txt"
 
 ## PDAL Pipelines
 PIPELINE_CROP_FILTER = 'src/pipeline-templates/bcm-template.json'

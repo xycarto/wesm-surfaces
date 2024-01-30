@@ -22,10 +22,10 @@ PHONY:
 bcm: 
 	$(RUN) python3  src/bcm-no-buff.py $(pc)
 
-dsm:
+dsm: 
 	$(RUN) python3 src/dsm.py $(pc)
 
-tin:
+tin: 
 	$(RUN) python3 src/tin.py $(pc)
 
 
@@ -48,6 +48,9 @@ download-files:
 
 vrt:
 	$(RUN) python3 src/vrt.py 
+
+list-files:
+	$(RUN) python3 src/list-index.py $(testnum)
 
 ## TEST EXTENTS
 test-extent:

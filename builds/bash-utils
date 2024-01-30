@@ -1,0 +1,15 @@
+#!/bin/bash
+
+## Make ENV file
+function make_env () {
+    WORKUNIT=$1
+    STATE=$2
+    env_file=configs/process-config.env
+    if [ -f $env_file ]; then
+        rm $env_file
+    fi
+
+    touch $env_file
+    echo WORKUNIT=$WORKUNIT >> $env_file
+    echo STATE=$STATE >> $env_file
+}

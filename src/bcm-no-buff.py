@@ -13,8 +13,6 @@ def main():
     index_file = gp.read_file(INDEX_FILE)
     index_row = index_file[index_file['file_name'] == os.path.basename(IN_FILE)]
 
-    print(index_row.usgs_loc.values[0])
-
     get_usgs_file(s3, index_row.usgs_loc.values[0], IN_FILE, USGS_BUCKET)
 
     filter_laz(IN_FILE, index_row)    
