@@ -90,11 +90,11 @@ def make_dsm(pipeline, in_pc, out_tif, metadata):
         shell=True,
     )
 
-def make_tin(pipeline, in_pc, wkt, out_tif, metadata):
+def make_tin(pipeline, in_pc, out_tif, metadata):
     sub.call(
         f"pdal pipeline '{pipeline}' \
             --readers.las.filename='{in_pc}' \
-            --readers.las.spatialreference='{wkt}' \
+            --readers.las.spatialreference='{metadata.wkt}' \
             --filters.faceraster.resolution='{RESOLUTION}' \
             --filters.faceraster.origin_x='{metadata.minx}' \
             --filters.faceraster.origin_y='{metadata.miny}' \
