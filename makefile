@@ -28,6 +28,9 @@ dsm:
 dem: 
 	$(RUN) python3 src/dem-tin.py $(pc)
 
+chm: 
+	$(RUN) python3 src/chm.py $(pc)
+
 
 ## DERIVED PRODUCTS
 solar-average:

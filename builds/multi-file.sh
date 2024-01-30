@@ -21,6 +21,8 @@ make list-files testnum=$TEST_NUM
 
 # cat data/lists/${WORKUNIT}.txt | xargs -P $bcm_cores -t -I % make bcm pc=data/point-clouds/${STATE}/${WORKUNIT}/%
 
-cat data/lists/${WORKUNIT}.txt | xargs -P $CORES -t -I % make dsm pc=data/bcm/${STATE}/${WORKUNIT}/%
+# cat data/lists/${WORKUNIT}.txt | xargs -P $CORES -t -I % make dsm pc=data/bcm/${STATE}/${WORKUNIT}/%
 
 # cat data/lists/${WORKUNIT}.txt | xargs -P $CORES -t -I % make dem pc=data/bcm/${STATE}/${WORKUNIT}/%
+
+cat data/lists/${WORKUNIT}.txt | xargs -P $CORES -t -I % make chm pc=data/bcm/${STATE}/${WORKUNIT}/%
