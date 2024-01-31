@@ -11,12 +11,15 @@ from globals import *
 def main():
     s3 = get_creds()   
 
-    stripped_path = IN_DIR.replace(f'/{WORKUNIT}',('')).replace(f'/{STATE}','').replace('data/', '')
-    repro_dir = f"{COG_DIR}/repro/{stripped_path}"
-    if 'hillshade' in stripped_path:
-        file_name = f"{stripped_path.split('/')[0]}-hs"
+    if 'hillshade' in IN_DIR:
+        repro_dir = f"{COG_DIR}/{IN_DIR.split('/')[1]}/repro/hillshade"
     else:
-        file_name = f"{stripped_path.split('/')[0]}"
+        repro_dir = f"{COG_DIR}/{IN_DIR.split('/')[1]}/repro"
+
+    if 'hillshade' in repro_dir:
+        file_name = f"{repro_dir.split('/')[0]}-hs"
+    else:
+        file_name = f"{repro_dir.split('/')[0]}"
 
     tifs = [f"{os.path.join(repro_dir, tif)}" for tif in os.listdir(repro_dir) if not os.path.isdir(tif) and tif.endswith('.tif')]
 
@@ -36,7 +39,7 @@ def main():
     ]
 
     gdal.Translate(    
-        f"{COG_DIR}/{file_name}.vrt",
+        f"{COG_DIR}/{file_name}.tif",
         vrt,
         format = "COG",
         callback=gdal.TermProgress_nocb,

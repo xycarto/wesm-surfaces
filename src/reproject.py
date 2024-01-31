@@ -13,8 +13,6 @@ def main():
 
     in_file = f"{DIR_PATH}/{BASENAME}"
 
-    stripped_path = DIR_PATH.replace(f'/{WORKUNIT}',('')).replace(f'/{STATE}','').replace('data/', '')
-    
     if 'hillshade' in DIR_PATH:
         repro_dir = f"{COG_DIR}/{DIR_PATH.split('/')[1]}/repro/hillshade"
     else:

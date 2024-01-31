@@ -42,6 +42,7 @@ make list-files testnum=$TEST_NUM
 # cat data/lists/${WORKUNIT}.txt | xargs -P $CORES -t -I % make solar-average tif=data/dsm/${STATE}/${WORKUNIT}/%
 
 ### Make COG
-cat data/lists/${WORKUNIT}.txt | xargs -P $CORES -t -I % make reproject tif=data/dsm/${STATE}/${WORKUNIT}/%
-
-# make cog in_dir=data/dsm/hillshade/${STATE}/${WORKUNIT}/
+for d in "dem" "dsm" "chm" "solar"; do
+    cat data/lists/${WORKUNIT}.txt | xargs -P $CORES -t -I % make reproject tif=data/${d}/${STATE}/${WORKUNIT}/%
+    make cog in_dir=data/${d}/${STATE}/${WORKUNIT}/
+done
