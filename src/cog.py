@@ -11,10 +11,21 @@ from globals import *
 def main():
     s3 = get_creds()   
 
-    tifs = [f"{os.path.join(REPRO_DIR, tif)}" for tif in os.listdir(REPRO_DIR) if not os.path.isdir(tif) and tif.endswith('.tif')]
-    
+    if 'hillshade' in IN_DIR:
+        repro_dir = f"{COG_DIR}/repro/{IN_DIR.split('/')[1]}/hillshade"
+    else:
+        repro_dir = f"{COG_DIR}/repro/{IN_DIR.split('/')[1]}"
+
+    if 'hillshade' in repro_dir:
+        file_name = f"{IN_DIR.split('/')[1]}-hs"
+    else:
+        file_name = f"{IN_DIR.split('/')[1]}"
+
+    tifs = [f"{os.path.join(repro_dir, tif)}" for tif in os.listdir(repro_dir) if not os.path.isdir(tif) and tif.endswith('.tif')]
+
+    vrt = f"{repro_dir}{file_name}.vrt"
     gdal.BuildVRT(
-        VRT,
+        vrt,
         tifs,
     ) 
 
@@ -28,28 +39,17 @@ def main():
     ]
 
     gdal.Translate(    
-        COG_FILE,
-        VRT,
+        f"{COG_DIR}/{file_name}-cog.tif",
+        vrt,
         format = "COG",
         callback=gdal.TermProgress_nocb,
         creationOptions = creation_options
     )
 
-    print(f"Uploading {COG_FILE}...")
-    s3.upload_file(COG_FILE, WESM_SURFACE_BUCKET, COG_FILE, ) # ExtraArgs={'ACL': 'public-read'}
-
-
 if __name__ == "__main__":
-    if HS == "true" and PROCESS != "solar":
-        REPRO_DIR = f"{COG_DIR}/repro/{PROCESS}/hillshade"
-        VRT = f"{REPRO_DIR}/{PROCESS}-hillshade-repro.vrt"
-        COG_FILE = f"{COG_DIR}/{PROCESS}-hillshade-cog.tif"
-    else:
-        REPRO_DIR = f"{COG_DIR}/repro/{PROCESS}"
-        VRT = f"{REPRO_DIR}/{PROCESS}-repro.vrt"
-        COG_FILE = f"{COG_DIR}/{PROCESS}-cog.tif"
+    IN_DIR = sys.argv[1]
 
-    for d in [DATA_DIR, COG_DIR, REPRO_DIR]:
+    for d in [DATA_DIR, COG_DIR]:
         os.makedirs(d, exist_ok=True)
 
     main()

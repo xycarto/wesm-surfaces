@@ -11,34 +11,39 @@ from globals import *
 def main():
     s3 = get_creds()   
 
-    repro_file = os.path.join(REPRO_DIR, os.path.basename(IN_FILE))
-    if PROCESS == 'solar':
+    in_file = f"{DIR_PATH}/{BASENAME}"
+
+    if 'hillshade' in DIR_PATH:
+        repro_dir = f"{COG_DIR}/repro/{DIR_PATH.split('/')[1]}/hillshade"
+    else:
+        repro_dir = f"{COG_DIR}/repro/{DIR_PATH.split('/')[1]}"
+
+    
+    print(repro_dir)
+    os.makedirs(repro_dir, exist_ok=True)
+
+    repro_file = f"{repro_dir}/{BASENAME}"
+    if 'solar' in repro_dir:
         print("Making Solar Repro for COG...")
         gdal.Warp(
             repro_file,
-            IN_FILE,
+            in_file,
             outputType=gdal.GDT_UInt16,
             dstSRS='EPSG:3857',
         ) 
     else:
         gdal.Warp(
             repro_file,
-            IN_FILE,
+            in_file,
             dstSRS='EPSG:3857',
         ) 
     
-    # print(f"Uploading {dsm_file}...")
-    # s3.upload_file(dsm_file, BUCKET, dsm_file)
-
-
 if __name__ == "__main__":
     IN_FILE = sys.argv[1]
-    if HS == "true" and PROCESS != "solar":
-        REPRO_DIR = f"{COG_DIR}/repro/{PROCESS}/hillshade"
-    else:
-        REPRO_DIR = f"{COG_DIR}/repro/{PROCESS}"
+    BASENAME = f"{os.path.basename(IN_FILE).split('.')[0]}.tif"
+    DIR_PATH = os.path.dirname(IN_FILE)
 
-    for d in [DATA_DIR, COG_DIR, REPRO_DIR]:
+    for d in [DATA_DIR, COG_DIR,]:
         os.makedirs(d, exist_ok=True)
 
     main()
