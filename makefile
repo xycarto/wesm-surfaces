@@ -46,7 +46,7 @@ reproject:
 	$(RUN) python3 src/reproject.py $(tif) 
 
 cog:
-	$(RUN) python3 src/cog.py
+	$(RUN) python3 src/cog.py $(in_dir)
 
 ## HELPERS
 download-files:
