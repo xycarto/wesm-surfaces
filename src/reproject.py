@@ -14,9 +14,9 @@ def main():
     in_file = f"{DIR_PATH}/{BASENAME}"
 
     if 'hillshade' in DIR_PATH:
-        repro_dir = f"{COG_DIR}/{DIR_PATH.split('/')[1]}/repro/hillshade"
+        repro_dir = f"{COG_DIR}/repro/{DIR_PATH.split('/')[1]}/hillshade"
     else:
-        repro_dir = f"{COG_DIR}/{DIR_PATH.split('/')[1]}/repro"
+        repro_dir = f"{COG_DIR}/repro/{DIR_PATH.split('/')[1]}"
 
     
     print(repro_dir)

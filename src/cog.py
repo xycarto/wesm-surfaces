@@ -12,14 +12,14 @@ def main():
     s3 = get_creds()   
 
     if 'hillshade' in IN_DIR:
-        repro_dir = f"{COG_DIR}/{IN_DIR.split('/')[1]}/repro/hillshade"
+        repro_dir = f"{COG_DIR}/repro/{IN_DIR.split('/')[1]}/hillshade"
     else:
-        repro_dir = f"{COG_DIR}/{IN_DIR.split('/')[1]}/repro"
+        repro_dir = f"{COG_DIR}/repro/{IN_DIR.split('/')[1]}"
 
     if 'hillshade' in repro_dir:
-        file_name = f"{repro_dir.split('/')[0]}-hs"
+        file_name = f"{IN_DIR.split('/')[1]}-hs"
     else:
-        file_name = f"{repro_dir.split('/')[0]}"
+        file_name = f"{IN_DIR.split('/')[1]}"
 
     tifs = [f"{os.path.join(repro_dir, tif)}" for tif in os.listdir(repro_dir) if not os.path.isdir(tif) and tif.endswith('.tif')]
 
@@ -39,7 +39,7 @@ def main():
     ]
 
     gdal.Translate(    
-        f"{COG_DIR}/{file_name}.tif",
+        f"{COG_DIR}/{file_name}-cog.tif",
         vrt,
         format = "COG",
         callback=gdal.TermProgress_nocb,
