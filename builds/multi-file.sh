@@ -38,4 +38,5 @@ make list-files testnum=$TEST_NUM
 #     cat data/lists/${WORKUNIT}.txt | xargs -P $CORES -t -I % make hillshade tif=data/${d}/${STATE}/${WORKUNIT}/%
 # done
 
+### Make Solar
 cat data/lists/${WORKUNIT}.txt | xargs -P $CORES -t -I % make solar-average tif=data/dsm/${STATE}/${WORKUNIT}/%
