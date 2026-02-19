@@ -1,16 +1,14 @@
 -include .creds
--include configs/process-config.env
 
 BASEIMAGE := xycarto/wesm-surfaces
-IMAGE := $(BASEIMAGE):2024-01-19
+IMAGE := $(BASEIMAGE):2026-02-19
 
 .PHONY:
 
-RUN ?= docker run -i --rm --net=host \
+RUN ?= podman run -i --rm --net=host \
 	--user=$$(id -u):$$(id -g) \
 	-e DISPLAY=$$DISPLAY \
 	--env-file .creds \
-	--env-file configs/process-config.env \
 	-e RUN= \
 	-e HOME=/work \
 	-v$$(pwd):/work \
@@ -67,7 +65,7 @@ test-dirs:
 
 ##### DOCKER MAIN
 local-test: docker/Dockerfile
-	docker run -it --rm --net=host --user=$$(id -u):$$(id -g) \
+	podman run -it --rm --net=host --user=$$(id -u):$$(id -g) \
 	-e DISPLAY=$$DISPLAY \
 	--env-file .creds \
 	--env-file configs/process-config.env \
@@ -75,15 +73,15 @@ local-test: docker/Dockerfile
 	-w /work $(IMAGE) \
 	bash
 
-docker-local: docker/Dockerfile
-	docker build --tag $(BASEIMAGE) - < docker/Dockerfile && \
-	docker tag $(BASEIMAGE) $(IMAGE)
+podman-local: docker/Dockerfile
+	podman build --tag $(BASEIMAGE) - < docker/Dockerfile && \
+	podman tag $(BASEIMAGE) $(IMAGE)
 
-docker: docker/Dockerfile
-	docker build --tag $(BASEIMAGE) - < docker/Dockerfile  && \
-	docker tag $(BASEIMAGE) $(IMAGE) && \
-	docker push $(IMAGE) && \
+podman: docker/Dockerfile
+	podman build --tag $(BASEIMAGE) - < docker/Dockerfile  && \
+	podman tag $(BASEIMAGE) $(IMAGE) && \
+	podman push $(IMAGE) && \
 	touch .push
 
-docker-pull:
-	docker pull $(IMAGE)
+podman-pull:
+	podman pull $(IMAGE)

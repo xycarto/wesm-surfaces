@@ -96,10 +96,7 @@ def make_dem_tin(pipeline, in_pc, out_tif, metadata):
             --readers.las.filename='{in_pc}' \
             --readers.las.spatialreference='{metadata.wkt}' \
             --filters.faceraster.resolution='{RESOLUTION}' \
-            --filters.faceraster.origin_x='{metadata.minx}' \
-            --filters.faceraster.origin_y='{metadata.miny}' \
-            --filters.faceraster.width='{metadata.width}' \
-            --filters.faceraster.height='{metadata.height}' \
+            --filters.faceraster.bounds={metadata.bounds} \
             --writers.raster.filename='{out_tif}'",
         shell=True,
     )
